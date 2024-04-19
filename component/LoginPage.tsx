@@ -1,7 +1,7 @@
 import { useEmailPasswordAuth } from "@realm/react";
 import { useNavigation } from "expo-router";
 import { useState } from "react";
-import { Text, View, TextInput, Button, Alert } from "react-native";
+import { Text, View, TextInput, Button, Alert, Pressable } from "react-native";
 
 interface Credential {
     email: string;
@@ -52,6 +52,8 @@ export default function LoginPage() {
                 onPress={handleLogin}
                 disabled={loading || !credential.email || !credential.password}
             />
+
+            <Text style={{ paddingTop: 16 }}>Don't have an account?<Pressable>Click Here!</Pressable></Text>
             
         </View>
     );
