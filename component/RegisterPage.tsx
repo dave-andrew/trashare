@@ -1,28 +1,42 @@
-import { useEmailPasswordAuth } from "@realm/react";
-import { useNavigation } from "expo-router";
+import { useEmailPasswordAuth, useRealm } from "@realm/react";
 import { useState } from "react";
 import { Text, View, TextInput, Button, Alert } from "react-native";
+import { User } from "../models/User";
+import { useNavigation } from "expo-router";
+
 
 interface Credential {
+    username: string;
     email: string;
     password: string;
+    phone: string;
 }
 
 export default function LoginPage() {
-    const { logIn } = useEmailPasswordAuth();
+    const { register } = useEmailPasswordAuth();
     const [credential, setCredential] = useState<Credential>({
+        username: '',
         email: '',
-        password: ''
+        password: '',
+        phone: ''
     });
+
     const [loading, setLoading] = useState(false);
+    const realm = useRealm();
     const navigation = useNavigation();
 
-    const handleLogin = () => {
+    const handleRegister = () => {
         try {
             setLoading(true);
-            logIn({ email: credential.email, password: credential.password});
+            register({ email: credential.email, password: credential.password});
+            // Write user data to database
+            const user = new User(realm, {email: credential.email, username: credential.username, phone: credential.phone});
+
+            realm.write(() => {
+                realm.create('User', user);
+            });
             // Login successful, you can navigate to the next screen
-            // navigation.navigate('Home');
+            
         } catch (error) {
             // Handle login error
             Alert.alert('Error', 'Failed to log in. Please check your credentials.');
@@ -33,7 +47,13 @@ export default function LoginPage() {
 
     return (
         <View style={{ padding: 16 }}>
-            <Text style={{ paddingTop: 16 }}>Login</Text>
+            <Text style={{ paddingTop: 16 }}>Register</Text>
+            <Text style={{ paddingTop: 16 }}>Username</Text>
+            <TextInput
+                style={{ paddingTop: 16, paddingBottom: 8, borderWidth: 1, borderColor: 'black' }}
+                value={credential.email}
+                onChangeText={(text) => setCredential({ ...credential, email: text })}
+            />
             <Text style={{ paddingTop: 16 }}>Email</Text>
             <TextInput
                 style={{ paddingTop: 16, paddingBottom: 8, borderWidth: 1, borderColor: 'black' }}
@@ -48,8 +68,8 @@ export default function LoginPage() {
                 onChangeText={(text) => setCredential({ ...credential, password: text })}
             />
             <Button
-                title="Login"
-                onPress={handleLogin}
+                title="Register"
+                onPress={handleRegister}
                 disabled={loading || !credential.email || !credential.password}
             />
             

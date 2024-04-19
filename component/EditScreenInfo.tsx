@@ -11,7 +11,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
         </Text>
 
         <Text>
-          Change any of the text, save the file, and your app will automatically update.
+          {path}
         </Text>
       </View>
     </View>
