@@ -1,42 +1,25 @@
-import { useEmailPasswordAuth, useRealm } from "@realm/react";
+import { useEmailPasswordAuth } from "@realm/react";
+import { Link, Redirect, useRootNavigationState } from "expo-router";
 import { useState } from "react";
-import { Text, View, TextInput, Button, Alert } from "react-native";
-import { User } from "../models/User";
-import { useNavigation } from "expo-router";
-
+import { Text, View, TextInput, Button, Alert, Pressable } from "react-native";
 
 interface Credential {
-    username: string;
     email: string;
     password: string;
-    phone: string;
 }
 
 export default function LoginPage() {
-    const { register } = useEmailPasswordAuth();
+    const { logIn } = useEmailPasswordAuth();
     const [credential, setCredential] = useState<Credential>({
-        username: '',
         email: '',
-        password: '',
-        phone: ''
+        password: ''
     });
-
     const [loading, setLoading] = useState(false);
-    const realm = useRealm();
-    const navigation = useNavigation();
 
-    const handleRegister = () => {
+    const handleLogin = () => {
         try {
             setLoading(true);
-            register({ email: credential.email, password: credential.password});
-            // Write user data to database
-            const user = new User(realm, {email: credential.email, username: credential.username, phone: credential.phone});
-
-            realm.write(() => {
-                realm.create('User', user);
-            });
-            // Login successful, you can navigate to the next screen
-            
+            logIn({ email: credential.email, password: credential.password});
         } catch (error) {
             // Handle login error
             Alert.alert('Error', 'Failed to log in. Please check your credentials.');
@@ -45,15 +28,14 @@ export default function LoginPage() {
         }
     };
 
+    const rootNavigationState = useRootNavigationState();
+    console.log(rootNavigationState);
+
+    // if(!rootNavigationState?.key) return null; 
+
     return (
         <View style={{ padding: 16 }}>
-            <Text style={{ paddingTop: 16 }}>Register</Text>
-            <Text style={{ paddingTop: 16 }}>Username</Text>
-            <TextInput
-                style={{ paddingTop: 16, paddingBottom: 8, borderWidth: 1, borderColor: 'black' }}
-                value={credential.email}
-                onChangeText={(text) => setCredential({ ...credential, email: text })}
-            />
+            <Text style={{ paddingTop: 16 }}>Login</Text>
             <Text style={{ paddingTop: 16 }}>Email</Text>
             <TextInput
                 style={{ paddingTop: 16, paddingBottom: 8, borderWidth: 1, borderColor: 'black' }}
@@ -68,10 +50,12 @@ export default function LoginPage() {
                 onChangeText={(text) => setCredential({ ...credential, password: text })}
             />
             <Button
-                title="Register"
-                onPress={handleRegister}
+                title="Login"
+                onPress={handleLogin}
                 disabled={loading || !credential.email || !credential.password}
             />
+
+            <Text style={{ paddingTop: 16 }}>Don't have an account?<Link href={"/register"}>Click Here!</Link></Text>
             
         </View>
     );

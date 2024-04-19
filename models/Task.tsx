@@ -1,4 +1,4 @@
-import Realm, { BSON, index, ObjectSchema } from 'realm';
+import Realm, { BSON, ObjectSchema } from 'realm';
 
 export class Task extends Realm.Object {
     _id = new BSON.ObjectID();
