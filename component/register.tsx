@@ -1,4 +1,4 @@
-import { useEmailPasswordAuth, useRealm } from "@realm/react";
+import { useEmailPasswordAuth } from "@realm/react";
 import { useState } from "react";
 import { Text, View, TextInput, Button, Alert } from "react-native";
 import { User } from "../models/User";
@@ -12,7 +12,7 @@ interface Credential {
     phone: string;
 }
 
-export default function LoginPage() {
+export default function Register({setEmail, setMode}: {setEmail: (email: string) => void, setMode: (mode: boolean) => void}) {
     const { register } = useEmailPasswordAuth();
     const [credential, setCredential] = useState<Credential>({
         username: '',
@@ -22,20 +22,13 @@ export default function LoginPage() {
     });
 
     const [loading, setLoading] = useState(false);
-    const realm = useRealm();
 
     const handleRegister = () => {
         try {
             setLoading(true);
             register({ email: credential.email, password: credential.password});
-            
-            const user = new User(realm, {email: credential.email, username: credential.username, phone: credential.phone});
 
-            realm.write(() => {
-                realm.create('User', user);
-            });
-
-            router.push('/login');
+            setEmail(credential.email);
             
         } catch (error) {
             Alert.alert('Error', 'Failed to log in. Please check your credentials.');
@@ -45,7 +38,7 @@ export default function LoginPage() {
     };
 
     return (
-        <View style={{ padding: 16 }}>
+        <View>
             <Text style={{ paddingTop: 16 }}>Register</Text>
             <Text style={{ paddingTop: 16 }}>Username</Text>
             <TextInput
@@ -71,6 +64,7 @@ export default function LoginPage() {
                 onPress={handleRegister}
                 disabled={loading || !credential.email || !credential.password}
             />
+            <Text style={{ paddingTop: 16 }}>Already have an account?<Button title="Click Here!" onPress={() => setMode(true)}/></Text>
             
         </View>
     );

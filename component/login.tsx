@@ -1,25 +1,29 @@
 import { useEmailPasswordAuth } from "@realm/react";
-import { Link, Redirect, useRootNavigationState } from "expo-router";
+import { Link } from "expo-router";
 import { useState } from "react";
-import { Text, View, TextInput, Button, Alert, Pressable } from "react-native";
+import { Alert, Button, Pressable, Text, TextInput, View } from "react-native";
 
 interface Credential {
     email: string;
     password: string;
-}
+};
 
-export default function LoginPage() {
+export default function Login({setEmail, setMode}: {setEmail: (email: string) => void, setMode: (mode: boolean) => void}) {
+
+    const [loading, setLoading] = useState(false);
     const { logIn } = useEmailPasswordAuth();
+
     const [credential, setCredential] = useState<Credential>({
         email: '',
         password: ''
     });
-    const [loading, setLoading] = useState(false);
 
     const handleLogin = () => {
         try {
             setLoading(true);
+            setEmail(credential.email);
             logIn({ email: credential.email, password: credential.password});
+            
         } catch (error) {
             // Handle login error
             Alert.alert('Error', 'Failed to log in. Please check your credentials.');
@@ -28,13 +32,8 @@ export default function LoginPage() {
         }
     };
 
-    const rootNavigationState = useRootNavigationState();
-    console.log(rootNavigationState);
-
-    // if(!rootNavigationState?.key) return null; 
-
     return (
-        <View style={{ padding: 16 }}>
+        <View>
             <Text style={{ paddingTop: 16 }}>Login</Text>
             <Text style={{ paddingTop: 16 }}>Email</Text>
             <TextInput
@@ -55,8 +54,7 @@ export default function LoginPage() {
                 disabled={loading || !credential.email || !credential.password}
             />
 
-            <Text style={{ paddingTop: 16 }}>Don't have an account?<Link href={"/register"}>Click Here!</Link></Text>
-            
+            <Text style={{ paddingTop: 16 }}>Don't have an account?<Button title="Click Here!" onPress={() => setMode(false)}/></Text>
         </View>
-    );
+    )
 }
