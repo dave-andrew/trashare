@@ -39,8 +39,12 @@ export default function Register({setEmail, setMode}: {setEmail: (email: string)
 
     return (
         <View>
-            <Text style={{ paddingTop: 16 }}>Register</Text>
-            <Text style={{ paddingTop: 16 }}>Username</Text>
+            <Text
+                className="text-xl font-bold text-center"
+                style={{ paddingTop: 16 }}>Create an Account</Text>
+            <Text
+                className="text-center text-lg"
+                style={{ paddingTop: 16, paddingBottom: 12 }}>Username</Text>
             <TextInput
                 style={{ paddingTop: 16, paddingBottom: 8, borderWidth: 1, borderColor: 'black' }}
                 value={credential.email}
