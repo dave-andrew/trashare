@@ -49,6 +49,7 @@ export default function Login({setEmail, setMode}: {setEmail: (email: string) =>
                     </View>
                     <RoundedTextFIeld value={credential.password}
                                       placeholder={"Password"}
+                                      secureTextEntry={true}
                                       onChangeFunction={(text) => setCredential({...credential, password: text})}
                     />
                     <View className={"flex flex-row py-1 mx-auto"}>

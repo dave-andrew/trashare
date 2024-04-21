@@ -11,6 +11,7 @@ interface Credential {
     email: string;
     password: string;
     phone: string;
+    confirmPassword: string;
 }
 
 export default function Register({setEmail, setMode}: {
@@ -22,7 +23,8 @@ export default function Register({setEmail, setMode}: {
         fullName: '',
         email: '',
         password: '',
-        phone: ''
+        phone: '',
+        confirmPassword: '',
     });
 
     const [loading, setLoading] = useState(false);
@@ -64,11 +66,13 @@ export default function Register({setEmail, setMode}: {
                         />
                         <RoundedTextFIeld value={credential.password}
                                           placeholder={"Password"}
-                                          onChangeFunction={(text) => setCredential({...credential, phone: text})}
+                                          secureTextEntry={true}
+                                          onChangeFunction={(text) => setCredential({...credential, password: text})}
                         />
-                        <RoundedTextFIeld value={credential.password}
+                        <RoundedTextFIeld value={credential.confirmPassword}
                                           placeholder={"Confirm Password"}
-                                          onChangeFunction={(text) => setCredential({...credential, phone: text})}
+                                          secureTextEntry={true}
+                                          onChangeFunction={(text) => setCredential({...credential, confirmPassword: text})}
                         />
                         <View className={"flex flex-row py-1 mx-auto"}>
                             <Text className={"text-gray-800 font-light text-xs"}>
