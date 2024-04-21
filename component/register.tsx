@@ -85,7 +85,7 @@ export default function Register({setEmail, setMode}: {
                             className={"rounded-2xl bg-sky-400 mt-4 mx-auto"}
                             onPress={handleRegister}
                             disabled={loading || !credential.email || !credential.password}>
-                            <Text className={"text-white font-bold text-lg py-1 px-12"}>
+                            <Text className={"text-white font-bold text-lg py-1 w-48 text-center"}>
                                 Register
                             </Text>
                         </Pressable>
