@@ -12,7 +12,7 @@ export class Task extends Realm.Object {
         name: 'Task',
         primaryKey: '_id',
         properties: {
-            _id: 'objectId',
+            _id: {type: 'objectId', default: () => new BSON.ObjectID()},
             description: 'string',
             isComplete: {
                 type: 'bool',
@@ -26,11 +26,4 @@ export class Task extends Realm.Object {
             userId: 'string',
         },
     };
-
-    constructor(realm: Realm, { description, userId }: { description: string; userId: string }) {
-        super(realm, Task.schema);
-        this._id = new BSON.ObjectID();
-        this.description = description || '';
-        this.userId = userId || '';
-    }
 }

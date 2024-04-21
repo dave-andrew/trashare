@@ -1,4 +1,4 @@
-import Realm, { BSON } from 'realm';
+import Realm, { BSON, ObjectSchema } from 'realm';
 
 
 export class User extends Realm.Object {
@@ -11,27 +11,17 @@ export class User extends Realm.Object {
     profileUrl = '';
 
     static primaryKey = '_id';
-    static schema = {
+    static schema : ObjectSchema = {
         name: 'User',
         primaryKey: '_id',
         properties: {
-            _id: 'objectId',
+            _id: { type: 'objectId', default: () => new BSON.ObjectID()},
             email: 'string',
             username: 'string',
             phone: 'string',
-            points: 'int',
-            createdAt: 'date',
-            profileUrl: 'string',
+            points: { type: 'int', default: 0},
+            createdAt: { type: 'date', default: new Date()},
+            profileUrl: { type: 'string', default: ''},
         },
     };
-
-    constructor(realm: Realm, { email, username, phone, points, profileUrl }: { email: string; username: string; phone: string; points: number; profileUrl: string }) {
-        super(realm, User.schema);
-        this._id = new BSON.ObjectID();
-        this.email = email || '';
-        this.username = username || '';
-        this.phone = phone || '';
-        this.points = points || 0;
-        this.profileUrl = profileUrl || '';
-    }
 }
