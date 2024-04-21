@@ -10,7 +10,7 @@ export default function AuthPage() {
     const [mode, setMode] = useState<boolean>(true);
 
     return (
-        <View style={{ padding: 16 }}>
+        <View>
             
             {
                 mode ? <Login setEmail={setEmail} setMode={setMode} /> : <Register setEmail={setEmail} setMode={setMode} />
