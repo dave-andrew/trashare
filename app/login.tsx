@@ -1,8 +1,8 @@
 import { useEmailPasswordAuth } from "@realm/react";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useState } from "react";
 import {Alert, Button, Image, ImageBackground, Pressable, Text, TextInput, View} from "react-native";
-import RoundedTextFIeld from "./form/RoundedTextField";
+import RoundedTextFIeld from "../component/form/RoundedTextField";
 
 interface Credential {
     email: string;
@@ -13,6 +13,7 @@ export default function Login({setEmail, setMode}: {setEmail: (email: string) =>
 
     const [loading, setLoading] = useState(false);
     const { logIn } = useEmailPasswordAuth();
+    const router = useRouter();
 
     const [credential, setCredential] = useState<Credential>({
         email: '',

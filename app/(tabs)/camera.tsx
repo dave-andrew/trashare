@@ -1,13 +1,35 @@
-import { Text, View } from "react-native";
-import EditScreenInfo from "../../component/EditScreenInfo";
+import {Button, Text, View} from "react-native";
+import { Camera, useCameraDevice, useCameraPermission, useFrameProcessor } from "react-native-vision-camera";
+import {useEffect, useRef, useState} from "react"; // Import useState for loading state
 
+export default function CameraPage() {
+    const device = useCameraDevice('back');
 
-export default function Camera() {
+    const camera = useRef<Camera>(null);
+
+    if (!device) {
+        return <Text>No camera device detected!</Text>;
+    }
+
+    const handlePhoto = async () => {
+        const photo = await camera.current?.takePhoto();
+        const result = await fetch(`file://${photo.path}`)
+        const data = await result.blob()
+
+        console.log(data)
+    }
+
     return (
-        <View>
-            <Text>Camera</Text>
-            <EditScreenInfo path="app/(tabs)/camera.tsx" />
+        <View style={{ flex: 1 }}>
+            <Camera
+                ref={camera}
+                device={device}
+                isActive={true}
+                style={{ flex: 1 }}
+                photo={true}
+            />
+
+            <Button title={"Photo"} onPress={handlePhoto}></Button>
         </View>
-        
     );
 }

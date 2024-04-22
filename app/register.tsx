@@ -1,9 +1,9 @@
-import {useEmailPasswordAuth} from "@realm/react";
-import {useState} from "react";
+import {useEmailPasswordAuth, useRealm} from "@realm/react";
+import {useCallback, useState} from "react";
 import {Text, View, TextInput, Button, Alert, ImageBackground, Image, Touchable, Pressable} from "react-native";
 import {User} from "../models/User";
 import {router} from "expo-router";
-import RoundedTextFIeld from "./form/RoundedTextField";
+import RoundedTextFIeld from "../component/form/RoundedTextField";
 
 
 interface Credential {
@@ -28,11 +28,28 @@ export default function Register({setEmail, setMode}: {
     });
 
     const [loading, setLoading] = useState(false);
+    // const realm = useRealm();
+
+    // const registerUser = useCallback(
+    //     ({username, email, phone}) => {
+    //         const newUser = realm.write(() => {
+    //             return realm.create(User, {
+    //                 username: username,
+    //                 email: email,
+    //                 phone: phone,
+    //             })
+    //         })
+
+    //         console.log(newUser)
+    //     }, [realm]
+    // );
 
     const handleRegister = () => {
         try {
             setLoading(true);
             register({email: credential.email, password: credential.password});
+
+            // registerUser({username: credential.fullName, email: credential.email, phone: credential.phone});
 
             setEmail(credential.email);
 
