@@ -2,10 +2,11 @@ import { AppProvider, RealmProvider, UserProvider } from "@realm/react";
 import { schemas } from "../models/schemas";
 import { SYNC_CONFIG } from "../sync.config";
 import { Stack } from "expo-router";
+import Realm from "realm";
 import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from "realm";
 import AuthPage from "./auth";
 import {useCameraPermission} from "react-native-vision-camera";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 export default function AppLayout() {
 
@@ -17,6 +18,7 @@ export default function AppLayout() {
             requestPermission();
         }
     }, [hasPermission, requestPermission]);
+
 
     return (
         <AppProvider id={SYNC_CONFIG.appId}>
@@ -36,8 +38,6 @@ export default function AppLayout() {
                 >
                     <Stack>
                         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                        <Stack.Screen name="register" options={{ headerShown: false }} />
-                        <Stack.Screen name="login" options={{ headerShown: false }} />
                     </Stack>
                 </RealmProvider>
             </UserProvider>

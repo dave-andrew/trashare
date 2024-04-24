@@ -1,20 +1,13 @@
 import { useEmailPasswordAuth } from "@realm/react";
-import { Link, useRouter } from "expo-router";
 import { useState } from "react";
-import {Alert, Button, Image, ImageBackground, Pressable, Text, TextInput, View} from "react-native";
+import {Alert, Image, ImageBackground, Pressable, Text, View} from "react-native";
 import RoundedTextFIeld from "../component/form/RoundedTextField";
+import { Credential } from "./auth";
 
-interface Credential {
-    email: string;
-    password: string;
-};
 
-export default function Login({setEmail, setMode}: {setEmail: (email: string) => void, setMode: (mode: boolean) => void}) {
+export default function Login({setMode}: {setMode: (mode: boolean) => void}) {
 
     const [loading, setLoading] = useState(false);
-    const { logIn } = useEmailPasswordAuth();
-    const router = useRouter();
-
     const [credential, setCredential] = useState<Credential>({
         email: '',
         password: ''
@@ -23,12 +16,11 @@ export default function Login({setEmail, setMode}: {setEmail: (email: string) =>
     const handleLogin = () => {
         try {
             setLoading(true);
-            setEmail(credential.email);
-            logIn({ email: credential.email, password: credential.password});
-            
+            setCredential({ email: credential.email, password: credential.password});
+
         } catch (error) {
             // Handle login error
-            Alert.alert('Error', 'Failed to log in. Please check your credentials.');
+            Alert.alert('Error', 'Failed to log in. Please check your credentials.' + error);
         } finally {
             setLoading(false);
         }
