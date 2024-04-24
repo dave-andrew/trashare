@@ -14,20 +14,6 @@ export default function Register({setMode}: {
 
     const [loading, setLoading] = useState(false);
 
-    // const registerUser = useCallback(
-    //     ({username, email, phone}) => {
-    //         const newUser = realm.write(() => {
-    //             return realm.create(User, {
-    //                 username: username,
-    //                 email: email,
-    //                 phone: phone,
-    //             })
-    //         })
-    //
-    //         console.log(newUser)
-    //     }, [realm]
-    // );
-
     const [credentialInput, setCredentialInput] = useState({
         email: '',
         password: '',

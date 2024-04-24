@@ -10,11 +10,7 @@ export interface Credential {
 };
 
 export default function AuthPage() {
-
     const [mode, setMode] = useState<boolean>(true);
-
-
-
 
     return (
         <View>

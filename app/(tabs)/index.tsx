@@ -23,6 +23,7 @@ export default function Home() {
         }, [realm, user.id]
     );
 
+    console.log(user)
     // useEffect(() => {
     //     realm.subscriptions.update(mutableSubs => {
     //         mutableSubs.add(taskList)

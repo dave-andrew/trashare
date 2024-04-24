@@ -7,6 +7,7 @@ import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from "realm";
 import AuthPage from "./auth";
 import {useCameraPermission} from "react-native-vision-camera";
 import {useEffect, useRef} from "react";
+import AdditionalInfoProvider from "../providers/AdditionalInfoProvider";
 
 export default function AppLayout() {
 
@@ -36,9 +37,11 @@ export default function AppLayout() {
                         },
                     }}
                 >
-                    <Stack>
-                        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                    </Stack>
+                    <AdditionalInfoProvider>
+                        <Stack>
+                            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                        </Stack>
+                    </AdditionalInfoProvider>
                 </RealmProvider>
             </UserProvider>
         </AppProvider>
