@@ -1,9 +1,18 @@
 import { Button, Text, View } from "react-native";
 import { Camera, Templates, useCameraDevice, useCameraFormat, useCameraPermission, useFrameProcessor } from "react-native-vision-camera";
-import { useRef } from "react"; // Import useState for loading state
+import { useEffect, useRef } from "react"; // Import useState for loading state
 
 export default function CameraPage() {
     const device = useCameraDevice('back');
+
+    const { hasPermission, requestPermission } = useCameraPermission();
+
+    useEffect(() => {
+        if (!hasPermission) {
+            console.log("Requesting camera permission...");
+            requestPermission();
+        }
+    }, [hasPermission, requestPermission]);
 
     const camera = useRef<Camera>(null);
 

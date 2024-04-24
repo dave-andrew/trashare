@@ -10,16 +10,6 @@ import {useEffect, useRef} from "react";
 
 export default function AppLayout() {
 
-    const { hasPermission, requestPermission } = useCameraPermission();
-
-    useEffect(() => {
-        if (!hasPermission) {
-            console.log("Requesting camera permission...");
-            requestPermission();
-        }
-    }, [hasPermission, requestPermission]);
-
-
     return (
         <AppProvider id={SYNC_CONFIG.appId}>
             <UserProvider fallback={AuthPage}>

@@ -4,7 +4,7 @@ import EditScreenInfo from '../../component/EditScreenInfo';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 
-export default function Station() {
+export default function StationPage() {
 
     const [location, setLocation] = useState({
         latitude: 37.78825,
