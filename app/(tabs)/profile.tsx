@@ -10,7 +10,6 @@ export default function Profile() {
     const router = useRouter();
 
     const handleLogout = () => {
-
         logOut()
         router.push('/auth')
     }

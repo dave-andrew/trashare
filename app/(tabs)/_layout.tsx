@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+import {useUser} from "@realm/react";
 
 export default function TabLayout() {
-
-    
 
     return (
         <Tabs screenOptions={{ 

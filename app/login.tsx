@@ -12,11 +12,12 @@ export default function Login({setMode}: {setMode: (mode: boolean) => void}) {
         email: '',
         password: ''
     });
+    const {logIn} = useEmailPasswordAuth();
 
     const handleLogin = () => {
         try {
             setLoading(true);
-            setCredential({ email: credential.email, password: credential.password});
+            logIn({ email: credential.email, password: credential.password});
 
         } catch (error) {
             // Handle login error
