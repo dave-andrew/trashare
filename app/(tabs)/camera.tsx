@@ -26,13 +26,9 @@ export default function CameraPage() {
                 ref={camera}
                 device={device}
                 isActive={true}
-                style={{ flex: 1 }}
+                className="flex-1 absolute top-0 left-0 w-full h-full"
                 photo={true}
-            >
-                <View>
-                    <Text>Camera</Text>
-                </View>
-            </Camera>
+            />
 
             <Button title={"Photo"} onPress={handlePhoto}></Button>
         </View>
