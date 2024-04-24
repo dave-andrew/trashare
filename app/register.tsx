@@ -1,34 +1,18 @@
-import {useEmailPasswordAuth, useRealm} from "@realm/react";
-import {useCallback, useState} from "react";
+import {useEmailPasswordAuth, Realm, useRealm, AuthOperationName} from "@realm/react";
+import {useCallback, useEffect, useState} from "react";
 import {Text, View, TextInput, Button, Alert, ImageBackground, Image, Touchable, Pressable} from "react-native";
 import {User} from "../models/User";
 import {router} from "expo-router";
 import RoundedTextFIeld from "../component/form/RoundedTextField";
+import {Credential} from "./auth";
 
 
-interface Credential {
-    fullName: string;
-    email: string;
-    password: string;
-    phone: string;
-    confirmPassword: string;
-}
-
-export default function Register({setEmail, setMode}: {
-    setEmail: (email: string) => void,
-    setMode: (mode: boolean) => void
+export default function Register({setMode}: {
+    setMode: (mode: boolean) => void,
 }) {
     const {register} = useEmailPasswordAuth();
-    const [credential, setCredential] = useState<Credential>({
-        fullName: '',
-        email: '',
-        password: '',
-        phone: '',
-        confirmPassword: '',
-    });
 
     const [loading, setLoading] = useState(false);
-    // const realm = useRealm();
 
     // const registerUser = useCallback(
     //     ({username, email, phone}) => {
@@ -39,22 +23,40 @@ export default function Register({setEmail, setMode}: {
     //                 phone: phone,
     //             })
     //         })
-
+    //
     //         console.log(newUser)
     //     }, [realm]
     // );
 
-    const handleRegister = () => {
+    const [credentialInput, setCredentialInput] = useState({
+        email: '',
+        password: '',
+        confirmPassword: '',
+    })
+
+    const {logIn, result} = useEmailPasswordAuth();
+    useEffect(() => {
+        if(result.success  || result.operation == AuthOperationName.Register){
+            if (credentialInput.email != '' && credentialInput.password != '') {
+                logIn({email: credentialInput.email, password: credentialInput.password});
+            }
+        }
+    }, [credentialInput, result, logIn]);
+
+
+    const handleRegister = async () => {
         try {
-            setLoading(true);
-            register({email: credential.email, password: credential.password});
+            if(!loading){
+                setLoading(true);
 
-            // registerUser({username: credential.fullName, email: credential.email, phone: credential.phone});
-
-            setEmail(credential.email);
-
+                if (credentialInput.password !== credentialInput.confirmPassword) {
+                    Alert.alert('Error', 'Password does not match.');
+                    return;
+                }
+                register({email: credentialInput.email, password: credentialInput.password});
+            }
         } catch (error) {
-            Alert.alert('Error', 'Failed to log in. Please check your credentials.');
+            Alert.alert('Error', 'Failed to log in.' + error);
         } finally {
             setLoading(false);
         }
@@ -69,27 +71,19 @@ export default function Register({setEmail, setMode}: {
                     <Text
                         className="text-xl font-bold text-center mb-6">Create an Account</Text>
                     <View className={""}>
-                        <RoundedTextFIeld value={credential.fullName}
-                                          placeholder={"Full Name"}
-                                          onChangeFunction={(text) => setCredential({...credential, fullName: text})}
-                        />
-                        <RoundedTextFIeld value={credential.email}
+                        <RoundedTextFIeld value={credentialInput.email}
                                           placeholder={"Email"}
-                                          onChangeFunction={(text) => setCredential({...credential, email: text})}
+                                          onChangeFunction={(text) => setCredentialInput({...credentialInput, email: text})}
                         />
-                        <RoundedTextFIeld value={credential.phone}
-                                          placeholder={"Phone Number"}
-                                          onChangeFunction={(text) => setCredential({...credential, phone: text})}
-                        />
-                        <RoundedTextFIeld value={credential.password}
+                        <RoundedTextFIeld value={credentialInput.password}
                                           placeholder={"Password"}
                                           secureTextEntry={true}
-                                          onChangeFunction={(text) => setCredential({...credential, password: text})}
+                                          onChangeFunction={(text) => setCredentialInput({...credentialInput, password: text})}
                         />
-                        <RoundedTextFIeld value={credential.confirmPassword}
+                        <RoundedTextFIeld value={credentialInput.confirmPassword}
                                           placeholder={"Confirm Password"}
                                           secureTextEntry={true}
-                                          onChangeFunction={(text) => setCredential({...credential, confirmPassword: text})}
+                                          onChangeFunction={(text) => setCredentialInput({...credentialInput, confirmPassword: text})}
                         />
                         <View className={"flex flex-row py-1 mx-auto"}>
                             <Text className={"text-gray-800 font-light text-xs"}>
@@ -105,7 +99,7 @@ export default function Register({setEmail, setMode}: {
                         <Pressable
                             className={"rounded-2xl bg-sky-400 mt-4 mx-auto"}
                             onPress={handleRegister}
-                            disabled={loading || !credential.email || !credential.password}>
+                            disabled={loading || !credentialInput.email || !credentialInput.password}>
                             <Text className={"text-white font-bold text-lg py-1 w-48 text-center"}>
                                 Register
                             </Text>

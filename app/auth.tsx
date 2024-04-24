@@ -1,21 +1,29 @@
-import { useState } from "react";
-import { Text, View, TextInput, Button, Alert, Pressable } from "react-native";
+import {useEffect, useState} from "react";
+import {AuthOperationName, useEmailPasswordAuth} from "@realm/react";
+import {View} from "react-native";
 import Login from "./login";
 import Register from "./register";
 
+export interface Credential {
+    email: string;
+    password: string;
+};
+
 export default function AuthPage() {
-    
-    const [email, setEmail] = useState('');
 
     const [mode, setMode] = useState<boolean>(true);
 
+
+
+
     return (
         <View>
-            
+
             {
-                mode ? <Login setEmail={setEmail} setMode={setMode} /> : <Register setEmail={setEmail} setMode={setMode} />
+                mode ? <Login setMode={setMode}/> :
+                    <Register setMode={setMode}/>
             }
-            
+
         </View>
     );
 }
