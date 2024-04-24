@@ -43,8 +43,13 @@
             "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
             "photoPermission": "Allow $(PRODUCT_NAME) to access your photo library"
           },
-          "enableFrameProcessor": true,
-          "enableCodeScanner": true
+          "enableFrameProcessors": true
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ]

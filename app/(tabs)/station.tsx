@@ -1,28 +1,42 @@
-import { Text, View } from "react-native";
-import EditScreenInfo from "../../component/EditScreenInfo";
-// import {MAPBOX_API_KEY} from "../../sync.config";
-// import Mapbox from "@rnmapbox/maps";
-import {useEffect} from "react";
-
-
+import React, { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+import EditScreenInfo from '../../component/EditScreenInfo';
+import MapView from 'react-native-maps';
+import * as Location from 'expo-location';
 
 export default function Station() {
 
-    // useEffect(() => {
-    //     Mapbox.setAccessToken(MAPBOX_API_KEY);
-    //     Mapbox.setConnected(true)
-    //     Mapbox.setTelemetryEnabled(false)
-    //     Mapbox.setWellKnownTileServer("Mapbox")
-    // }, []);
+    const [location, setLocation] = useState({
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+    });
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    useEffect(() => {
+        (async () => {
+
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation({
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+            });
+        })();
+    }, []);
 
     return (
         <View style={{ flex: 1 }}>
-            {/*<Mapbox.MapView style={{ flex: 1 }} zoomEnabled={true} styleURL={"mapbox://styles/mapbox/streets-v12"}>*/}
-            {/*    <Mapbox.Camera*/}
-            {/*        zoomLevel={9}*/}
-            {/*        centerCoordinate={[106.865036, -6.175110]}*/}
-            {/*    />*/}
-            {/*</Mapbox.MapView>*/}
+            <Text>Station</Text>
+            <MapView style={{ flex: 1 }} region={location} />
             <EditScreenInfo path="app/(tabs)/station.tsx" />
         </View>
     );
