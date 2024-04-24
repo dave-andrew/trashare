@@ -1,4 +1,5 @@
 import Realm, { BSON, ObjectSchema } from "realm";
+import Moment from "moment";
 
 interface Place {
     _id: string;
@@ -25,7 +26,8 @@ interface Location {
 }
 
 interface OpeningHours {
-    openNow: boolean;
+    open: string;
+    close: string;
 }
 
 
