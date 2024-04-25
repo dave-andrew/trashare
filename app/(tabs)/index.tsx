@@ -8,12 +8,14 @@ export default function Home() {
 
     const realm = useRealm();
     const user = useUser();
+    const taskList = useQuery(Task).filtered(`userId == $0`, user.id);
+    console.log(taskList)
 
     const createTask = useCallback(
         () => {
             const newTask = realm.write(() => {
                 return realm.create(Task, {
-                    description: 'coba without subscription',
+                    description: 'ini coba ga pake subcription + reload',
                     createdAt: new Date(),
                     userId: user.id
                 })
@@ -24,11 +26,11 @@ export default function Home() {
     );
 
     console.log(user)
-    // useEffect(() => {
-    //     realm.subscriptions.update(mutableSubs => {
-    //         mutableSubs.add(taskList)
-    //     })
-    // }, [realm, taskList]);
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(taskList)
+        })
+    }, [realm, taskList]);
 
     return (
         <View>

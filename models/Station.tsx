@@ -13,7 +13,6 @@ interface Place {
 }
 
 
-
 export class Station extends Realm.Object {
     
     _id = '';

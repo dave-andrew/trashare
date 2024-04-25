@@ -3,7 +3,6 @@ import Realm, { BSON, ObjectSchema } from 'realm';
 
 export class User extends Realm.Object {
     _id = new BSON.ObjectID();
-    email = '';
     username = '';
     phone = '';
     points = 0;
@@ -18,8 +17,7 @@ export class User extends Realm.Object {
         name: 'User',
         primaryKey: '_id',
         properties: {
-            _id: { type: 'objectId', default: () => new BSON.ObjectID()},
-            email: 'string',
+            _id: 'string',
             username: 'string',
             phone: 'string',
             points: { type: 'int', default: 0},
