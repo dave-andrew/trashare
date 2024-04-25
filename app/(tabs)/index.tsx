@@ -3,6 +3,7 @@ import EditScreenInfo from "../../component/EditScreenInfo";
 import { useQuery, useRealm, useUser } from "@realm/react";
 import { useCallback, useEffect, useState } from "react";
 import { Task } from "../../models/Task";
+import { router } from "expo-router";
 
 export default function Home() {
 
@@ -22,8 +23,7 @@ export default function Home() {
             console.log(newTask)
         }, [realm, user.id]
     );
-
-    console.log(user)
+    
     // useEffect(() => {
     //     realm.subscriptions.update(mutableSubs => {
     //         mutableSubs.add(taskList)
@@ -33,7 +33,7 @@ export default function Home() {
     return (
         <View>
             <Text>Home</Text>
-            <Button title="try add new data" onPress={createTask}></Button>
+            <Button title="try add new data" onPress={() => router.push("/seeder/StationSeeder")}></Button>
             <EditScreenInfo path="app/(tabs)/home.tsx" />
         </View>
         
