@@ -3,7 +3,6 @@ import { Camera, Templates, useCameraDevice, useCameraFormat, useCameraPermissio
 import { useEffect, useRef } from "react"; // Import useState for loading state
 
 export default function CameraPage() {
-    const device = useCameraDevice('back');
 
     const { hasPermission, requestPermission } = useCameraPermission();
 
@@ -13,6 +12,8 @@ export default function CameraPage() {
             requestPermission();
         }
     }, [hasPermission, requestPermission]);
+
+    const device = useCameraDevice('back');
 
     const camera = useRef<Camera>(null);
 
