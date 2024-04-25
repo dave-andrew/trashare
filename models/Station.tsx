@@ -2,6 +2,15 @@ import Realm, { BSON, ObjectSchema } from "realm";
 import {OpeningHours} from "./OpeningHours";
 import {Geometry} from "./Geometry";
 
+interface Place {
+    _id: string;
+    formattedAddress: string;
+    geometry: Geometry;
+    name: string;
+    openingHours: OpeningHours;
+    rating: number;
+}
+
 export class Station extends Realm.Object {
 
     static primaryKey = '_id';
