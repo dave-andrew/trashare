@@ -3,6 +3,9 @@ import { Text, View } from 'react-native';
 import EditScreenInfo from '../../component/EditScreenInfo';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
+import BottomSheet from "@gorhom/bottom-sheet"
+import { SearchBar } from 'react-native-elements/dist/searchbar/SearchBar';
+import { ScreenStackHeaderSearchBarView } from 'react-native-screens';
 
 export default function StationPage() {
 
@@ -35,9 +38,21 @@ export default function StationPage() {
 
     return (
         <View style={{ flex: 1 }}>
-            <Text>Station</Text>
-            <MapView style={{ flex: 1 }} region={location} />
-            <EditScreenInfo path="app/(tabs)/station.tsx" />
+            <MapView className='flex-1' region={location} />
+            <View>
+                <ScreenStackHeaderSearchBarView
+                    placeholder='Search for a station'
+                    onChangeText={() => { }}
+
+                />
+            </View>
+            <BottomSheet
+                backgroundStyle={{ backgroundColor: 'rgba(255,255,255,0.95)' }}
+                snapPoints={["25%", "40%"]}>
+                <View className='flex flex-col p-6 pt-2'>
+                    <Text>Compostable Station</Text>
+                </View>
+            </BottomSheet>
         </View>
     );
 }
