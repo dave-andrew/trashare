@@ -14,16 +14,6 @@ export default function StationSeeder() {
                     location: {
                         lat: 37.78825,
                         lng: -122.4324
-                    },
-                    viewport: {
-                        northeast: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        },
-                        southwest: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        }
                     }
                 },
                 openingHours: {
@@ -38,16 +28,6 @@ export default function StationSeeder() {
                     location: {
                         lat: 37.78825,
                         lng: -122.4324
-                    },
-                    viewport: {
-                        northeast: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        },
-                        southwest: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        }
                     }
                 },
                 openingHours: {
@@ -62,16 +42,6 @@ export default function StationSeeder() {
                     location: {
                         lat: 37.78825,
                         lng: -122.4324
-                    },
-                    viewport: {
-                        northeast: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        },
-                        southwest: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        }
                     }
                 },
                 openingHours: {
@@ -86,16 +56,6 @@ export default function StationSeeder() {
                     location: {
                         lat: 37.78825,
                         lng: -122.4324
-                    },
-                    viewport: {
-                        northeast: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        },
-                        southwest: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        }
                     }
                 },
                 openingHours: {
@@ -110,16 +70,6 @@ export default function StationSeeder() {
                     location: {
                         lat: 37.78825,
                         lng: -122.4324
-                    },
-                    viewport: {
-                        northeast: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        },
-                        southwest: {
-                            lat: 37.78825,
-                            lng: -122.4324
-                        }
                     }
                 },
                 openingHours: {
@@ -132,11 +82,11 @@ export default function StationSeeder() {
 
         const stationData = stations.map(station => {
             return realm.write(() => {
-                realm.create(Station, station);
+                return realm.create(Station, station);
             });
         })
 
-        console.log(stationData);
+        // console.log(stationData);
     };
 
     return (

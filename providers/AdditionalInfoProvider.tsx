@@ -22,11 +22,6 @@ export default function AdditionalInfoProvider({children}: { children: React.Rea
     }, [user]);
 
 
-    // useEffect(() => {
-    //     realm.subscriptions.update(mutableSubs => {
-    //         mutableSubs.add(additionalInfoList)
-    //     })
-    // }, [realm, additionalInfoList]);
 
     const registerUser = useCallback(
         ({user_id, username, phone}) => {
