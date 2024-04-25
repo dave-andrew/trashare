@@ -27,10 +27,10 @@ export default function Register({setMode}: {
                 logIn({email: credentialInput.email, password: credentialInput.password});
             }
         }
-    }, [credentialInput, result, logIn]);
+    }, [result, logIn]);
 
 
-    const handleRegister = async () => {
+const handleRegister = async () => {
         try {
             if(!loading){
                 setLoading(true);

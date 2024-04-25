@@ -1,5 +1,7 @@
 import Realm, { BSON, ObjectSchema } from "realm";
 import Moment from "moment";
+import {OpeningHours} from "./OpeningHours";
+import {Geometry} from "./Geometry";
 
 interface Place {
     _id: string;
@@ -10,25 +12,6 @@ interface Place {
     rating: number;
 }
 
-interface Viewport {
-    northeast: Location;
-    southwest: Location;
-}
-
-interface Geometry {
-    location: Location;
-    viewport: Viewport;
-}
-
-interface Location {
-    lat: number;
-    lng: number;
-}
-
-interface OpeningHours {
-    open: string;
-    close: string;
-}
 
 
 export class Station extends Realm.Object {
