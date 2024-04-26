@@ -4,8 +4,7 @@ import EditScreenInfo from '../../component/EditScreenInfo';
 import MapView from 'react-native-maps';
 import * as Location from 'expo-location';
 import BottomSheet from "@gorhom/bottom-sheet"
-import { SearchBar } from 'react-native-elements/dist/searchbar/SearchBar';
-import { ScreenStackHeaderSearchBarView } from 'react-native-screens';
+import SearchBar from "react-native-dynamic-search-bar";
 
 export default function StationPage() {
 
@@ -16,6 +15,8 @@ export default function StationPage() {
         longitudeDelta: 0.0421
     });
     const [errorMsg, setErrorMsg] = useState(null);
+    const [search, setSearch] = useState('');
+
 
     useEffect(() => {
         (async () => {
@@ -39,15 +40,15 @@ export default function StationPage() {
     return (
         <View style={{ flex: 1 }}>
             <MapView className='flex-1' region={location} />
-            <View>
-                <ScreenStackHeaderSearchBarView
+            <View className='absolute top-5 left-0 right-0'>
+                <SearchBar
                     placeholder='Search for a station'
-                    onChangeText={() => { }}
-
+                    onChangeText={(text) => { setSearch(text) }}
+                    value={search}
                 />
             </View>
             <BottomSheet
-                backgroundStyle={{ backgroundColor: 'rgba(255,255,255,0.95)' }}
+                style={{shadowColor: "#000", shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5}}
                 snapPoints={["25%", "40%"]}>
                 <View className='flex flex-col p-6 pt-2'>
                     <Text>Compostable Station</Text>
