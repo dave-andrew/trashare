@@ -35,15 +35,15 @@ export default function Home() {
 
     return (
         <View>
-            <ImageBackground
-                className='w-full h-[11vh] rounded-max mx-auto'
+            <Image
+                className='absolute w-full h-[11vh] rounded-max mx-auto'
                 source={require('../../assets/backgrounds/RegisterBG.png')}
-            >
-                <View className="mt-[6vh] justify-center ml-4">
-                    <Text className="text-lg font-medium color-white">Hi, Username</Text>
-                </View>
-            </ImageBackground>
-            <Text>Home</Text>
+            />
+            <View className="mt-[6vh] justify-center ml-4">
+                <Text className="text-lg font-medium color-white">Hi, Username</Text>
+            </View>
+
+            <Text className="mt-5">Home</Text>
             <Button title="try add new data" onPress={() => router.push("/seeder/StationSeeder")}></Button>
             <EditScreenInfo path="app/(tabs)/home.tsx" />
         </View>
