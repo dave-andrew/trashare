@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
-import {useUser} from "@realm/react";
+import { useUser } from "@realm/react";
 
 export default function TabLayout() {
 
     return (
-        <Tabs screenOptions={{ 
-            tabBarActiveTintColor: 'blue',
+        <Tabs screenOptions={{
+            tabBarActiveTintColor: '#00B1F7',
             tabBarStyle: {
-                margin: 8,
+                height: 70,
+                marginHorizontal: 12,
                 marginBottom: 16,
                 borderRadius: 10,
-                paddingVertical: 8,
+            },
+            tabBarLabelStyle: {
+                marginTop: -10,
+                marginBottom: 10
             },
             headerStyle: {
                 borderRadius: 10,
@@ -38,7 +42,16 @@ export default function TabLayout() {
                 name="camera"
                 options={{
                     title: '',
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="camera" color={color} />,
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="camera" color={"#fff"}
+                        style={[{
+                            backgroundColor: '#00B1F7',
+                            padding: 20,
+                            borderRadius: 56,
+                            marginTop: -32
+                        }]} />,
+                    tabBarItemStyle: {
+                        marginHorizontal: -7,
+                    },
                     headerShown: false
                 }}
             />
