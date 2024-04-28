@@ -1,5 +1,5 @@
-import { Button, Text, View } from "react-native";
-import { Camera, Templates, useCameraDevice, useCameraFormat, useCameraPermission, useFrameProcessor } from "react-native-vision-camera";
+import { Image, Pressable, Text, View } from "react-native";
+import { Camera, useCameraDevice, useCameraPermission } from "react-native-vision-camera";
 import { useEffect, useRef } from "react"; // Import useState for loading state
 
 export default function CameraPage() {
@@ -32,6 +32,13 @@ export default function CameraPage() {
 
     return (
         <View style={{ flex: 1 }}>
+            <View
+                className='w-full h-[11vh] rounded-max mx-auto bg-white z-10 rounded-b-2xl'
+            >
+                <View className="mt-[6vh] justify-center items-center ml-4">
+                    <Text className="text-lg font-medium">Scan</Text>
+                </View>
+            </View>
             <Camera
                 ref={camera}
                 device={device}
@@ -40,7 +47,15 @@ export default function CameraPage() {
                 photo={true}
             />
 
-            <Button title={"Photo"} onPress={handlePhoto}></Button>
+            <Pressable 
+                onPress={handlePhoto}
+                className="absolute bottom-8 left-0 right-0 flex items-center justify-center h-15"
+                >
+                <Image
+                    source={require("../../assets/capture.png")}
+                    className="w-16 h-16"
+                    style={{tintColor: 'white'}} />
+            </Pressable>
         </View>
     );
 }

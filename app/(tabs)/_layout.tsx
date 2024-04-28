@@ -14,8 +14,8 @@ export default function TabLayout() {
                 borderRadius: 10,
                 paddingVertical: 8,
             },
-            headerTitleStyle: {
-                fontWeight: 'bold',
+            headerStyle: {
+                borderRadius: 10,
             }
         }}>
             <Tabs.Screen
@@ -23,6 +23,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Home',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+                    headerShown: false
                 }}
             />
             <Tabs.Screen
@@ -30,6 +31,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Station',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-pin" color={color} />,
+                    headerShown: false
                 }}
             />
             <Tabs.Screen
@@ -37,6 +39,7 @@ export default function TabLayout() {
                 options={{
                     title: '',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="camera" color={color} />,
+                    headerShown: false
                 }}
             />
             <Tabs.Screen
@@ -44,6 +47,7 @@ export default function TabLayout() {
                 options={{
                     title: 'History',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="history" color={color} />,
+                    headerShown: false
                 }}
             />
             <Tabs.Screen
@@ -51,6 +55,7 @@ export default function TabLayout() {
                 options={{
                     title: 'Profile',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,
+                    headerShown: false
                 }}
             />
         </Tabs>
