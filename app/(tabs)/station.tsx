@@ -23,6 +23,9 @@ export default function StationPage() {
     });
 
     const [errorMsg, setErrorMsg] = useState(null);
+    const [search, setSearch] = useState('');
+    const [isSearching, setIsSearching] = useState<boolean>(false);
+    const [station, setStation] = useState<Station>();
 
     useEffect(() => {
         (async () => {
@@ -42,11 +45,6 @@ export default function StationPage() {
             });
         })();
     }, []);
-    
-    const [search, setSearch] = useState('');
-
-    const [isSearching, setIsSearching] = useState<boolean>(false);
-    const [station, setStation] = useState<Station>();
 
     useEffect(() => {
         setIsSearching(false)
@@ -67,7 +65,7 @@ export default function StationPage() {
 
             {isSearching ? (
                 <View className='flex-1'>
-                    <Stations setStation={setStation} />
+                    <Stations setStation={setStation} search={search} />
                 </View>
             ) : (
                 <View className='flex-1'>
