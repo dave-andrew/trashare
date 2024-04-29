@@ -23,60 +23,60 @@ export default function StationSeeder() {
                 formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
                 geometry: {
                     location: {
-                        lat: 37.78825,
-                        lng: -122.4324
+                        lat: -6.202000,
+                        lng: 106.782000
                     }
                 },
                 openingHours: {
                     open: "08:00",
                     close: "17:00"
                 },
-                rating: 4.5
+                mainType: "Compost"
             },
             {
                 name: "Recycling Station",
                 formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
                 geometry: {
                     location: {
-                        lat: 37.78825,
-                        lng: -122.4324
+                        lat: 40.785091,
+                        lng: -73.968285
                     }
                 },
                 openingHours: {
                     open: "08:00",
                     close: "17:00"
                 },
-                rating: 4.5
+                mainType: "Recyclable"
             },
             {
                 name: "Trash Station",
                 formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
                 geometry: {
                     location: {
-                        lat: 37.78825,
-                        lng: -122.4324
+                        lat: -6.2594,
+                        lng: 106.7839
                     }
                 },
                 openingHours: {
                     open: "08:00",
                     close: "17:00"
                 },
-                rating: 4.5
+                mainType: "Paper"
             }, 
             {
                 name: "Landfill Station",
                 formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
                 geometry: {
                     location: {
-                        lat: 37.78825,
-                        lng: -122.4324
+                        lat: -6.252300,
+                        lng: 106.847336
                     }
                 },
                 openingHours: {
                     open: "08:00",
                     close: "17:00"
                 },
-                rating: 4.5
+                mainType: "Paper"
             },
             {
                 name: "E-Waste Station",
@@ -91,11 +91,11 @@ export default function StationSeeder() {
                     open: "08:00",
                     close: "17:00"
                 },  
-                rating: 4.5
+                mainType: "Recyclable"
             }
         ];
 
-        const stationData = stations.map(station => {
+        stations.map(station => {
             return addStation(station);
         })
         

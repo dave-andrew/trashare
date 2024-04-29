@@ -13,7 +13,7 @@ export class Station extends Realm.Object {
             geometry: 'Geometry',
             name: 'string',
             openingHours: 'OpeningHours',
-            rating: 'float',
+            mainType: 'string',
         }
     }
 }
