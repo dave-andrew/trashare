@@ -20,7 +20,9 @@ export default function Profile() {
                 className='absolute w-full h-[22vh] rounded-b-2xl mx-auto'
                 source={require('../../assets/backgrounds/RegisterBG.png')}
             />
-            <Text>Profile</Text>
+            <Text style={[{
+                marginTop: 40
+            }]}>Profile</Text>
 
             <Button title="Logout" onPress={handleLogout} />
 

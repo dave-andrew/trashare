@@ -1,16 +1,13 @@
-import {useEmailPasswordAuth, Realm, useRealm, AuthOperationName} from "@realm/react";
-import {useCallback, useEffect, useState} from "react";
-import {Text, View, TextInput, Button, Alert, ImageBackground, Image, Touchable, Pressable} from "react-native";
-import {User} from "../models/User";
-import {router} from "expo-router";
+import { useEmailPasswordAuth, AuthOperationName } from "@realm/react";
+import { useEffect, useState } from "react";
+import { Text, View, Alert, ImageBackground, Image, Touchable, Pressable } from "react-native";
 import RoundedTextFIeld from "../component/form/RoundedTextField";
-import {Credential} from "./auth";
 
 
-export default function Register({setMode}: {
+export default function Register({ setMode }: {
     setMode: (mode: boolean) => void,
 }) {
-    const {register} = useEmailPasswordAuth();
+    const { register } = useEmailPasswordAuth();
 
     const [loading, setLoading] = useState(false);
 
@@ -20,26 +17,25 @@ export default function Register({setMode}: {
         confirmPassword: '',
     })
 
-    const {logIn, result} = useEmailPasswordAuth();
+    const { logIn, result } = useEmailPasswordAuth();
     useEffect(() => {
-        if(result.success  || result.operation == AuthOperationName.Register){
+        if (result.success || result.operation == AuthOperationName.Register) {
             if (credentialInput.email != '' && credentialInput.password != '') {
-                logIn({email: credentialInput.email, password: credentialInput.password});
+                logIn({ email: credentialInput.email, password: credentialInput.password });
             }
         }
     }, [result, logIn]);
 
-
-const handleRegister = async () => {
+    const handleRegister = async () => {
         try {
-            if(!loading){
+            if (!loading) {
                 setLoading(true);
 
                 if (credentialInput.password !== credentialInput.confirmPassword) {
                     Alert.alert('Error', 'Password does not match.');
                     return;
                 }
-                register({email: credentialInput.email, password: credentialInput.password});
+                register({ email: credentialInput.email, password: credentialInput.password });
             }
         } catch (error) {
             Alert.alert('Error', 'Failed to log in.' + error);
@@ -50,26 +46,26 @@ const handleRegister = async () => {
 
     return (
         <ImageBackground source={require('../assets/backgrounds/RegisterBG.png')}
-                         style={{width: '100%', height: '100%'}}>
+            style={{ width: '100%', height: '100%' }}>
             <View className="p-6 flex justify-center place-items-center h-full w-full">
-                <Image source={require('../assets/logo/trashare.png')} className={"mx-auto"}/>
+                <Image source={require('../assets/logo/trashare.png')} className={"mx-auto"} />
                 <View className="bg-white p-8 mt-4 rounded-xl">
                     <Text
                         className="text-xl font-bold text-center mb-6">Create an Account</Text>
                     <View className={""}>
                         <RoundedTextFIeld value={credentialInput.email}
-                                          placeholder={"Email"}
-                                          onChangeFunction={(text) => setCredentialInput({...credentialInput, email: text})}
+                            placeholder={"Email"}
+                            onChangeFunction={(text) => setCredentialInput({ ...credentialInput, email: text })}
                         />
                         <RoundedTextFIeld value={credentialInput.password}
-                                          placeholder={"Password"}
-                                          secureTextEntry={true}
-                                          onChangeFunction={(text) => setCredentialInput({...credentialInput, password: text})}
+                            placeholder={"Password"}
+                            secureTextEntry={true}
+                            onChangeFunction={(text) => setCredentialInput({ ...credentialInput, password: text })}
                         />
                         <RoundedTextFIeld value={credentialInput.confirmPassword}
-                                          placeholder={"Confirm Password"}
-                                          secureTextEntry={true}
-                                          onChangeFunction={(text) => setCredentialInput({...credentialInput, confirmPassword: text})}
+                            placeholder={"Confirm Password"}
+                            secureTextEntry={true}
+                            onChangeFunction={(text) => setCredentialInput({ ...credentialInput, confirmPassword: text })}
                         />
                         <View className={"flex flex-row py-1 mx-auto"}>
                             <Text className={"text-gray-800 font-light text-xs"}>

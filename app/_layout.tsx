@@ -4,11 +4,12 @@ import { SYNC_CONFIG } from "../sync.config";
 import { Stack } from "expo-router";
 import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from "realm";
 import AuthPage from "./auth";
-import AdditionalInfoProvider from "../providers/AdditionalInfoProvider";
+import AdditionalInfoProvider from "./providers/AdditionalInfoProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider } from 'react-native-paper';
 
 export default function AppLayout() {
+
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
