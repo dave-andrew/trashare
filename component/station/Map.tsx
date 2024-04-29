@@ -5,7 +5,6 @@ import MapView, { Marker } from "react-native-maps";
 import { Geo } from "../../app/(tabs)/station";
 import { Station } from "../../models/Station";
 
-
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
     const [stationGeometry, setStationGeometry] = useState<Geo>()
