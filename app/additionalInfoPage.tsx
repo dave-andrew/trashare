@@ -1,19 +1,11 @@
-import { useCallback, useState } from "react";
+import { Dispatch, useContext, useState } from "react";
 import { useRealm } from "@realm/react";
-import { Results } from "realm";
-import { User } from "../models/User";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
 import RoundedTextFIeld from "../component/form/RoundedTextField";
 import RoundedRadioButton from "../component/form/RoundedRadioButton";
+import useAdditionalInfo from "./hooks/useAdditionalInfo";
 
-
-interface AdditionalInfoInput {
-    username: string,
-    gender: string,
-    phone: string,
-}
-
-export default function AdditionalInfoPage({ user_id }: { user_id: string }) {
+export default function AdditionalInfoPage({ user_id, setStateContext}: { user_id: string , setStateContext: Dispatch<any>}) {
 
     const realm = useRealm()
     const [additionalInfoInput, setAdditionalInfoInput] = useState({
@@ -23,27 +15,20 @@ export default function AdditionalInfoPage({ user_id }: { user_id: string }) {
     })
     const [loading, setLoading] = useState(false)
 
+    const { registerAdditionalInfo } = useAdditionalInfo()
     const handleRegister = () => {
-
         if (!loading) {
             setLoading(true)
-            registerUser({ user_id: user_id, username: additionalInfoInput.username, phone: additionalInfoInput.phone, gender: additionalInfoInput.gender })
+            registerAdditionalInfo({
+                realm: realm,
+                user_id: user_id,
+                username: additionalInfoInput.username,
+                phone: additionalInfoInput.phone,
+                gender: additionalInfoInput.gender,
+                setStateContext: setStateContext
+            })
         }
     }
-
-    const registerUser = useCallback(
-        ({ user_id, username, phone, gender }) => {
-            const newUser = realm.write(() => {
-                return realm.create(User, {
-                    _id: user_id,
-                    gender: gender,
-                    username: username,
-                    phone: phone
-                })
-            })
-            console.log(`Registered ... ${newUser}`)
-        }, [realm]
-    );
 
     return (
         <ImageBackground source={require('../assets/backgrounds/RegisterBG.png')}

@@ -2,15 +2,13 @@ import { AppProvider, RealmProvider, UserProvider } from "@realm/react";
 import { schemas } from "../models/schemas";
 import { SYNC_CONFIG } from "../sync.config";
 import { Stack } from "expo-router";
-import Realm from "realm";
 import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from "realm";
 import AuthPage from "./auth";
-import { useCameraPermission } from "react-native-vision-camera";
-import { useEffect, useRef } from "react";
-import AdditionalInfoProvider from "../providers/AdditionalInfoProvider";
+import AdditionalInfoProvider from "./providers/AdditionalInfoProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function AppLayout() {
+
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
