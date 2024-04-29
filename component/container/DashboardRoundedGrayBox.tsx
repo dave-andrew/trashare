@@ -17,7 +17,7 @@ export function DashboardRoundedGrayBox(props: ViewProps & { label: String, unit
                 </Text>
                 <View className="flex flex-row">
                     <Text className="text-lg font-bold mt-[-5]">
-                        {props.point.toFixed(1).toString()}
+                        {props.point?.toFixed(1).toString()}
                     </Text>
                     <Text className="text-xs font-bold ml-1 mt-[3]">
                         {props.units}
