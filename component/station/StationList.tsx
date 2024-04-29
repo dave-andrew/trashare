@@ -4,10 +4,12 @@ import { Station } from "../../models/Station";
 
 export default function StationList({ station, setStation }: { station: Station, setStation: any}) {
 
-
+    const test = () => {
+        setStation(station)
+    }
 
     return (
-        <Pressable onPress={() => {setStation(station)}}
+        <Pressable onPress={test}
             className="m-2 my-0">
             <View style={{ flexDirection: 'row', elevation: 5 }} className="bg-white mb-2 p-4 rounded-2xl">
 

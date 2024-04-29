@@ -48,6 +48,10 @@ export default function StationPage() {
     const [isSearching, setIsSearching] = useState<boolean>(false);
     const [station, setStation] = useState<Station>();
 
+    useEffect(() => {
+        setIsSearching(false)
+    }, [station])
+
     return (
         <View style={{ flex: 1 }}>
             <View className='absolute top-16 left-0 right-0 z-10'>
@@ -58,7 +62,6 @@ export default function StationPage() {
                     value={search}
                     onClearPress={() => { setSearch('') }}
                     onFocus={() => { setIsSearching(true) }}
-                    onBlur={() => { setIsSearching(false) }}
                 />
             </View>
 

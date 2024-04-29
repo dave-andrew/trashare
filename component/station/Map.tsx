@@ -6,25 +6,40 @@ import { Geo } from "../../app/(tabs)/station";
 import { Station } from "../../models/Station";
 
 
-export default function Map({location, station} : {location: Geo, station: Station}) {
+export default function Map({ location, station }: { location: Geo, station: Station }) {
+
+    let [stationGeometry, setStationGeometry] = useState<Geo>()
+
+    useEffect(() => {
+        if (station) {
+            setStationGeometry({
+                latitude: station.geometry.location.lat,
+                longitude: station.geometry.location.lng,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+            })
+        }
+    }, [station])
+
+    console.log(stationGeometry)
 
     return (
         <View className="flex-1">
-            <MapView className='flex-1' region={station ? station.geometry.location : location}>
+            <MapView className='flex-1' region={stationGeometry ? stationGeometry : location}>
                 <Marker
-                coordinate={location}
-                title="You are here!"
-                image={require("../../assets/pin.png")} />
-                {station != null && (
+                    coordinate={location}
+                    title="You are here!"
+                    image={require("../../assets/pin.png")} />
+                {stationGeometry && (
                     <Marker
-                        coordinate={station.geometry.location}
+                        coordinate={stationGeometry}
                         title={station.name}
                         image={require("../../assets/pin.png")}
                     />
                 )}
             </MapView>
             <BottomSheet
-                style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4.5, elevation: 5 }}
+                style={{ elevation: 5 }}
                 snapPoints={['22%', '30%']}>
                 <View className='p-6 pt-0'>
                     <View className='flex items-center'>
