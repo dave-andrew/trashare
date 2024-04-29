@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, Button, Pressable } from 'react-native';
-import EditScreenInfo from '../../component/EditScreenInfo';
-import MapView from 'react-native-maps';
-import * as Location from 'expo-location';
-import BottomSheet from "@gorhom/bottom-sheet"
+import { Text, View } from 'react-native';
 import SearchBar from "react-native-dynamic-search-bar";
+import Map from '../../component/station/Map';
+import Stations from '../../component/station/Stations';
+import * as Location from 'expo-location';
+import { Station } from '../../models/Station';
+
+export interface Geo {
+    latitude: number,
+    longitude: number,
+    latitudeDelta: number,
+    longitudeDelta: number
+}
 
 export default function StationPage() {
 
@@ -14,8 +21,8 @@ export default function StationPage() {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
     });
+
     const [errorMsg, setErrorMsg] = useState(null);
-    const [search, setSearch] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -35,55 +42,35 @@ export default function StationPage() {
             });
         })();
     }, []);
+    
+    const [search, setSearch] = useState('');
+
+    const [isSearching, setIsSearching] = useState<boolean>(false);
+    const [station, setStation] = useState<Station>();
 
     return (
         <View style={{ flex: 1 }}>
-            <MapView className='flex-1' region={location} />
-            <View className='absolute top-16 left-0 right-0'>
+            <View className='absolute top-16 left-0 right-0 z-10'>
                 <SearchBar
                     placeholder='Search for a station'
+                    style={{elevation: 5}}
                     onChangeText={(text) => { setSearch(text) }}
                     value={search}
+                    onClearPress={() => { setSearch('') }}
+                    onFocus={() => { setIsSearching(true) }}
+                    onBlur={() => { setIsSearching(false) }}
                 />
             </View>
-            <BottomSheet
-                style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4.5, elevation: 5 }}
-                snapPoints={['22%', '30%']}>
-                <View className='p-6 pt-0'>
-                    <View className='flex items-center'>
-                        <Text className='text-lg font-bold'>Compostable Station</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row' }} className='mt-4'>
-                        <Image
-                            className='w-[40%] h-24 rounded-lg mx-auto'
-                            source={{
-                                uri: 'https://picsum.photos/200/300',
-                            }}
-                        />
-                        <View style={{ flexDirection: 'column' }}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text className='font-bold text-green-500'>Open</Text>
-                                <Text className='ml-2 font-medium'>08:00 - 17:00</Text>
-                            </View>
-                            <Text className='text-gray-500'>Jl. Raya Bogor, No. 1, Jakarta</Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row' }} className='justify-around mt-4'>
-                        <Pressable
-                            className='bg-blue-400 w-40 py-2 rounded-full flex items-center'
-                            onPress={() => { }}
-                        >
-                            <Text className='color-white font-medium'>Send Waste</Text>
-                        </Pressable>
-                        <Pressable
-                            className='bg-blue-400 w-40 py-2 rounded-full flex items-center'
-                            onPress={() => { }}
-                        >
-                            <Text className='color-white font-medium'>Visit Location</Text>
-                        </Pressable>
-                    </View>
+
+            {isSearching ? (
+                <View className='flex-1'>
+                    <Stations setStation={setStation} />
                 </View>
-            </BottomSheet>
+            ) : (
+                <View className='flex-1'>
+                    <Map location={location} station={station} />
+                </View>
+            )}
         </View>
     );
 }

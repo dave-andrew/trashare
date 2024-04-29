@@ -4,34 +4,12 @@ import { useQuery, useRealm, useUser } from "@realm/react";
 import { useCallback, useEffect, useState } from "react";
 import { Task } from "../../models/Task";
 import { router } from "expo-router";
+import { User } from "../../models/User";
 
 export default function Home() {
 
-    const realm = useRealm();
     const user = useUser();
-    const taskList = useQuery(Task).filtered(`userId == $0`, user.id);
-    console.log(taskList)
-
-    const createTask = useCallback(
-        () => {
-            const newTask = realm.write(() => {
-                return realm.create(Task, {
-                    description: 'ini coba ga pake subcription + reload',
-                    createdAt: new Date(),
-                    userId: user.id
-                })
-            })
-
-            console.log(newTask)
-        }, [realm, user.id]
-    );
-
-    console.log(user)
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(taskList)
-        })
-    }, [realm, taskList]);
+    const userInfo = useQuery(User).filtered(`_id == "${user.id}"`)[0];
 
     return (
         <View>
@@ -40,7 +18,7 @@ export default function Home() {
                 source={require('../../assets/backgrounds/RegisterBG.png')}
             />
             <View className="mt-[6vh] justify-center ml-4">
-                <Text className="text-lg font-medium color-white">Hi, Username</Text>
+                <Text className="text-lg font-medium color-white">Hi, {userInfo.username}</Text>
             </View>
 
             <Text className="mt-5">Home</Text>
