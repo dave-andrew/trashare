@@ -10,31 +10,7 @@ import { DashboardRoundedGrayBox } from "../../component/container/DashboardRoun
 
 export default function Home() {
 
-    const realm = useRealm();
-    const user = useUser();
-    const taskList = useQuery(Task).filtered(`userId == $0`, user.id);
-
-    const createTask = useCallback(
-        () => {
-            const newTask = realm.write(() => {
-                return realm.create(Task, {
-                    description: 'ini coba ga pake subcription + reload',
-                    createdAt: new Date(),
-                    userId: user.id
-                })
-            })
-            console.log(newTask)
-        }, [realm, user.id]
-    );
-
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(taskList)
-        })
-    }, [realm, taskList]);
-
-    const userAdditionalInfo = useContext(AdditionalInfoContext)
-
+    const userAdditionalInfo = useContext(AdditionalInfoContext);
     return (
         <View className="bg-white h-full">
             <ImageBackground
