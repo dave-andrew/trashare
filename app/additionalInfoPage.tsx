@@ -1,9 +1,10 @@
 import { Dispatch, useContext, useState } from "react";
 import { useRealm } from "@realm/react";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
-import RoundedTextFIeld from "../component/form/RoundedTextField";
+import RoundedTextField from "../component/form/RoundedTextField";
 import RoundedRadioButton from "../component/form/RoundedRadioButton";
 import useAdditionalInfo from "./hooks/useAdditionalInfo";
+import RoundedPhoneNumberField from "../component/form/RoundedPhoneNumberField";
 
 export default function AdditionalInfoPage({ user_id, setStateContext}: { user_id: string , setStateContext: Dispatch<any>}) {
 
@@ -38,12 +39,12 @@ export default function AdditionalInfoPage({ user_id, setStateContext}: { user_i
                 <View className="bg-white p-8 mt-4 rounded-xl">
                     <Text
                         className="text-xl font-bold text-center mb-6">Let us get to know{"\n"}you better! 👋</Text>
-                    <RoundedTextFIeld value={additionalInfoInput.username}
-                        placeholder={"Username"}
+                    <RoundedTextField value={additionalInfoInput.username}
+                        placeholder={"Full Name"}
                         onChangeFunction={(text) => setAdditionalInfoInput({ ...additionalInfoInput, username: text })}
                     />
 
-                    <RoundedTextFIeld value={additionalInfoInput.phone}
+                    <RoundedPhoneNumberField value={additionalInfoInput.phone}
                         placeholder={"Phone Number"}
                         onChangeFunction={(text) => setAdditionalInfoInput({ ...additionalInfoInput, phone: text })}
                     />

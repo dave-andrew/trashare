@@ -5,7 +5,7 @@ export default function RoundedRadioButton(props: ViewProps & { selected?: boole
     return (
         <View className={props.customClass + (props.selected ? " border-sky-300" : " border-gray-300") +" flex flex-row grow p-2 align-middle border rounded-lg my-2"}
             style={[{
-                borderColor: props.selected ? '#0B5DB7' : '#D1D5DB',
+                borderColor: props.selected ? '#0B5DB7' : '#9ca3af',
             }]}
             onTouchStart={props.onTouchFunction}>
             <View style={[{
