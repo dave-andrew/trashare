@@ -28,6 +28,7 @@ export class User extends Realm.Object {
             paperWaste: { type: 'int', default: 0},
             recyclableWaste: { type: 'int', default: 0},
             compostWaste: { type: 'int', default: 0},
+            history: { type: 'list', objectType: 'History', default: []}
         },
     };
 }
