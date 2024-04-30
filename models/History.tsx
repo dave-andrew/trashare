@@ -1,7 +1,8 @@
-import Realm, { ObjectSchema } from 'realm'
+import Realm, { BSON, ObjectSchema } from 'realm'
 
 export class History extends Realm.Object {
 
+    static primaryKey = '_id';
     static schema: ObjectSchema = {
         name: 'History',
         primaryKey: '_id',

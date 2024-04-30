@@ -1,10 +1,12 @@
-import Realm from "realm";
+import Realm, { ObjectSchema } from "realm";
 
 
 export class Queue extends Realm.Object {
 
-    static schema = {
+    static primaryKey = '_id';
+    static schema: ObjectSchema = {
         name: 'Queue',
+        primaryKey: '_id',
         properties: {
             _id: 'objectId',
             user: 'User',
