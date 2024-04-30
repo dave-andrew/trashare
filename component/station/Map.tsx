@@ -1,14 +1,19 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Geo } from "../../app/(tabs)/station";
 import { Station } from "../../models/Station";
+import { useRealm } from "@realm/react";
+import { History } from "../../models/History";
+import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
     const [stationGeometry, setStationGeometry] = useState<Geo>()
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const realm = useRealm()
+    const userAdditionalInfo = useContext(AdditionalInfoContext);
 
     useEffect(() => {
         if (station) {
@@ -20,6 +25,29 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             })
         }
     }, [station])
+
+    const handleQueue = (method: string) => {
+        const queue = {
+            date: new Date(),
+            location: location,
+            station: station,
+            waste: [],
+            driver: null,
+            orderer: userAdditionalInfo,
+            createdAt: new Date(),
+            isComplete: false,
+            orderType: method
+        }
+        addQueue(queue)
+    }
+
+    const addQueue = useCallback((queue) => {
+        realm.write(
+            () => {
+                realm.create(History, queue)
+            }
+        ) 
+    }, [realm])
 
     useEffect(() => {
         if (station) {
@@ -73,7 +101,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                             <Pressable
                                 className='bg-blue-400 w-40 py-2 rounded-full flex items-center'
                                 onPress={() => {
-
+                                    handleQueue('send')
                                 }}
                             >
                                 <Text className='color-white font-medium'>Send Waste</Text>
@@ -81,7 +109,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                             <Pressable
                                 className='bg-blue-400 w-40 py-2 rounded-full flex items-center'
                                 onPress={() => {
-
+                                    handleQueue('visit')
                                 }}
                             >
                                 <Text className='color-white font-medium'>Visit Location</Text>
