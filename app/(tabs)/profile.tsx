@@ -1,7 +1,4 @@
-import { Button, Image, ImageBackground, Text, View } from "react-native";
-import EditScreenInfo from "../../component/EditScreenInfo";
-import { useEmailPasswordAuth } from "@realm/react";
-import { useRouter } from "expo-router";
+import { ImageBackground, Text, View } from "react-native";
 import { useContext } from "react";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import UserInfoDashboard from "../../component/profile/UserInfoDashboard";
@@ -9,14 +6,7 @@ import ProfileOptionList from "../../component/profile/ProfileOptionList";
 
 export default function Profile() {
 
-    const { logOut } = useEmailPasswordAuth();
-
-    const router = useRouter();
-
-    const handleLogout = () => {
-        logOut()
-        router.push('/auth')
-    }
+    
 
     const userAdditionalInfo = useContext(AdditionalInfoContext);
     return (
@@ -31,7 +21,7 @@ export default function Profile() {
             </ImageBackground>
             <UserInfoDashboard userAdditionalInfo={userAdditionalInfo} />
 
-            <Button title="Logout" onPress={handleLogout} />
+            {/* <Button title="Logout" onPress={handleLogout} /> */}
             <ProfileOptionList userAdditionalInfo={userAdditionalInfo} />
 
             {/* <EditScreenInfo path="app/(tabs)/profile.tsx" /> */}

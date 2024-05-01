@@ -2,7 +2,7 @@ import { Image, Linking, Text, View } from "react-native";
 import { News } from "../../models/News";
 
 
-export default function NewsPortalCard(props: { news: News }) {
+export default function NewsPortalCard(props: { news: any }) {
     return (
         <View className="w-[46%] rounded-xl shadow-2xl mb-4 mx-[6px]" style={[{
             backgroundColor: 'white',
