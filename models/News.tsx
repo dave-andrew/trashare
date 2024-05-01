@@ -13,7 +13,7 @@ export class News extends Realm.Object {
         name: 'News',
         primaryKey: '_id',
         properties: {
-            _id: {type: 'objectId', default: () => new BSON.ObjectID()},
+            _id: {type: 'objectId', default: new BSON.ObjectID()},
             title: 'string',
             imageLink: 'string',
             newsLink: 'string',

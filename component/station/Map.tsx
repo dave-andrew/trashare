@@ -4,7 +4,7 @@ import { Image, Pressable, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Geo } from "../../app/(tabs)/station";
 import { Station } from "../../models/Station";
-import { useRealm } from "@realm/react";
+import { useQuery, useRealm } from "@realm/react";
 import { History } from "../../models/History";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
 
@@ -14,6 +14,9 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const realm = useRealm()
     const userAdditionalInfo = useContext(AdditionalInfoContext);
+
+    const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo)
+    console.log(getQueue)
 
     useEffect(() => {
         if (station) {
@@ -27,9 +30,13 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     }, [station])
 
     const handleQueue = (method: string) => {
-        const queue = {
-            date: new Date(),
-            location: location,
+
+        const userLocation = {
+            lat: location.latitude,
+            lng: location.longitude
+        }
+        const queue : History = {
+            location: userLocation,
             station: station,
             waste: [],
             driver: null,

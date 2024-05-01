@@ -1,8 +1,10 @@
-import Realm, {BSON, ObjectSchema} from "realm";
+import Realm, {ObjectSchema} from "realm";
 
 export class Location extends Realm.Object {
-
-    static schema : ObjectSchema = {
+    lat!: number;
+    lng!: number;
+    
+    static schema : Realm.ObjectSchema = {
         embedded: true,
         name: 'Location',
         properties: {
