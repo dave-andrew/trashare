@@ -19,12 +19,12 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo)
     console.log('queue: ', getQueue)
 
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(getQueue)
-        })
+    // useEffect(() => {
+        // realm.subscriptions.update(mutableSubs => {
+        //     mutableSubs.add(getQueue)
+        // })
         // console.log(getQueue);
-    }, [realm]);
+    // }, [realm]);
 
     useEffect(() => {
         if (station) {
