@@ -7,16 +7,23 @@ import { Button, Text } from "react-native";
 export default function Newseeder() {
     const realm = useRealm();
     const newsList = useQuery(News);
-    console.log(newsList)
 
-    const addNews = useCallback(
-        (news) => {
-            return realm.write(() => {
-                return realm.create(News, news);
-            });
+    const addNews =  useCallback((n) => {
+        const a = realm.write(() => {
+            
+            return realm.create(News, n);
+        });
+        
+        console.log("Adding news: ", a);
+        return a 
     }, [realm, newsList])
 
     const seedNews = async () => {
+        if (newsList.length > 0) {
+            console.log("News already seeded");
+            return;
+        }
+
         const news = [
             {
                 title: "Turning the tide on Indonesia's waste crisis",
@@ -45,9 +52,12 @@ export default function Newseeder() {
             }
         ];
 
-        const newsData = news.map(news => {
-            return addNews(news);
+
+        const jadiNews = news.map(n => {
+            return addNews(n);
         })
+
+        console.log("Seeded news: ", jadiNews);
         
     };
 
@@ -60,7 +70,7 @@ export default function Newseeder() {
     return (
         <>
             <Text>newseeder</Text>
-            <Button title="try add new data" onPress={seedNews}></Button>
+            <Button title="Seed news" onPress={seedNews}></Button>
         </>
     )
 }

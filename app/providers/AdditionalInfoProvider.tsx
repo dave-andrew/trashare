@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useRealm, useUser } from "@realm/react";
 import AdditionalInfoPage from "../additionalInfoPage";
-import { getAdditionalInfo } from "../datas/queries/userQueries";
+import { getAdditionalInfo } from "../datas/queries/useQueries";
 
 export const AdditionalInfoContext = createContext(null)
 

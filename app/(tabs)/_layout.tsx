@@ -12,6 +12,7 @@ export default function TabLayout() {
                 marginHorizontal: 12,
                 marginBottom: 16,
                 borderRadius: 10,
+                backgroundColor: '#fff',
             },
             tabBarLabelStyle: {
                 marginTop: -10,
@@ -19,14 +20,14 @@ export default function TabLayout() {
             },
             headerStyle: {
                 borderRadius: 10,
-            }
+            },
         }}>
             <Tabs.Screen
                 name="index"
                 options={{
                     title: 'Home',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
-                    headerShown: false
+                    headerShown: false,
                 }}
             />
             <Tabs.Screen

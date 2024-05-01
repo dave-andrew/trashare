@@ -7,9 +7,9 @@ import AuthPage from "./auth";
 import AdditionalInfoProvider from "./providers/AdditionalInfoProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider } from 'react-native-paper';
+import { View } from "react-native";
 
 export default function AppLayout() {
-
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
@@ -30,7 +30,7 @@ export default function AppLayout() {
                             }}
                         >
                             <AdditionalInfoProvider>
-                                <Stack>
+                                <Stack screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
                                     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                                 </Stack>
                             </AdditionalInfoProvider>

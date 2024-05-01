@@ -95,7 +95,7 @@ export default function StationSeeder() {
             }
         ];
 
-        stations.map(station => {
+        const jadiStation = stations.map(station => {
             return addStation(station);
         })
         

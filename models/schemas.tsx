@@ -7,6 +7,7 @@ import {Location} from "./Location";
 import { Queue } from "./Queue";
 import { Waste } from "./Waste";
 import { History } from "./History";
+import { News } from "./News";
 
 
-export const schemas = [Task, User, OpeningHours, Geometry, Location, Station, Queue, Waste, History];
+export const schemas = [Task, User, OpeningHours, Geometry, Location, Station, Waste, History, News];
