@@ -10,6 +10,7 @@ export class History extends Realm.Object {
     station!: Station;
     waste!: Waste[];
     driver!: User;
+    orderType!: string;
     orderer!: User;
     createdAt!: Date;
     isComplete!: boolean;
@@ -19,7 +20,7 @@ export class History extends Realm.Object {
         name: 'History',
         primaryKey: '_id',
         properties: {
-            _id: {type: 'objectId', default: new BSON.ObjectId()},
+            _id: {type: 'objectId', default: () => new BSON.ObjectId()},
             location: 'Location',
             station: 'Station',
             waste: {

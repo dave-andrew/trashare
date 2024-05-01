@@ -7,6 +7,7 @@ import { Station } from "../../models/Station";
 import { useQuery, useRealm } from "@realm/react";
 import { History } from "../../models/History";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
+import { Location } from "../../models/Location";
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
@@ -16,7 +17,14 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const userAdditionalInfo = useContext(AdditionalInfoContext);
 
     const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo)
-    console.log(getQueue)
+    console.log('queue: ', getQueue)
+
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(getQueue)
+        })
+        // console.log(getQueue);
+    }, [realm]);
 
     useEffect(() => {
         if (station) {
@@ -35,7 +43,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             lat: location.latitude,
             lng: location.longitude
         }
-        const queue : History = {
+        const queue = {
             location: userLocation,
             station: station,
             waste: [],
@@ -49,11 +57,11 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     }
 
     const addQueue = useCallback((queue) => {
-        realm.write(
-            () => {
-                realm.create(History, queue)
+        const res = realm.write(() => {
+                return realm.create(History, queue)
             }
         ) 
+        console.log("result", res);
     }, [realm])
 
     useEffect(() => {
