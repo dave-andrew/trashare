@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import UserInfoDashboard from "../../component/profile/UserInfoDashboard";
+import ProfileOptionList from "../../component/profile/ProfileOptionList";
 
 export default function Profile() {
 
@@ -31,8 +32,9 @@ export default function Profile() {
             <UserInfoDashboard userAdditionalInfo={userAdditionalInfo} />
 
             <Button title="Logout" onPress={handleLogout} />
+            <ProfileOptionList userAdditionalInfo={userAdditionalInfo} />
 
-            <EditScreenInfo path="app/(tabs)/profile.tsx" />
+            {/* <EditScreenInfo path="app/(tabs)/profile.tsx" /> */}
         </View>
 
     );
