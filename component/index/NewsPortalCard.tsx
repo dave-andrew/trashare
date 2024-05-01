@@ -14,7 +14,7 @@ export default function NewsPortalCard(props: { news: any }) {
             elevation: 5,
         }]} onTouchEnd={() => Linking.openURL(props.news.newsLink)}>
             <Image source={{ uri: props.news.imageLink }} style={{ height: 100, borderTopLeftRadius: 10, borderTopRightRadius: 10 }} resizeMode="cover" />
-            <Text className="p-2">{props.news.title}</Text>
+            <Text className="py-2 px-3">{props.news.title}</Text>
         </View>
     )
 }

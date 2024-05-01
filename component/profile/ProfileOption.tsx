@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-export default function ProfileOption(props: { points?: number, menu: string, icon: any, onPress?: () => void}) {
+export default function ProfileOption(props: { points?: number, menu: string, icon: any, onPress?: () => void }) {
     if (props.menu == 'Total Points') {
         return (
             <View style={[{
