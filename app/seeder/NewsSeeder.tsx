@@ -15,7 +15,6 @@ export default function Newseeder() {
             return realm.create(News, n);
         });
         
-        console.log("Adding news: ", a);
         return a 
     }, [realm, newsList])
 
@@ -54,11 +53,10 @@ export default function Newseeder() {
         ];
 
 
-        const jadiNews = news.map(n => {
+        news.map(n => {
             return addNews(n);
         })
 
-        console.log("Seeded news: ", jadiNews);
         
     };
 
