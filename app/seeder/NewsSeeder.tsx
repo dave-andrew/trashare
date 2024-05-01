@@ -2,6 +2,7 @@ import { useQuery, useRealm } from "@realm/react";
 import { News } from "../../models/News";
 import { useCallback, useEffect } from "react";
 import { Button, Text } from "react-native";
+import { User } from "../../models/User";
 
 
 export default function Newseeder() {

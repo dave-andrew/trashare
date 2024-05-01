@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PaperProvider } from 'react-native-paper';
 import { View } from "react-native";
 
+
 export default function AppLayout() {
 
     return (
