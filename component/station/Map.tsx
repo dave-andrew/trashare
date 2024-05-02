@@ -15,8 +15,8 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const realm = useRealm()
     const userAdditionalInfo = useContext(AdditionalInfoContext);
 
-    const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo)
-    console.log(getQueue)
+    const getQueue = useQuery(History)
+    console.log("queue: ", getQueue)
 
     useEffect(() => {
         if (station) {
@@ -35,7 +35,8 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             lat: location.latitude,
             lng: location.longitude
         }
-        const queue : History = {
+
+        const queue: History = {
             location: userLocation,
             station: station,
             waste: [],
@@ -45,7 +46,9 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             isComplete: false,
             orderType: method
         }
+        
         addQueue(queue)
+        console.log(queue)
     }
 
     const addQueue = useCallback((queue) => {
@@ -53,7 +56,15 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             () => {
                 realm.create(History, queue)
             }
-        ) 
+        )
+    }, [realm])
+
+    const deleteQueue = useCallback((queue) => {
+        realm.write(
+            () => {
+                realm.delete(queue)
+            }
+        )
     }, [realm])
 
     useEffect(() => {
@@ -65,6 +76,12 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             setIsOpen(false)
         }
     }, [])
+
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(getQueue)
+        })
+    }, [realm, getQueue])
 
     return (
         <View className="flex-1">
@@ -104,24 +121,41 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                                 <Text className='text-gray-500'>{station.formattedAddress}</Text>
                             </View>
                         </View>
-                        <View style={{ flexDirection: 'row' }} className='justify-around mt-4'>
-                            <Pressable
-                                className='bg-blue-400 w-40 py-2 rounded-full flex items-center'
-                                onPress={() => {
-                                    handleQueue('send')
-                                }}
-                            >
-                                <Text className='color-white font-medium'>Send Waste</Text>
-                            </Pressable>
-                            <Pressable
-                                className='bg-blue-400 w-40 py-2 rounded-full flex items-center'
-                                onPress={() => {
-                                    handleQueue('visit')
-                                }}
-                            >
-                                <Text className='color-white font-medium'>Visit Location</Text>
-                            </Pressable>
-                        </View>
+                        {getQueue.length == 0 ? (
+                            <View style={{ flexDirection: 'row' }} className='justify-around mt-4'>
+                                <Pressable
+                                    className='bg-blue-400 w-40 py-2 rounded-full flex items-center'
+                                    onPress={() => {
+                                        handleQueue('send')
+                                    }}
+                                >
+                                    <Text className='color-white font-medium'>Send Waste</Text>
+                                </Pressable>
+                                <Pressable
+                                    className='bg-blue-400 w-40 py-2 rounded-full flex items-center'
+                                    onPress={() => {
+                                        handleQueue('visit')
+                                    }}
+                                >
+                                    <Text className='color-white font-medium'>Visit Location</Text>
+                                </Pressable>
+                            </View>
+                        ) : (
+                            <View className='mt-4'>
+                                <Text className='font-bold'>Queue On Progress</Text>
+                                <Pressable
+                                    className='bg-red-400 w-40 py-2 rounded-full flex items-center'
+                                    onPress={() => {
+                                        deleteQueue(getQueue[0])
+                                    }}
+                                >
+                                    <Text className='color-white font-medium'>Cancel</Text>
+                                </Pressable>
+                            </View>
+                        )}
+
+
+
                     </View>
                 </BottomSheet>
             )}
