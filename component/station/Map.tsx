@@ -42,7 +42,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             lat: location.latitude,
             lng: location.longitude
         }
-        const queue : History = {
+        const queue: History = {
             location: userLocation,
             station: station,
             waste: [],
@@ -50,16 +50,16 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             isComplete: false,
             orderType: method
         }
-        
+
         addQueue(queue)
         console.log(queue)
     }
 
     const addQueue = useCallback((queue) => {
         const res = realm.write(() => {
-                return realm.create(History, queue)
-            }
-        ) 
+            return realm.create(History, queue)
+        }
+        )
     }, [realm])
 
     const deleteQueue = useCallback((queue) => {
@@ -159,6 +159,44 @@ export default function Map({ location, station }: { location: Geo, station: Sta
 
 
 
+                    </View>
+                </BottomSheet>
+            )}
+
+            {!station && getQueue.length > 0 && (
+                <BottomSheet
+                    style={{ elevation: 5 }}
+                    snapPoints={['22%', '30%']}>
+                    <View className='p-6 pt-0'>
+                        <View className='flex items-center'>
+                            <Text className='text-lg font-bold'>{getQueue[0].station.name}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }} className='mt-4'>
+                            <Image
+                                className='w-[40%] h-24 rounded-lg mx-auto'
+                                source={{
+                                    uri: 'https://picsum.photos/200/300',
+                                }}
+                            />
+                            <View style={{ flexDirection: 'column' }}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text className={`font-bold ${isOpen ? "text-green-500" : "text-red-300"}`}>{isOpen ? "Open" : "Close"}</Text>
+                                    <Text className='ml-2 font-medium'>{getQueue[0].station.openingHours.open} - {getQueue[0].station.openingHours.close}</Text>
+                                </View>
+                                <Text className='text-gray-500'>{getQueue[0].station.formattedAddress}</Text>
+                            </View>
+                        </View>
+                        <View className='mt-4'>
+                            <Text className='font-bold'>Queue On Progress</Text>
+                            <Pressable
+                                className='bg-red-400 w-40 py-2 rounded-full flex items-center'
+                                onPress={() => {
+                                    deleteQueue(getQueue[0])
+                                }}
+                            >
+                                <Text className='color-white font-medium'>Cancel</Text>
+                            </Pressable>
+                        </View>
                     </View>
                 </BottomSheet>
             )}
