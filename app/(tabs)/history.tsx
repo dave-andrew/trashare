@@ -1,7 +1,17 @@
-import { Text, View } from "react-native";
-import EditScreenInfo from "../../component/EditScreenInfo";
+import { FlatList, Text, View } from "react-native";
+import { useQuery, useRealm, useUser } from "@realm/react";
+import { History } from "../../models/History";
+import HistoryList from "../../component/history/HistoryList";
 
-export default function History() {
+export default function HistoryPage() {
+
+
+    const user = useUser();
+    // filter the history and make sure that the orderer data is the same as the logged in data and the isComplete is true
+    const history = useQuery(History).filtered(`orderer._id == "${user._id}" AND isComplete == true`).sorted('createdAt', true);
+
+    console.log("History ", history)
+
     return (
         <View>
             <View
@@ -11,9 +21,23 @@ export default function History() {
                     <Text className="text-lg font-medium">History</Text>
                 </View>
             </View>
-            <Text>History</Text>
-            <EditScreenInfo path="app/(tabs)/history.tsx" />
-        </View>
+            {history.length == 0 ? (
+                <View className="justify-center items-center mt-4">
+                    <Text className="text-lg font-medium">No history yet? C'mon let's get some trash!</Text>
+                </View>
+            ) : (
+                <FlatList
+                    data={history}
+                    renderItem={
+                        ({ item }) => {
+                            return (
+                                <HistoryList history={item} />
+                            )
+                        }
+                    }
+                ></FlatList>
+            )}
+        </View >
 
     );
 }
