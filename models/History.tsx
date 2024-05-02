@@ -6,14 +6,13 @@ import { Location } from './Location';
 
 export class History extends Realm.Object {
     _id!: BSON.ObjectId;
-    location!: Location;
+    location!: string;
     station!: Station;
     waste!: Waste[];
-    driver!: User;
-    orderType!: string;
     orderer!: User;
     createdAt!: Date;
     isComplete!: boolean;
+    orderType!: string;
 
     static primaryKey = '_id';
     static schema: ObjectSchema = {
@@ -28,7 +27,6 @@ export class History extends Realm.Object {
                 objectType: 'Waste',
                 optional: false
             },
-            driver: 'User',
             orderer: 'User',
             createdAt: {type: 'date', default: new Date()},
             isComplete: {type: 'bool', default: false},

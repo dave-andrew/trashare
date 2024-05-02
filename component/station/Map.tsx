@@ -16,15 +16,15 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const realm = useRealm()
     const userAdditionalInfo = useContext(AdditionalInfoContext);
 
-    const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo)
+    const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo.username)
     console.log('queue: ', getQueue)
 
-    // useEffect(() => {
-        // realm.subscriptions.update(mutableSubs => {
-        //     mutableSubs.add(getQueue)
-        // })
-        // console.log(getQueue);
-    // }, [realm]);
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(getQueue)
+        })
+        console.log(getQueue);
+    }, [realm]);
 
     useEffect(() => {
         if (station) {
@@ -47,9 +47,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             location: userLocation,
             station: station,
             waste: [],
-            driver: null,
             orderer: userAdditionalInfo,
-            createdAt: new Date(),
             isComplete: false,
             orderType: method
         }
@@ -61,7 +59,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                 return realm.create(History, queue)
             }
         ) 
-        console.log("result", res);
+        console.log("Res ", res)
     }, [realm])
 
     useEffect(() => {
