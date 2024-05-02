@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "480548327882",
+    "project_id": "trashare-3a2a9",
+    "storage_bucket": "trashare-3a2a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480548327882:android:891fe42085f0a857787f33",
+        "android_client_info": {
+          "package_name": "com.bluejackets.trashare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgXxy2Xj9fCNcF3DY0ZwLRnCLErART8Ps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
