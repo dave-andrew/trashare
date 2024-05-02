@@ -7,7 +7,7 @@ export default function StationSeeder() {
 
     const realm = useRealm();
     const stationList = useQuery(Station);
-    console.log(stationList)
+    // console.log(stationList)
 
     const addStation = useCallback(
         (station) => {

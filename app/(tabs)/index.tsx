@@ -22,7 +22,7 @@ export default function Home() {
                     <Text className="text-lg font-medium color-white mt-14 ml-6">Hi, {userAdditionalInfo.username}</Text>
                 }
             </ImageBackground>
-            <ScrollView>
+            <ScrollView className="mb-24">
                 <View className="flex flex-row w-full">
                     <DashboardRoundedGrayBox customClass=" ml-4 mr-2"
                         label={"Total Points"}
@@ -34,9 +34,9 @@ export default function Home() {
                         units={'gr'}
                         icon={<FontAwesome size={28} name="anchor" color={'#656565'} />} />
                 </View>
-                <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/NewsSeeder")}><Text>News Seeder</Text></Pressable>
+                {/* <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/NewsSeeder")}><Text>News Seeder</Text></Pressable>
                 <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/StationSeeder")}><Text>Station Seeder</Text></Pressable>
-                <EditScreenInfo path="app/(tabs)/home.tsx" />
+                <EditScreenInfo path="app/(tabs)/home.tsx" /> */}
                 <SummaryInformationBar compostPoints={userAdditionalInfo?.compostWaste}
                     paperPoints={userAdditionalInfo?.paperWaste}
                     recyclablePoints={userAdditionalInfo?.recyclableWaste} />

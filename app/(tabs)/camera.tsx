@@ -27,7 +27,7 @@ export default function CameraPage() {
         const data = await result.blob()
 
         // TODO: Save photo + pake API Deep Learningnya
-        console.log(data)
+        // console.log(data)
     }
 
     return (
