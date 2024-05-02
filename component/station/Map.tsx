@@ -16,7 +16,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const realm = useRealm()
     const userAdditionalInfo = useContext(AdditionalInfoContext);
 
-    const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo.username)
+    const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo)
     console.log('queue: ', getQueue)
 
     useEffect(() => {
