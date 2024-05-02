@@ -20,12 +20,12 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const getQueue = useQuery(History).filtered(`isComplete == false`);
     console.log("queue", getQueue)
 
-    // useEffect(() => {
-        // realm.subscriptions.update(mutableSubs => {
-        //     mutableSubs.add(getQueue)
-        // })
-        // console.log(getQueue);
-    // }, [realm]);
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(getQueue)
+        })
+        console.log(getQueue);
+    }, [realm]);
 
     useEffect(() => {
         if (station) {
@@ -48,9 +48,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             location: userLocation,
             station: station,
             waste: [],
-            driver: null,
             orderer: userAdditionalInfo,
-            createdAt: new Date(),
             isComplete: false,
             orderType: method
         }
