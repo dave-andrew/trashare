@@ -11,7 +11,7 @@ export default function SummaryInformationRoundedBox(props: { categoryName: Stri
             }]}>
             <Text className="text-center"><FontAwesome size={40} name={props.iconName} color={accentColor} /></Text>
             <Text className="text-center text-xs font-semibold">{props.categoryName} Waste</Text>
-            <Text className="text-center text-lg font-extrabold mt-[-4]">{props?.point?.toFixed(1).toString()} pt</Text>
+            <Text className="text-center text-lg font-extrabold mt-[-4]">{props?.point?.toFixed(1).toString()} gr</Text>
         </View>
     )
 }

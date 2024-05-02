@@ -36,7 +36,7 @@ export default function Home() {
                 </View>
                 {/* <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/NewsSeeder")}><Text>News Seeder</Text></Pressable>
                 <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/StationSeeder")}><Text>Station Seeder</Text></Pressable>
-                <EditScreenInfo path="app/(tabs)/home.tsx" /> */}
+            <EditScreenInfo path="app/(tabs)/home.tsx" />*/}
                 <SummaryInformationBar compostPoints={userAdditionalInfo?.compostWaste}
                     paperPoints={userAdditionalInfo?.paperWaste}
                     recyclablePoints={userAdditionalInfo?.recyclableWaste} />

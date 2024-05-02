@@ -4,10 +4,9 @@ import { Image, Pressable, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Geo } from "../../app/(tabs)/station";
 import { Station } from "../../models/Station";
-import { useQuery, useRealm } from "@realm/react";
+import { useQuery, useRealm, useUser } from "@realm/react";
 import { History } from "../../models/History";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
-import { Location } from "../../models/Location";
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
@@ -15,9 +14,11 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const realm = useRealm()
     const userAdditionalInfo = useContext(AdditionalInfoContext);
+    const user = useUser();
 
-    const getQueue = useQuery(History).filtered('isComplete == false' && 'orderer == $0', userAdditionalInfo)
-    console.log('queue: ', getQueue)
+    // check if there is a queue that is not completed and the orderer is the same as the logged in user
+    const getQueue = useQuery(History).filtered(`isComplete == false`);
+    console.log("queue", getQueue)
 
     // useEffect(() => {
         // realm.subscriptions.update(mutableSubs => {
