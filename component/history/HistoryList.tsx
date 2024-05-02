@@ -20,12 +20,12 @@ export default function HistoryList({ history }: { history: History}) {
                     source={{
                         uri: 'https://picsum.photos/200/300',
                     }} />
-
+                
                 <View>
                     
                     {history.waste.map((waste, index) => {
                         return (
-                            <Text key={index} className="text-xs">{waste.station.name}</Text>
+                            <Text key={index} className="text-xs">{waste}</Text>
                         )
                     })}
 

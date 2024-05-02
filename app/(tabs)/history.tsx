@@ -2,14 +2,19 @@ import { FlatList, Text, View } from "react-native";
 import { useQuery, useRealm, useUser } from "@realm/react";
 import { History } from "../../models/History";
 import HistoryList from "../../component/history/HistoryList";
+import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
+import { useContext } from "react";
 
 export default function HistoryPage() {
 
 
-    const user = useUser();
-    // filter the history and make sure that the orderer data is the same as the logged in data and the isComplete is true
-    const history = useQuery(History).filtered(`orderer._id == "${user._id}" AND isComplete == true`).sorted('createdAt', true);
+    const userAdditionalInfo = useContext(AdditionalInfoContext);
 
+    // filter the history and make sure that the orderer data is the same as the logged in data and the isComplete is true
+    const pendingOrders = useQuery(History).filtered('isComplete == false AND orderer == $0', userAdditionalInfo).sorted('createdAt', true);
+    const history = useQuery(History).filtered('isComplete == false AND orderer == $0', userAdditionalInfo).sorted('createdAt', true);
+
+    console.log("Pending Orders ", pendingOrders)
     console.log("History ", history)
 
     return (

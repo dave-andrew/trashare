@@ -14,11 +14,9 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const realm = useRealm()
     const userAdditionalInfo = useContext(AdditionalInfoContext);
-    const user = useUser();
 
     // check if there is a queue that is not completed and the orderer is the same as the logged in user
-    const getQueue = useQuery(History).filtered(`isComplete == false`);
-    console.log("queue", getQueue)
+    const getQueue = useQuery(History).filtered('isComplete == false AND orderer == $0', userAdditionalInfo)
 
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {
