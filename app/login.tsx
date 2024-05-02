@@ -4,7 +4,6 @@ import {Alert, Image, ImageBackground, Pressable, Text, View} from "react-native
 import RoundedTextFIeld from "../component/form/RoundedTextField";
 import { Credential } from "./auth";
 
-
 export default function Login({setMode}: {setMode: (mode: boolean) => void}) {
 
     const [loading, setLoading] = useState(false);
