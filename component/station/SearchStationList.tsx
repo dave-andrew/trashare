@@ -34,9 +34,7 @@ export default function SearchStationList({setStation, search} : {setStation: Re
                         <SearchStationItem station={item} setStation={setStation} />
                     )
                 }}
-            >
-
-            </FlatList>
+            />
         </View>
     )
 }
