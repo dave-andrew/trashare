@@ -11,10 +11,10 @@ export default function HistoryPage() {
     const userAdditionalInfo = useContext(AdditionalInfoContext);
 
     // filter the history and make sure that the orderer data is the same as the logged in data and the isComplete is true
-    // const pendingOrders = useQuery(History).filtered('isComplete == false AND orderer == $0', userAdditionalInfo).sorted('createdAt', true);
-    const history = useQuery(History).filtered('isComplete == true AND orderer == $0', userAdditionalInfo).sorted('createdAt', true);
+    const pendingOrders = useQuery(History).filtered('isComplete == false AND orderer == $0', userAdditionalInfo).sorted('createdAt', true);
+    const history = useQuery(History).filtered('isComplete == false AND orderer == $0', userAdditionalInfo).sorted('createdAt', true);
 
-    // console.log("Pending Orders ", pendingOrders)
+    console.log("Pending Orders ", pendingOrders)
     console.log("History ", history)
 
     return (

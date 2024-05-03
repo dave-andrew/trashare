@@ -1,6 +1,7 @@
 import { Image, Pressable, Text, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useRef, useState } from "react";
+import { fetchResult } from "../../trashareAiConfig";
 
 export default function CameraPage() {
 
@@ -28,7 +29,9 @@ export default function CameraPage() {
         const data = await result.blob()
 
         // TODO: Save photo + pake API Deep Learningnya
-        console.log(data)
+        
+        const classification = fetchResult(data)
+        console.log(classification)
     }
 
     return (

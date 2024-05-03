@@ -35,9 +35,17 @@ export default function TabLayout() {
                 options={{
                     title: 'Station',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-pin" color={color} />,
-                    headerShown: false
+                    headerShown: false,
+                    
                 }}
             />
+            {/* <Tabs.Screen
+                name="queue"
+                options={{
+                    title: 'Queue',
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="list" color={color} />,
+                    headerShown: false,
+                }} /> */}
             <Tabs.Screen
                 name="camera"
                 options={{
