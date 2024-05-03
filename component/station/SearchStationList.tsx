@@ -7,7 +7,7 @@ import SearchStationItem from "./SearchStationItem";
 import { Results } from "realm";
 
 
-export default function SearchStationList({setStation, search} : {setStation: React.Dispatch<React.SetStateAction<Station>>, search: string}) {
+export default function SearchStationList({ setStation, search }: { setStation: React.Dispatch<React.SetStateAction<Station>>, search: string }) {
 
     const realm = useRealm()
     const locations = useQuery(Station)
@@ -35,3 +35,7 @@ export default function SearchStationList({setStation, search} : {setStation: Re
                     )
                 }}
             >
+            </FlatList>
+        </View>
+    )
+}
