@@ -8,11 +8,11 @@ import { useContext } from "react";
 
 export default function QueuePage() {
 
-    const userAdditionalInfo = useContext(AdditionalInfoContext);
+    const { additionalInfo } = useContext(AdditionalInfoContext);
     const stationQueue = useQuery(History).filtered('isComplete == true').sorted('createdAt', true);
     console.log("Station Queue ", stationQueue)
 
-    console.log(userAdditionalInfo.station)
+    console.log(additionalInfo.station)
 
     return (
         <View>
@@ -21,7 +21,7 @@ export default function QueuePage() {
                     <Text className="text-lg font-medium">Queue</Text>
                 </View>
                 <FlatList
-                    style={{ paddingHorizontal: 12, paddingVertical: 8}}
+                    style={{ paddingHorizontal: 12, paddingVertical: 8 }}
                     data={[]}
                     renderItem={
                         ({ item }) => {

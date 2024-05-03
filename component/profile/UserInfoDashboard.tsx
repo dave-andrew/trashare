@@ -3,7 +3,7 @@ import { User } from "../../models/User";
 
 
 
-export default function UserInfoDashboard({ userAdditionalInfo }: { userAdditionalInfo: User }) {
+export default function UserInfoDashboard({ additionalInfo }: { additionalInfo: User }) {
     return (
         <View style={[{
             marginTop: 20,
@@ -12,15 +12,15 @@ export default function UserInfoDashboard({ userAdditionalInfo }: { userAddition
                 fontSize: 30,
                 fontWeight: 'bold',
                 textAlign: 'center'
-            }]}>{userAdditionalInfo.username}</Text>
+            }]}>{additionalInfo?.username}</Text>
             <Text style={[{
                 fontSize: 14,
                 textAlign: 'center'
-            }]}>{userAdditionalInfo.gender}</Text>
+            }]}>{additionalInfo?.gender}</Text>
             <Text style={[{
                 fontSize: 14,
                 textAlign: 'center'
-            }]}>+62{userAdditionalInfo.phone}</Text>
+            }]}>+62{additionalInfo?.phone}</Text>
         </View>
     )
 }

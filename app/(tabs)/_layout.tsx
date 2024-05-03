@@ -5,7 +5,7 @@ import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
 export default function TabLayout() {
 
-    const additionalUserInfo = useContext(AdditionalInfoContext);
+    const { additionalUserInfo } = useContext(AdditionalInfoContext);
 
     return (
         <Tabs screenOptions={{
@@ -46,7 +46,7 @@ export default function TabLayout() {
                         }
                     },
                     headerShown: false,
-                    
+
                 }}
             />
             <Tabs.Screen

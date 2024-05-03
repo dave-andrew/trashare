@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useRealm, useUser } from "@realm/react";
-import AdditionalInfoPage from "../additionalInfoPage";
+import AdditionalInfoPage from "../miscPage/additionalInfoPage";
 import { getAdditionalInfo } from "../datas/queries/useQueries";
 import { User } from "../../models/User";
 
@@ -29,7 +29,7 @@ export default function AdditionalInfoProvider({ children }: { children: React.R
         )
     } else {
         return (
-            <AdditionalInfoContext.Provider value={additionalInfo}>
+            <AdditionalInfoContext.Provider value={{additionalInfo, setAdditionalInfo}}>
                 {children}
             </AdditionalInfoContext.Provider>
         );
