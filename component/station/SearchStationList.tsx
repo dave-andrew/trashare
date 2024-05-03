@@ -27,7 +27,7 @@ export default function SearchStationList({setStation, search} : {setStation: Re
     return (
         <View className="flex-1">
             <FlatList
-                className="flex-1 mt-32"
+                className="flex-1 mt-28"
                 data={filterStation}
                 renderItem={({ item }) => {
                     return (

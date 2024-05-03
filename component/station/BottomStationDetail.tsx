@@ -23,17 +23,19 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
   return (
     <BottomSheet
       style={{ elevation: 5, paddingHorizontal: 12, gap: 10 }}
-      snapPoints={['38%', '40%']}
+      snapPoints={['40%', '40%']}
+      enablePanDownToClose={getQueue.length == 0 ? true : false}
+      handleIndicatorStyle={{ backgroundColor: '#eee', width: 60, height: 6}}
     >
 
       <Text className='text-center text-lg font-bold'>{station.name}</Text>
 
-      <View className='flex flex-row justify-between'>
+      <View className='flex flex-row justify-between mt-4'>
         <Image
           style={{ borderRadius: 10 }}
           className='w-[49%] h-28'
           source={{
-            uri: 'https://picsum.photos/200/300',
+            uri: station.imageUrl,
           }}
         />
         <View className="w-[49%] flex">
@@ -41,13 +43,12 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
             <Text className={`font-bold ${isOpen ? "text-green-500" : "text-red-500"}`}>{isOpen ? "Open" : "Close"}</Text>
             <Text>({station.openingHours.open} - {station.openingHours.close})</Text>
           </View>
-
-          <Text className="">{station.formattedAddress}, aghsghagjgakasdasadadasdsadasaaaaaaaaaaa</Text>
+          <Text className="mt-1 text-xs">{station.formattedAddress}</Text>
         </View>
       </View>
 
       {getQueue.length == 0 ? (
-        <View className='flex flex-row justify-between'>
+        <View className='flex flex-row justify-between mt-4'>
           <Pressable
             style={{ backgroundColor: "#00B1F7" }}
             className='w-[49%] py-2 rounded-full'

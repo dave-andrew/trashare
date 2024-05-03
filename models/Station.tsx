@@ -12,6 +12,7 @@ export class Station extends Realm.Object {
     imageUrl: string;
     openingHours: OpeningHours;
     mainType: string;
+    gmapUrl: string;
     users: User[];
 
     static primaryKey = '_id';
@@ -26,6 +27,7 @@ export class Station extends Realm.Object {
             name: 'string',
             openingHours: 'OpeningHours',
             mainType: 'string',
+            gmapUrl: 'string',
         }
     }
 }
