@@ -3,10 +3,10 @@ import { useRealm } from "@realm/react";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
 import RoundedTextField from "../component/form/RoundedTextField";
 import RoundedRadioButton from "../component/form/RoundedRadioButton";
-import useAdditionalInfo from "./hooks/useAdditionalInfo";
+import { useMutationAdditionalInfo } from "./datas/mutations/useAdditionalInfo";
 import RoundedPhoneNumberField from "../component/form/RoundedPhoneNumberField";
 
-export default function AdditionalInfoPage({ user_id, setStateContext}: { user_id: string , setStateContext: Dispatch<any>}) {
+export default function AdditionalInfoPage({ user_id, setStateContext }: { user_id: string, setStateContext: Dispatch<any>}) {
 
     const realm = useRealm()
     const [additionalInfoInput, setAdditionalInfoInput] = useState({
@@ -16,7 +16,7 @@ export default function AdditionalInfoPage({ user_id, setStateContext}: { user_i
     })
     const [loading, setLoading] = useState(false)
 
-    const { registerAdditionalInfo } = useAdditionalInfo()
+    const { registerAdditionalInfo } = useMutationAdditionalInfo()
     const handleRegister = () => {
         if (!loading) {
             setLoading(true)

@@ -29,7 +29,7 @@ export default function AdditionalInfoProvider({ children }: { children: React.R
         )
     } else {
         return (
-            <AdditionalInfoContext.Provider value={additionalInfo}>
+            <AdditionalInfoContext.Provider value={{additionalInfo, setAdditionalInfo}}>
                 {children}
             </AdditionalInfoContext.Provider>
         );

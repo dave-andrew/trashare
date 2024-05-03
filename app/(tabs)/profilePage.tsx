@@ -7,10 +7,14 @@ import ProfileOptionList from "../../component/profile/ProfileOptionList";
 import { ImageLibraryOptions, launchImageLibrary } from 'react-native-image-picker';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
+import { useRealm } from "@realm/react";
+import { useMutationAdditionalInfo } from "../datas/mutations/useAdditionalInfo";
 
 export default function ProfilePage() {
 
-    const userAdditionalInfo = useContext(AdditionalInfoContext);
+    const {additionalInfo} = useContext(AdditionalInfoContext);
+    console.log("User Additional Info", additionalInfo);
+
     const animation = useMemo(() => new Animated.Value(-142), []);
     useEffect(() => {
         Animated.timing(animation, {
@@ -21,11 +25,14 @@ export default function ProfilePage() {
         }).start();
     }, [animation]);
 
+    const { updateProfilePicture } = useMutationAdditionalInfo()
+    const realm = useRealm()
     const handleUploadPhoto = () => {
         const options: ImageLibraryOptions = {
             mediaType: 'photo',
             quality: 1,
         }
+
         launchImageLibrary(options, async (response) => {
             // Validation
             if (response.didCancel) {
@@ -41,7 +48,7 @@ export default function ProfilePage() {
             const theBlob = await fetchResponse.blob();
             // console.log("The Blob", theBlob);
 
-            const imageRef = ref(storage, `profile-pictures/${userAdditionalInfo?.uid}`);
+            const imageRef = ref(storage, `profile-pictures/${additionalInfo?.uid}`);
             const uploadTask = uploadBytesResumable(imageRef, theBlob);
 
             uploadTask.on('state_changed',
@@ -56,6 +63,11 @@ export default function ProfilePage() {
                     console.log('Upload is done');
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                     console.log('File available at', downloadURL);
+                    updateProfilePicture({
+                        user_id: additionalInfo._id,
+                        profileUrl: downloadURL,
+                        realm: realm,
+                    })
                 }
             )
         });
@@ -72,11 +84,11 @@ export default function ProfilePage() {
             </Animated.View>
             <View
                 className='w-full h-[28vh]'>
-                {userAdditionalInfo &&
+                {additionalInfo &&
                     <>
                         <Text className="text-lg text-center color-white mt-8">Profile</Text>
                         <View className="rounded-full border-[6px] border-white h-36 w-36 mt-12 mx-auto p-0 relative">
-                            <Image source={{ uri: userAdditionalInfo.profileUrl }} className="h-full w-full" />
+                            <Image source={{ uri: additionalInfo.profileUrl }} className="h-full w-full rounded-full" />
                             <Pressable className="absolute  bottom-0 right-[-6] h-10 w-10 bg-white rounded-full flex place-items-center text-center justify-center" style={[{
                                 shadowColor: '#000',
                                 elevation: 3
@@ -90,8 +102,8 @@ export default function ProfilePage() {
                     </>
                 }
             </View>
-            <UserInfoDashboard userAdditionalInfo={userAdditionalInfo} />
-            <ProfileOptionList userAdditionalInfo={userAdditionalInfo} />
+            <UserInfoDashboard additionalInfo={additionalInfo} />
+            <ProfileOptionList additionalInfo={additionalInfo} />
 
             {/* <EditScreenInfo path="app/(tabs)/profile.tsx" /> */}
         </View>

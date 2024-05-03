@@ -12,10 +12,10 @@ export default function Map({ location, station }: { location: Geo, station: Sta
 
     const [stationGeometry, setStationGeometry] = useState<Geo>()
     const realm = useRealm()
-    const userAdditionalInfo = useContext(AdditionalInfoContext);
+    const { additionalInfo } = useContext(AdditionalInfoContext);
 
     // check if there is a queue that is not completed and the orderer is the same as the logged in user
-    const getQueue = useQuery(History).filtered('orderer == $0', userAdditionalInfo)
+    const getQueue = useQuery(History).filtered('orderer == $0', additionalInfo)
 
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {
@@ -45,7 +45,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             location: userLocation,
             station: station,
             waste: [],
-            orderer: userAdditionalInfo,
+            orderer: additionalInfo,
             isComplete: false,
             orderType: method
         }
@@ -91,11 +91,11 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                 )}
             </MapView>
             {station && (
-                <BottomStationDetail station={station} getQueue={getQueue} handleQueue={handleQueue} deleteQueue={deleteQueue}/>
+                <BottomStationDetail station={station} getQueue={getQueue} handleQueue={handleQueue} deleteQueue={deleteQueue} />
             )}
 
             {!station && getQueue.length > 0 && (
-                <BottomStationDetail station={getQueue[0].station} getQueue={getQueue} handleQueue={handleQueue} deleteQueue={deleteQueue}/>
+                <BottomStationDetail station={getQueue[0].station} getQueue={getQueue} handleQueue={handleQueue} deleteQueue={deleteQueue} />
             )}
         </View>
     )

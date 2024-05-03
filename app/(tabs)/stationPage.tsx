@@ -24,7 +24,7 @@ export default function StationPage() {
         longitudeDelta: 0.0421
     });
 
-    const userAdditionalInfo = useContext(AdditionalInfoContext);
+    const { additionalInfo } = useContext(AdditionalInfoContext);
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [search, setSearch] = useState('');
@@ -55,7 +55,7 @@ export default function StationPage() {
     }, [station])
 
     // TODO: kasih validasi user disini, kalo dia milik station, maka dia akan menampilkan Queue Page
-    if (userAdditionalInfo?.role === 'station') {
+    if (additionalInfo?.role === 'station') {
         return <QueuePage />
     }
 
@@ -64,10 +64,10 @@ export default function StationPage() {
             <View className='absolute top-12 left-0 right-0 z-10'>
                 <SearchBar
                     placeholder='Search station...'
-                    style={{elevation: 5, borderRadius: 100, padding: 5, width: '95%'}}
+                    style={{ elevation: 5, borderRadius: 100, padding: 5, width: '95%' }}
                     onChangeText={(text) => { setSearch(text) }}
                     value={search}
-                    onClearPress={() => { setIsSearching(false); setSearch('')}}
+                    onClearPress={() => { setIsSearching(false); setSearch('') }}
                     onFocus={() => { setIsSearching(true) }}
                 />
             </View>

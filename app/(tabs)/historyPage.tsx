@@ -8,8 +8,8 @@ import CircularFilterDisk from "../../component/history/CircularFilterDisk";
 
 export default function HistoryPage() {
 
-    const userAdditionalInfo = useContext(AdditionalInfoContext);
-    const history = useQuery(History).filtered('orderer == $0', userAdditionalInfo).sorted('createdAt', true);
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    const history = useQuery(History).filtered('orderer == $0', additionalInfo).sorted('createdAt', true);
 
     console.log("History ", history)
 
@@ -26,7 +26,7 @@ export default function HistoryPage() {
                     shadowRadius: 3.84,
                     elevation: 5,
                 }}>
-                {userAdditionalInfo &&
+                {additionalInfo &&
                     <Text className="text-lg text-center mt-14 font-medium">History</Text>
                 }
             </View>
@@ -39,13 +39,13 @@ export default function HistoryPage() {
 
             {history.length == 0 ? (
                 <View className="justify-center items-center my-auto pb-12">
-                    <Image source={require('../../assets/illustration/trash.png')} className={"mx-auto"} style={{width: 160, height: 160}}  />
+                    <Image source={require('../../assets/illustration/trash.png')} className={"mx-auto"} style={{ width: 160, height: 160 }} />
                     <Text className="text-lg font-medium">There is no history yet...</Text>
                     <Text className="text-gray-500">No history yet? C'mon let's get some trash!</Text>
                 </View>
             ) : (
                 <FlatList
-                    style={{ paddingHorizontal: 8, paddingVertical: 8}}
+                    style={{ paddingHorizontal: 8, paddingVertical: 8 }}
                     data={history}
                     renderItem={
                         ({ item }) => {
