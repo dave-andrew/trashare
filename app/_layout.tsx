@@ -17,7 +17,13 @@ export default function AppLayout() {
                             fontWeight: 'bold',
                         },
                     }} />
+                    <Stack.Screen name="finish/finishPage"
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
                 </Stack>
+
             </ProviderIndex>
         </GestureHandlerRootView>
     );

@@ -7,9 +7,11 @@ import { Station } from "../../models/Station"
 import { Results } from "realm"
 import { Linking } from 'react-native';
 import BottomButtons from "./BottomButtons";
+import { useRouter } from "expo-router";
 
 export default function BottomStationDetail({ station, getQueue, handleQueue, deleteQueue }: { station: Station, getQueue: Results<History>, handleQueue: (method: string) => void, deleteQueue: (queue: any) => void }) {
 
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   useEffect(() => {
@@ -33,12 +35,12 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
       <View className='flex flex-row justify-between my-4'>
         <Image
           style={{ borderRadius: 10 }}
-          className='w-[49%] h-28'
+          className='w-[38%] h-28'
           source={{
             uri: station.imageUrl,
           }}
         />
-        <View className="w-[49%] flex">
+        <View className="w-[58%] flex">
           <View className="flex flex-row gap-1">
             <Text className={`font-bold ${isOpen ? "text-green-500" : "text-red-500"}`}>{isOpen ? "Open" : "Close"}</Text>
             <Text>({station.openingHours.open} - {station.openingHours.close})</Text>
@@ -59,8 +61,8 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
           leftType={"Red"}
           leftText={"Cancel"}
           leftClick={() => deleteQueue(getQueue[0])}
-          rightText={"Chat Driver"}
-          rightClick={() => { }} />
+          rightText={"Chat Station"}
+          rightClick={() => router.push({pathname: 'finish/finishPage'})} />
         ) : (
           <BottomButtons
           leftType={"Red"}

@@ -63,7 +63,6 @@ export default function AdditionalInfoPage({ user_id, setStateContext }: { user_
                             onTouchFunction={() => setAdditionalInfoInput({ ...additionalInfoInput, gender: "Female" })} />
                     </View>
 
-
                     <Pressable
                         className={"rounded-2xl bg-sky-400 mt-4 mx-auto"}
                         onPress={handleRegister}

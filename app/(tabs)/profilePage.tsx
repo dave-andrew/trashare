@@ -13,7 +13,6 @@ import { useMutationAdditionalInfo } from "../datas/mutations/useAdditionalInfo"
 export default function ProfilePage() {
 
     const {additionalInfo} = useContext(AdditionalInfoContext);
-    console.log("User Additional Info", additionalInfo);
 
     const animation = useMemo(() => new Animated.Value(-142), []);
     useEffect(() => {
