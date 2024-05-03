@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import SearchBar from "react-native-dynamic-search-bar";
 import Map from '../../component/station/Map';
-import Stations from '../../component/station/Stations';
+import SearchStationList from '../../component/station/SearchStationList';
 import * as Location from 'expo-location';
 import { Station } from '../../models/Station';
 
@@ -65,7 +65,7 @@ export default function StationPage() {
 
             {isSearching ? (
                 <View className='flex-1'>
-                    <Stations setStation={setStation} search={search} />
+                    <SearchStationList setStation={setStation} search={search} />
                 </View>
             ) : (
                 <View className='flex-1'>

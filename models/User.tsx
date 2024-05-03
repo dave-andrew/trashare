@@ -25,7 +25,7 @@ export class User extends Realm.Object {
             gender: 'string',
             points: { type: 'int', default: 0},
             createdAt: { type: 'date', default: new Date()},
-            profileUrl: { type: 'string', default: ''},
+            profileUrl: { type: 'string', default: 'https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/user-default.jpg?alt=media&token=67be8ce8-3fa2-4812-9749-aa3afb8f468d'},
             paperWaste: { type: 'int', default: 0},
             recyclableWaste: { type: 'int', default: 0},
             compostWaste: { type: 'int', default: 0},

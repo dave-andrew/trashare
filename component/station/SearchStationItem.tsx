@@ -2,7 +2,7 @@ import { Image, Pressable, Text, View } from "react-native";
 import { Station } from "../../models/Station";
 
 
-export default function StationList({ station, setStation }: { station: Station, setStation: React.Dispatch<React.SetStateAction<Station>>}) {
+export default function SearchStationItem({ station, setStation }: { station: Station, setStation: React.Dispatch<React.SetStateAction<Station>>}) {
 
     const test = () => {
         setStation(station)
