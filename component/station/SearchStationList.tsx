@@ -3,11 +3,11 @@ import { Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { Station } from "../../models/Station";
-import StationList from "./StationList";
+import SearchStationItem from "./SearchStationItem";
 import { Results } from "realm";
 
 
-export default function Stations({setStation, search} : {setStation: React.Dispatch<React.SetStateAction<Station>>, search: string}) {
+export default function SearchStationList({setStation, search} : {setStation: React.Dispatch<React.SetStateAction<Station>>, search: string}) {
 
     const realm = useRealm()
     const locations = useQuery(Station)
@@ -31,7 +31,7 @@ export default function Stations({setStation, search} : {setStation: React.Dispa
                 data={filterStation}
                 renderItem={({ item }) => {
                     return (
-                        <StationList station={item} setStation={setStation} />
+                        <SearchStationItem station={item} setStation={setStation} />
                     )
                 }}
             >
