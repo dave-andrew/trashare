@@ -1,33 +1,34 @@
 import { Image, Pressable, Text, View } from "react-native";
-import { Camera, useCameraDevice, useCameraPermission } from "react-native-vision-camera";
-import { useEffect, useRef } from "react"; // Import useState for loading state
+import { Camera, CameraType } from "expo-camera";
+import { useEffect, useRef, useState } from "react";
 
 export default function CameraPage() {
 
-    const { hasPermission, requestPermission } = useCameraPermission();
+    const camera = useRef<Camera>(null);
+    const type = CameraType.back;
+
+    const [device, setDevice] = useState<CameraType | undefined>(undefined);
 
     useEffect(() => {
-        if (!hasPermission) {
-            console.log("Requesting camera permission...");
-            requestPermission();
-        }
-    }, [hasPermission, requestPermission]);
-
-    const device = useCameraDevice('back');
-
-    const camera = useRef<Camera>(null);
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            if (status === "granted") {
+                setDevice(type);
+            }
+        })();
+    }, []);
 
     if (!device) {
         return <Text>No camera device detected!</Text>;
     }
 
     const handlePhoto = async () => {
-        const photo = await camera.current?.takePhoto();
-        const result = await fetch(`file://${photo.path}`)
+        const photo = await camera.current?.takePictureAsync();
+        const result = await fetch(`file://${photo?.uri}`)
         const data = await result.blob()
 
         // TODO: Save photo + pake API Deep Learningnya
-        // console.log(data)
+        console.log(data)
     }
 
     return (
@@ -41,10 +42,8 @@ export default function CameraPage() {
             </View>
             <Camera
                 ref={camera}
-                device={device}
-                isActive={true}
+                type={device}
                 className="flex-1 absolute top-0 left-0 w-full h-full"
-                photo={true}
             />
 
             <Pressable 
