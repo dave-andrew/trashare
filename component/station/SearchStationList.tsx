@@ -35,8 +35,3 @@ export default function SearchStationList({setStation, search} : {setStation: Re
                     )
                 }}
             >
-
-            </FlatList>
-        </View>
-    )
-}

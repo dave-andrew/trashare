@@ -61,13 +61,13 @@ export default function StationPage() {
 
     return (
         <View style={{ flex: 1 }}>
-            <View className='absolute top-16 left-0 right-0 z-10'>
+            <View className='absolute top-12 left-0 right-0 z-10'>
                 <SearchBar
-                    placeholder='Search for a station'
-                    style={{elevation: 5}}
+                    placeholder='Search station...'
+                    style={{elevation: 5, borderRadius: 100, padding: 5, width: '95%'}}
                     onChangeText={(text) => { setSearch(text) }}
                     value={search}
-                    onClearPress={() => { setSearch('') }}
+                    onClearPress={() => { setIsSearching(false); setSearch('')}}
                     onFocus={() => { setIsSearching(true) }}
                 />
             </View>

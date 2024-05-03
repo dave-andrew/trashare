@@ -19,7 +19,8 @@ export default function TabLayout() {
             },
             tabBarLabelStyle: {
                 marginTop: -10,
-                marginBottom: 10
+                marginBottom: 10,
+                fontSize: 12,
             },
             headerStyle: {
                 borderRadius: 10,
