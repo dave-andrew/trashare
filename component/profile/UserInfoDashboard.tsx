@@ -6,7 +6,7 @@ import { User } from "../../models/User";
 export default function UserInfoDashboard({ userAdditionalInfo }: { userAdditionalInfo: User }) {
     return (
         <View style={[{
-            marginVertical: 20,
+            marginTop: 20,
         }]}>
             <Text style={[{
                 fontSize: 30,
