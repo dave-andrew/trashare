@@ -6,9 +6,13 @@ import { Location } from './Location';
 
 export class History extends Realm.Object {
     _id!: BSON.ObjectId;
-    location!: string;
+    location!: { lat: number, lng: number };
     station!: Station;
-    waste!: Waste[];
+    waste!: {
+        wasteType: string,
+        weight: number,
+        imageUrl: string,
+    }[];
     orderer!: User;
     createdAt!: Date;
     isComplete!: boolean;
@@ -19,7 +23,7 @@ export class History extends Realm.Object {
         name: 'History',
         primaryKey: '_id',
         properties: {
-            _id: {type: 'objectId', default: () => new BSON.ObjectId()},
+            _id: { type: 'objectId', default: () => new BSON.ObjectId() },
             location: 'Location',
             station: 'Station',
             waste: {
@@ -28,9 +32,9 @@ export class History extends Realm.Object {
                 optional: false
             },
             orderer: 'User',
-            createdAt: {type: 'date', default: new Date()},
-            isComplete: {type: 'bool', default: false},
-            orderType: {type: 'string'}
+            createdAt: { type: 'date', default: new Date() },
+            isComplete: { type: 'bool', default: false },
+            orderType: { type: 'string' }
         }
     }
 }
