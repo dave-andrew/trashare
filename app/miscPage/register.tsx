@@ -1,7 +1,7 @@
 import { useEmailPasswordAuth, AuthOperationName } from "@realm/react";
 import { useEffect, useState } from "react";
 import { Text, View, Alert, ImageBackground, Image, Touchable, Pressable } from "react-native";
-import RoundedTextFIeld from "../component/form/RoundedTextField";
+import RoundedTextFIeld from "../../component/form/RoundedTextField";
 
 
 export default function Register({ setMode }: {
@@ -45,10 +45,10 @@ export default function Register({ setMode }: {
     };
 
     return (
-        <ImageBackground source={require('../assets/backgrounds/RegisterBG.png')}
+        <ImageBackground source={require('../../assets/backgrounds/RegisterBG.png')}
             style={{ width: '100%', height: '100%' }}>
             <View className="p-6 flex justify-center place-items-center h-full w-full">
-                <Image source={require('../assets/logo/trashare.png')} className={"mx-auto"} />
+                <Image source={require('../../assets/logo/trashare.png')} className={"mx-auto"} />
                 <View className="bg-white p-8 mt-4 rounded-xl">
                     <Text
                         className="text-xl font-bold text-center mb-6">Create an Account</Text>

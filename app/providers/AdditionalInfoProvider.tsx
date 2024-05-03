@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useRealm, useUser } from "@realm/react";
-import AdditionalInfoPage from "../additionalInfoPage";
+import AdditionalInfoPage from "../miscPage/additionalInfoPage";
 import { getAdditionalInfo } from "../datas/queries/useQueries";
 import { User } from "../../models/User";
 

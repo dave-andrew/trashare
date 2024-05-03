@@ -1,10 +1,10 @@
 import { Dispatch, useContext, useState } from "react";
 import { useRealm } from "@realm/react";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
-import RoundedTextField from "../component/form/RoundedTextField";
-import RoundedRadioButton from "../component/form/RoundedRadioButton";
-import { useMutationAdditionalInfo } from "./datas/mutations/useAdditionalInfo";
-import RoundedPhoneNumberField from "../component/form/RoundedPhoneNumberField";
+import RoundedTextField from "../../component/form/RoundedTextField";
+import RoundedRadioButton from "../../component/form/RoundedRadioButton";
+import { useMutationAdditionalInfo } from "../datas/mutations/useAdditionalInfo";
+import RoundedPhoneNumberField from "../../component/form/RoundedPhoneNumberField";
 
 export default function AdditionalInfoPage({ user_id, setStateContext }: { user_id: string, setStateContext: Dispatch<any>}) {
 
@@ -32,10 +32,10 @@ export default function AdditionalInfoPage({ user_id, setStateContext }: { user_
     }
 
     return (
-        <ImageBackground source={require('../assets/backgrounds/RegisterBG.png')}
+        <ImageBackground source={require('../../assets/backgrounds/RegisterBG.png')}
             style={{ width: '100%', height: '100%' }}>
             <View className="p-6 flex justify-center place-items-center h-full w-full">
-                <Image source={require('../assets/logo/trashare.png')} className={"mx-auto"} />
+                <Image source={require('../../assets/logo/trashare.png')} className={"mx-auto"} />
                 <View className="bg-white p-8 mt-4 rounded-xl">
                     <Text
                         className="text-xl font-bold text-center mb-6">Let us get to know{"\n"}you better! 👋</Text>

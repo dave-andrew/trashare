@@ -2,7 +2,7 @@ import { AppProvider, RealmProvider, UserProvider } from "@realm/react";
 import { OpenRealmBehaviorType, OpenRealmTimeOutBehavior } from "realm";
 import { PaperProvider } from 'react-native-paper';
 import { SYNC_CONFIG } from "../../sync.config";
-import AuthPage from "../auth";
+import AuthPage from "../miscPage/auth";
 import { schemas } from "../../models/schemas";
 import AdditionalInfoProvider from "./AdditionalInfoProvider";
 

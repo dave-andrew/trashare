@@ -9,6 +9,14 @@ export default function AppLayout() {
             <ProviderIndex>
                 <Stack screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
                     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    <Stack.Screen name="miscPage/faqPage" options={{
+                        title: "Frequently Asked Question",
+                        headerStyle: { backgroundColor: '#fff' },
+                        headerTintColor: '#000',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        },
+                    }} />
                 </Stack>
             </ProviderIndex>
         </GestureHandlerRootView>

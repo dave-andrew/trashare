@@ -57,7 +57,7 @@ export default function ProfilePage() {
                     console.log('Upload is ' + progress + '% done');
                 },
                 (error) => {
-                    console.log(error);
+                    console.log("Error uploading image: ", error);
                 },
                 async () => {
                     console.log('Upload is done');
