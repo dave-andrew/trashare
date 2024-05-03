@@ -26,23 +26,23 @@ export default function ProfilePage() {
             quality: 1,
         }
         launchImageLibrary(options, (response) => {
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-                return;
-            }
-            if (!response.assets) {
-                console.log('No image selected');
-                return;
-            }
-            const asset = response.assets[0];
-            const path = `profile-pictures/${asset.fileName}`;
-            const ref = storage(path);
-            const task = ref.putFile(asset);
-            task.then(() => {
-                console.log('Image uploaded to Firebase Storage');
-            }).catch((error) => {
-                console.log('Error uploading image to Firebase Storage:', error);
-            });
+            // if (response.didCancel) {
+            //     console.log('User cancelled image picker');
+            //     return;
+            // }
+            // if (!response.assets) {
+            //     console.log('No image selected');
+            //     return;
+            // }
+            // const asset = response.assets[0];
+            // const path = `profile-pictures/${asset.fileName}`;
+            // const ref = storage(path);
+            // const task = ref.putFile(asset);
+            // task.then(() => {
+            //     console.log('Image uploaded to Firebase Storage');
+            // }).catch((error) => {
+            //     console.log('Error uploading image to Firebase Storage:', error);
+            // });
         });
     }
     return (
