@@ -1,4 +1,4 @@
-import { FlatList, ImageBackground, Text, View } from "react-native";
+import { FlatList, Image, ImageBackground, Text, View } from "react-native";
 import { useQuery, useRealm, useUser } from "@realm/react";
 import { History } from "../../models/History";
 import HistoryItem from "../../component/history/HistoryItem";
@@ -8,13 +8,9 @@ import CircularFilterDisk from "../../component/history/CircularFilterDisk";
 
 export default function HistoryPage() {
 
-
     const userAdditionalInfo = useContext(AdditionalInfoContext);
-
-    // filter the history and make sure that the orderer data is the same as the logged in data and the isComplete is true
     const history = useQuery(History).filtered('orderer == $0', userAdditionalInfo).sorted('createdAt', true);
 
-    // console.log("Pending Orders ", pendingOrders)
     console.log("History ", history)
 
     return (
@@ -42,12 +38,14 @@ export default function HistoryPage() {
             </View>
 
             {history.length == 0 ? (
-                <View className="justify-center items-center mt-4">
-                    <Text className="text-lg font-medium">No history yet? C'mon let's get some trash!</Text>
+                <View className="justify-center items-center my-auto pb-12">
+                    <Image source={require('../../assets/illustration/trash.png')} className={"mx-auto"} style={{width: 160, height: 160}}  />
+                    <Text className="text-lg font-medium">There is no history yet...</Text>
+                    <Text className="text-gray-500">No history yet? C'mon let's get some trash!</Text>
                 </View>
             ) : (
                 <FlatList
-                    style={{ paddingHorizontal: 12, paddingVertical: 8}}
+                    style={{ paddingHorizontal: 8, paddingVertical: 8}}
                     data={history}
                     renderItem={
                         ({ item }) => {

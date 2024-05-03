@@ -17,85 +17,95 @@ export default function StationSeeder() {
     }, [realm, stationList])
 
     const seedStations = async () => {
+        if (stationList.length > 0) {
+            console.log("Station already seeded");
+            return;
+        }
+
         const stations = [
             {
-                name: "Compostable Station",
-                formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
+                name: "Rekosistem Compostable Station",
+                formattedAddress: "Senayan, Kebayoran Baru, South Jakarta City, Jakarta 12190",
                 geometry: {
                     location: {
-                        lat: -6.202000,
-                        lng: 106.782000
+                        lat: 6.212831,
+                        lng: 106.810177
                     }
                 },
+                imageUrl: "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/profile-pictures%2Fstation-rekosistem-1.jpg?alt=media&token=83cb28de-66cc-4781-901a-30cea2590391",
                 openingHours: {
                     open: "08:00",
                     close: "17:00"
+                },
+                mainType: "Recyclable"
+            },
+            {
+                name: "Food Cycle Station",
+                formattedAddress: "Jl. Kh. Ahmad Dahlan No.9a, RT.12/RW.8, Palmeriam, Kec. Matraman, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13140",
+                geometry: {
+                    location: {
+                        lat: 6.210744,
+                        lng: 106.844341
+                    }
+                },
+                imageUrl: "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/profile-pictures%2Fstation-foodcyle-2.png?alt=media&token=a14bfa5d-1730-40ae-9b9e-980fc27a0b0b",
+                openingHours: {
+                    open: "07:00",
+                    close: "15:00"
                 },
                 mainType: "Compost"
             },
             {
-                name: "Recycling Station",
-                formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
+                name: "Rebricks Indonesia",
+                formattedAddress: "Jl. Ciputat Raya No.79, RT.5/RW.6, Pd. Pinang, Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12310",
                 geometry: {
                     location: {
-                        lat: 40.785091,
-                        lng: -73.968285
+                        lat: 6.271111,
+                        lng: 106.782222
                     }
                 },
+                imageUrl: "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/profile-pictures%2Fstation-rebricks-3.png?alt=media&token=2d8a3913-9c62-4b4e-b0db-5b59da6b6925",
                 openingHours: {
-                    open: "08:00",
-                    close: "17:00"
+                    open: "08:30",
+                    close: "19:00"
                 },
                 mainType: "Recyclable"
-            },
-            {
-                name: "Trash Station",
-                formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
-                geometry: {
-                    location: {
-                        lat: -6.2594,
-                        lng: 106.7839
-                    }
-                },
-                openingHours: {
-                    open: "08:00",
-                    close: "17:00"
-                },
-                mainType: "Paper"
             }, 
             {
-                name: "Landfill Station",
-                formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
+                name: "Arah Environmental Indonesia",
+                formattedAddress: "Jl. Tulodong Bawah II No.3, RT.3/RW.1, Senayan, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12191",
                 geometry: {
                     location: {
-                        lat: -6.252300,
-                        lng: 106.847336
+                        lat: 6.241311,
+                        lng: 106.803111
                     }
                 },
+                imageUrl: "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/profile-pictures%2Farah-environmental-4.png?alt=media&token=fdea6e12-b3b3-4db0-b1cc-29a097b70bba",
                 openingHours: {
-                    open: "08:00",
+                    open: "09:00",
                     close: "17:00"
                 },
                 mainType: "Paper"
             },
             {
-                name: "E-Waste Station",
-                formattedAddress: "Jl. Raya Bogor, No. 1, Jakarta",
+                name: "Eco Paper Station",
+                formattedAddress: "Kp. Padaasih RT. 009 / 004, Padaasih, Padaasih, Kec. Subang, Kabupaten Subang, Jawa Barat 41285",
                 geometry: {
                     location: {
-                        lat: 37.78825,
-                        lng: -122.4324
+                        lat: -8.65,
+                        lng: 115.216667
                     }
                 },
+                imageUrl: "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/profile-pictures%2Fstation-ecopaper-5.png?alt=media&token=de5a3a5b-70dd-4d65-8623-0737f19a5a60",
                 openingHours: {
-                    open: "08:00",
-                    close: "17:00"
+                    open: "12:00",
+                    close: "15:00"
                 },  
-                mainType: "Recyclable"
+                mainType: "Paper"
             }
         ];
 
-        const jadiStation = stations.map(station => {
+        stations.map(station => {
             return addStation(station);
         })
         

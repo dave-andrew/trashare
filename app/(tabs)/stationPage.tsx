@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import SearchBar from "react-native-dynamic-search-bar";
 import Map from '../../component/station/Map';
-import Stations from '../../component/station/Stations';
+import SearchStationList from '../../component/station/SearchStationList';
 import * as Location from 'expo-location';
 import { Station } from '../../models/Station';
+import QueuePage from '../../component/queue/queue';
+import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
 export interface Geo {
     latitude: number,
@@ -21,6 +23,8 @@ export default function StationPage() {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
     });
+
+    const userAdditionalInfo = useContext(AdditionalInfoContext);
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [search, setSearch] = useState('');
@@ -50,6 +54,11 @@ export default function StationPage() {
         setIsSearching(false)
     }, [station])
 
+    // TODO: kasih validasi user disini, kalo dia milik station, maka dia akan menampilkan Queue Page
+    if (userAdditionalInfo?.role === 'station') {
+        return <QueuePage />
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <View className='absolute top-12 left-0 right-0 z-10'>
@@ -65,7 +74,7 @@ export default function StationPage() {
 
             {isSearching ? (
                 <View className='flex-1'>
-                    <Stations setStation={setStation} search={search} />
+                    <SearchStationList setStation={setStation} search={search} />
                 </View>
             ) : (
                 <View className='flex-1'>

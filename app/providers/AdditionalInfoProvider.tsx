@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { useRealm, useUser } from "@realm/react";
 import AdditionalInfoPage from "../additionalInfoPage";
 import { getAdditionalInfo } from "../datas/queries/useQueries";
+import { User } from "../../models/User";
 
 export const AdditionalInfoContext = createContext(null)
 
@@ -9,7 +10,7 @@ export default function AdditionalInfoProvider({ children }: { children: React.R
 
     const realm = useRealm()
     const user = useUser()
-    const [additionalInfo, setAdditionalInfo] = useState(null)
+    const [additionalInfo, setAdditionalInfo] = useState<User>()
 
     const additionalInfoList = getAdditionalInfo(user.id)
     useEffect(() => {
