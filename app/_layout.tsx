@@ -19,7 +19,7 @@ export default function AppLayout() {
                     }} />
                     <Stack.Screen name="finish/finishPage"
                         options={{
-                            headerShown: false,
+                            // headerShown: false,
                         }}
                     />
                 </Stack>

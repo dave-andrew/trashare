@@ -4,7 +4,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 export default function FinishPage() {
   return (
     <View className="bg-white min-h-full">
-      <View
+      {/* <View
         className='w-full h-[12vh] mb-2 bg-white'
         style={{
           borderBottomLeftRadius: 24,
@@ -16,10 +16,10 @@ export default function FinishPage() {
           elevation: 5,
         }}>
         <Text className="text-lg text-center mt-14 font-medium">Finish Order</Text>
-      </View>
+      </View> */}
 
       <View className='flex flex-row items-center mx-2 my-2'>
-        <Image className='w-16 h-16 rounded-full' source={{ uri: 'https://picsum.photos/200' }} />
+        <Image className='w-14 h-14 rounded-full' source={{ uri: 'https://picsum.photos/200' }} />
         <View className='ml-4'>
           <Text className='text-gray-500 font-medium'>Ordered by</Text>
           <Text className='text-lg font-medium'>Orderer Name</Text>
@@ -35,15 +35,15 @@ export default function FinishPage() {
           <Image source={{ uri: 'https://picsum.photos/200' }} className='w-full h-40 rounded-md' />
         </Pressable>
 
-        <View className='flex flex-row gap-2'>
-          <Pressable className='w-14 h-14 bg-gray-400 flex items-center justify-center rounded-full'>
-            <FontAwesome name='sticky-note' size={28} color={"#fff"}/>
+        <View className='flex flex-row gap-1'>
+          <Pressable className='w-12 h-12 bg-gray-400 flex items-center justify-center rounded-full'>
+            <FontAwesome name='sticky-note' size={20} color={"#fff"}/>
           </Pressable>
-          <Pressable className='w-14 h-14 bg-gray-400 flex items-center justify-center rounded-full'>
-            <FontAwesome name='recycle' size={28} color={"#fff"}/>
+          <Pressable className='w-12 h-12 bg-gray-400 flex items-center justify-center rounded-full'>
+            <FontAwesome name='recycle' size={20} color={"#fff"}/>
           </Pressable>
-          <Pressable className='w-14 h-14 bg-gray-400 flex items-center justify-center rounded-full'>
-            <FontAwesome name='leaf' size={28} color={"#fff"}/>
+          <Pressable className='w-12 h-12 bg-gray-400 flex items-center justify-center rounded-full'>
+            <FontAwesome name='leaf' size={20} color={"#fff"}/>
           </Pressable>
         </View>
       </View>
