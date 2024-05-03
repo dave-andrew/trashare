@@ -113,7 +113,6 @@ export default function StationSeeder() {
         stations.map(station => {
             return addStation(station);
         })
-        
     };
 
     useEffect(() => {

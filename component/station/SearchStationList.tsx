@@ -26,15 +26,19 @@ export default function SearchStationList({ setStation, search }: { setStation: 
 
     return (
         <View className="flex-1">
-            <FlatList
-                className="flex-1 mt-28"
-                data={filterStation}
-                renderItem={({ item }) => {
-                    return (
-                        <SearchStationItem station={item} setStation={setStation} />
-                    )
-                }}
-            />
+            {filterStation.length > 0 ?
+                <FlatList
+                    className="flex-1 mt-28"
+                    data={filterStation}
+                    renderItem={({ item }) => {
+                        return (
+                            <SearchStationItem station={item} setStation={setStation} />
+                        )
+                    }}
+                />
+                :
+                <Text className="text-center text-sm text-gray-500 mt-28">No Station Found</Text>
+            }
         </View>
     )
 }

@@ -3,7 +3,7 @@ import { GestureResponderEvent, RecursiveArray, RegisteredStyle, Text, View, Vie
 
 export default function RoundedRadioButton(props: ViewProps & { selected?: boolean, label: string, customClass?: string, value: string, onTouchFunction?: () => void }) {
     return (
-        <View className={props.customClass + (props.selected ? " border-sky-300" : " border-gray-300") +" flex flex-row grow p-2 align-middle border rounded-lg my-2"}
+        <View className={props.customClass + (props.selected ? " border-sky-300" : " border-gray-300") + " flex flex-row grow p-2 align-middle border rounded-lg my-2"}
             style={[{
                 borderColor: props.selected ? '#0B5DB7' : '#9ca3af',
             }]}

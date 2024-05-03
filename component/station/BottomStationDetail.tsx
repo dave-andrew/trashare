@@ -5,6 +5,8 @@ import { Image, Pressable, Text, View } from "react-native"
 import { History } from "../../models/History"
 import { Station } from "../../models/Station"
 import { Results } from "realm"
+import { Linking } from 'react-native';
+import BottomButtons from "./BottomButtons";
 
 export default function BottomStationDetail({ station, getQueue, handleQueue, deleteQueue }: { station: Station, getQueue: Results<History>, handleQueue: (method: string) => void, deleteQueue: (queue: any) => void }) {
 
@@ -25,12 +27,10 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
       style={{ elevation: 5, paddingHorizontal: 12, gap: 10 }}
       snapPoints={['40%', '40%']}
       enablePanDownToClose={getQueue.length == 0 ? true : false}
-      handleIndicatorStyle={{ backgroundColor: '#eee', width: 60, height: 6}}
-    >
+      handleIndicatorStyle={{ backgroundColor: '#eee', width: 60, height: 6 }}>
 
-      <Text className='text-center text-lg font-bold'>{station.name}</Text>
-
-      <View className='flex flex-row justify-between mt-4'>
+      <Text className='text-center text-lg font-bold '>{station.name}</Text>
+      <View className='flex flex-row justify-between my-4'>
         <Image
           style={{ borderRadius: 10 }}
           className='w-[49%] h-28'
@@ -48,39 +48,27 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
       </View>
 
       {getQueue.length == 0 ? (
-        <View className='flex flex-row justify-between mt-4'>
-          <Pressable
-            style={{ backgroundColor: "#00B1F7" }}
-            className='w-[49%] py-2 rounded-full'
-            onPress={() => {
-              handleQueue('send')
-            }}
-          >
-            <Text className='color-white font-medium text-center'>Send Waste</Text>
-          </Pressable>
-          <Pressable
-            style={{ backgroundColor: "#00B1F7" }}
-            className='w-[49%] py-2 rounded-full'
-            onPress={() => {
-              handleQueue('visit')
-            }}
-          >
-            <Text className='color-white font-medium text-center'>Visit Location</Text>
-          </Pressable>
-        </View>
-
+        <BottomButtons
+          leftText={"Send Waste"}
+          leftClick={() => handleQueue("Send")}
+          rightText={"Drop Waste"}
+          rightClick={() => handleQueue("Drop")} />
       ) : (
-        <View className=''>
-          <Text className='font-bold'>Queue On Progress</Text>
-          <Pressable
-            className='bg-red-400 w-40 py-2 rounded-full flex items-center'
-            onPress={() => {
-              deleteQueue(getQueue[0])
-            }}
-          >
-            <Text className='color-white font-medium'>Cancel</Text>
-          </Pressable>
-        </View>
+        getQueue[0].orderType == "Send" ? (
+          <BottomButtons
+          leftType={"Red"}
+          leftText={"Cancel"}
+          leftClick={() => deleteQueue(getQueue[0])}
+          rightText={"Chat Driver"}
+          rightClick={() => { }} />
+        ) : (
+          <BottomButtons
+          leftType={"Red"}
+          leftText={"Cancel"}
+          leftClick={() => deleteQueue(getQueue[0])}
+          rightText={"Directions"}
+          rightClick={() => Linking.openURL(station.gmapUrl)} />
+        )
       )}
     </BottomSheet>
   )

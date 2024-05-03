@@ -15,9 +15,9 @@ export default function Home() {
     return (
         <View className="bg-white min-h-full">
             <ImageBackground
-                className='w-full h-[12vh] mx-auto'
+                className='w-full h-[14vh] mx-auto'
                 source={require('../../assets/backgrounds/RegisterBG.png')}
-                imageStyle={{ borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
+                imageStyle={{ borderBottomLeftRadius: 24, borderBottomRightRadius: 24}}>
                 {userAdditionalInfo &&
                     <Text className="text-lg font-medium color-white mt-14 ml-6">Hi, {userAdditionalInfo.username}</Text>
                 }
@@ -34,14 +34,15 @@ export default function Home() {
                         units={'gr'}
                         icon={<FontAwesome size={28} name="anchor" color={'#656565'} />} />
                 </View>
-                
-                <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/NewsSeeder")}><Text>News Seeder</Text></Pressable>
-                <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/StationSeeder")}><Text>Station Seeder</Text></Pressable>
-                <EditScreenInfo path="app/(tabs)/home.tsx" />
 
                 <SummaryInformationBar compostPoints={userAdditionalInfo?.compostWaste}
                     paperPoints={userAdditionalInfo?.paperWaste}
                     recyclablePoints={userAdditionalInfo?.recyclableWaste} />
+
+                {/* <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/NewsSeeder")}><Text>News Seeder</Text></Pressable>
+                <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seeder/StationSeeder")}><Text>Station Seeder</Text></Pressable>
+                <EditScreenInfo path="app/(tabs)/home.tsx" /> */}
+
                 <NewsPortal />
             </ScrollView>
         </View>
