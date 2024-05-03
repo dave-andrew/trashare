@@ -28,6 +28,7 @@
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-animated-spinkit": "^1.5.2",
+    "react-native-axios": "^0.17.1",
     "react-native-dynamic-search-bar": "github:WrathChaos/react-native-dynamic-search-bar#expo",
     "react-native-dynamic-vector-icons": "github:WrathChaos/react-native-dynamic-vector-icons#expo",
     "react-native-elements": "^3.4.3",

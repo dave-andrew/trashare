@@ -1,33 +1,33 @@
-export const url = "http://154.41.254.221:8000/predict";
+import axios from 'react-native-axios';
 
+export const url = "http://154.41.254.221:8000/predict";
 export const baseUrl = "http://154.41.254.221:8000/";
 
 export const checkConnection = async () => {
-    const response = await fetch(baseUrl);
-    response.json().then((data) => {
+    try {
+        const response = await fetch(baseUrl);
+        const data = await response.json();
         console.log(data);
-    })
+    } catch (error) {
+        console.error('Error checking connection:', error);
+    }
 };
 
 export const fetchResult = async (blob: Blob) => {
-    // send the image to the server using base64
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
+    // turn blob into file then fetch the api
+    const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+    const formData = new FormData();
+    formData.append('file', file);
 
-    const data = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            base64_string: reader.result
-        })
-    };
-
-    const response = await fetch(url, data);
-
-    return response.json().then((data) => {
-        console.log(data);
+    try {
+        const response = await axios.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        const data = await response.data;
         return data;
-    });
+    } catch (error) {
+        console.error('Error fetching result:', error);
+    }
 };

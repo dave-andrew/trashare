@@ -29,6 +29,7 @@ export default function CameraPage() {
         const photo = await camera.current?.takePictureAsync();
         const result = await fetch(photo?.uri)
         const data = await result.blob()
+
         await fetchResult(data)
         
     }
