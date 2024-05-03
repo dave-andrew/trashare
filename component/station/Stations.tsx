@@ -7,7 +7,7 @@ import StationList from "./StationList";
 import { Results } from "realm";
 
 
-export default function Stations({setStation, search} : {setStation: React.Dispatch<React.SetStateAction<Station>>, search: string}) {
+export default function Stations({ setStation, search }: { setStation: React.Dispatch<React.SetStateAction<Station>>, search: string }) {
 
     const realm = useRealm()
     const locations = useQuery(Station)
@@ -21,22 +21,25 @@ export default function Stations({setStation, search} : {setStation: React.Dispa
     }, [])
 
     useEffect(() => {
+        console.log("locations", locations)
         setFilterStation(locations.filtered(`name CONTAINS[c] "${search}"`))
     }, [search])
 
     return (
         <View className="flex-1">
-            <FlatList
-                className="flex-1 mt-32"
-                data={filterStation}
-                renderItem={({ item }) => {
-                    return (
-                        <StationList station={item} setStation={setStation} />
-                    )
-                }}
-            >
-
-            </FlatList>
+            {filterStation.length > 0 ?
+                <FlatList
+                    className="flex-1 mt-28"
+                    data={filterStation}
+                    renderItem={({ item }) => {
+                        return (
+                            <StationList station={item} setStation={setStation} />
+                        )
+                    }}
+                />
+                :
+                <Text className="text-center text-sm text-gray-500 mt-28">No Station Found</Text>
+            }
         </View>
     )
 }

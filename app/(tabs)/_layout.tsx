@@ -16,7 +16,8 @@ export default function TabLayout() {
             },
             tabBarLabelStyle: {
                 marginTop: -10,
-                marginBottom: 10
+                marginBottom: 10,
+                fontSize: 12,
             },
             headerStyle: {
                 borderRadius: 10,
@@ -34,7 +35,7 @@ export default function TabLayout() {
                 name="station"
                 options={{
                     title: 'Station',
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-pin" color={color} />,
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-marker" color={color} />,
                     headerShown: false,
                     
                 }}
