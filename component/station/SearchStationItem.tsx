@@ -16,7 +16,7 @@ export default function SearchStationItem({ station, setStation }: { station: St
                 <Image
                     className='w-[30%] h-20 rounded-lg mr-4'
                     source={{
-                        uri: 'https://picsum.photos/200/300',
+                        uri: station.imageUrl,
                     }} />
 
                 <View>

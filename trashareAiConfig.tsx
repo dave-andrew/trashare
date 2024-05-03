@@ -1,29 +1,33 @@
 export const url = "http://154.41.254.221:8000/predict";
 
-export const fetchResult = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
+export const baseUrl = "http://154.41.254.221:8000/";
 
-    const options = {
-        method: "POST",
+export const checkConnection = async () => {
+    const response = await fetch(baseUrl);
+    response.json().then((data) => {
+        console.log(data);
+    })
+};
+
+export const fetchResult = async (blob: Blob) => {
+    // send the image to the server using base64
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+
+    const data = {
+        method: 'POST',
         headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'application/json',
         },
-        body: formData,
+        body: JSON.stringify({
+            base64_string: reader.result
+        })
     };
 
-    try {
-        const response = await fetch(url, options);
+    const response = await fetch(url, data);
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch");
-        }
-
-        const json = await response.json();
-        return json;
-    } catch (error) {
-        console.error("Error:", error);
-        throw error;
-    }
+    return response.json().then((data) => {
+        console.log(data);
+        return data;
+    });
 };
