@@ -34,12 +34,7 @@ export default function SearchStationList({ setStation, search }: { setStation: 
                         <SearchStationItem station={item} setStation={setStation} />
                     )
                 }}
-<<<<<<< HEAD
-            >
-            </FlatList>
-=======
             />
->>>>>>> f129af1032c04799eb59c6826d7d5fcbc6658a6f
         </View>
     )
 }
