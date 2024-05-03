@@ -9,6 +9,7 @@ export class Station extends Realm.Object {
     formattedAddress: string;
     geometry: Geometry;
     name: string;
+    imageUrl: string;
     openingHours: OpeningHours;
     mainType: string;
     users: User[];

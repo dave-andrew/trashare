@@ -2,7 +2,7 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { Geo } from "../../app/(tabs)/station";
+import { Geo } from "../../app/(tabs)/stationPage";
 import { Station } from "../../models/Station";
 import { useQuery, useRealm, useUser } from "@realm/react";
 import { History } from "../../models/History";

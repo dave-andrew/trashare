@@ -26,7 +26,7 @@ export default function TabLayout() {
             },
         }}>
             <Tabs.Screen
-                name="index"
+                name="indexPage"
                 options={{
                     title: 'Home',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
@@ -34,7 +34,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="station"
+                name="stationPage"
                 options={{
                     title: (additionalUserInfo?.role === 'user') ? 'Station' : 'Queue',
                     tabBarIcon: ({ color }) => {
@@ -49,7 +49,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="camera"
+                name="cameraPage"
                 options={{
                     title: '',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="camera" color={"#fff"}
@@ -66,7 +66,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="history"
+                name="historyPage"
                 options={{
                     title: 'History',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="history" color={color} />,
@@ -74,7 +74,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="profile"
+                name="profilePage"
                 options={{
                     title: 'Profile',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="user" color={color} />,

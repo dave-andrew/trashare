@@ -5,7 +5,7 @@ import Map from '../../component/station/Map';
 import SearchStationList from '../../component/station/SearchStationList';
 import * as Location from 'expo-location';
 import { Station } from '../../models/Station';
-import QueuePage from '../../component/stationcomponent/queue';
+import QueuePage from '../../component/queue/queue';
 import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
 export interface Geo {

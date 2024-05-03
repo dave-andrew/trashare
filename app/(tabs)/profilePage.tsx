@@ -5,7 +5,7 @@ import UserInfoDashboard from "../../component/profile/UserInfoDashboard";
 import ProfileOptionList from "../../component/profile/ProfileOptionList";
 import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
-export default function Profile() {
+export default function ProfilePage() {
 
     const animation = useMemo(() => new Animated.Value(-142), []);
 
