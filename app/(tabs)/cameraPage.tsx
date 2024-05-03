@@ -1,7 +1,7 @@
 import { Image, Pressable, Text, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useRef, useState } from "react";
-import { fetchResult } from "../../trashareAiConfig";
+import { checkConnection, fetchResult } from "../../trashareAiConfig";
 
 export default function CameraPage() {
 
@@ -9,6 +9,8 @@ export default function CameraPage() {
     const type = CameraType.back;
 
     const [device, setDevice] = useState<CameraType | undefined>(undefined);
+
+    // checkConnection()
 
     useEffect(() => {
         (async () => {
@@ -25,13 +27,10 @@ export default function CameraPage() {
 
     const handlePhoto = async () => {
         const photo = await camera.current?.takePictureAsync();
-        const result = await fetch(`file://${photo?.uri}`)
+        const result = await fetch(photo?.uri)
         const data = await result.blob()
-
-        // TODO: Save photo + pake API Deep Learningnya
+        await fetchResult(data)
         
-        const classification = fetchResult(data)
-        console.log(classification)
     }
 
     return (
@@ -49,14 +48,14 @@ export default function CameraPage() {
                 className="flex-1 absolute top-0 left-0 w-full h-full"
             />
 
-            <Pressable 
+            <Pressable
                 onPress={handlePhoto}
                 className="absolute bottom-8 left-0 right-0 flex items-center justify-center h-15"
-                >
+            >
                 <Image
                     source={require("../../assets/capture.png")}
                     className="w-16 h-16"
-                    style={{tintColor: 'white'}} />
+                    style={{ tintColor: 'white' }} />
             </Pressable>
         </View>
     );
