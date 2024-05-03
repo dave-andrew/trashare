@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
 export default function TabLayout() {
+
+    const additionalUserInfo = useContext(AdditionalInfoContext);
 
     return (
         <Tabs screenOptions={{
@@ -33,19 +36,18 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="station"
                 options={{
-                    title: 'Station',
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-pin" color={color} />,
+                    title: (additionalUserInfo?.role === 'user') ? 'Station' : 'Queue',
+                    tabBarIcon: ({ color }) => {
+                        if (additionalUserInfo?.role == 'user') {
+                            return <FontAwesome size={28} name="map-marker" color={color} />
+                        } else {
+                            return <FontAwesome size={28} name="list" color={color} />
+                        }
+                    },
                     headerShown: false,
                     
                 }}
             />
-            {/* <Tabs.Screen
-                name="queue"
-                options={{
-                    title: 'Queue',
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="list" color={color} />,
-                    headerShown: false,
-                }} /> */}
             <Tabs.Screen
                 name="camera"
                 options={{

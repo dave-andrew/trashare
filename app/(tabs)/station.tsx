@@ -5,6 +5,8 @@ import Map from '../../component/station/Map';
 import Stations from '../../component/station/Stations';
 import * as Location from 'expo-location';
 import { Station } from '../../models/Station';
+import QueuePage from '../../component/stationcomponent/queue';
+import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
 export interface Geo {
     latitude: number,
@@ -21,6 +23,8 @@ export default function StationPage() {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
     });
+
+    const userAdditionalInfo = useContext(AdditionalInfoContext);
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [search, setSearch] = useState('');
@@ -49,6 +53,11 @@ export default function StationPage() {
     useEffect(() => {
         setIsSearching(false)
     }, [station])
+
+    // TODO: kasih validasi user disini, kalo dia milik station, maka dia akan menampilkan Queue Page
+    if (userAdditionalInfo?.role === 'station') {
+        return <QueuePage />
+    }
 
     return (
         <View style={{ flex: 1 }}>
