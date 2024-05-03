@@ -5,11 +5,13 @@ import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import UserInfoDashboard from "../../component/profile/UserInfoDashboard";
 import ProfileOptionList from "../../component/profile/ProfileOptionList";
 import { ImageLibraryOptions, launchImageLibrary } from 'react-native-image-picker';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../firebaseConfig";
 
 export default function ProfilePage() {
 
+    const userAdditionalInfo = useContext(AdditionalInfoContext);
     const animation = useMemo(() => new Animated.Value(-142), []);
-
     useEffect(() => {
         Animated.timing(animation, {
             toValue: 0,
@@ -19,32 +21,46 @@ export default function ProfilePage() {
         }).start();
     }, [animation]);
 
-    const userAdditionalInfo = useContext(AdditionalInfoContext);
     const handleUploadPhoto = () => {
         const options: ImageLibraryOptions = {
             mediaType: 'photo',
             quality: 1,
         }
-        launchImageLibrary(options, (response) => {
-            // if (response.didCancel) {
-            //     console.log('User cancelled image picker');
-            //     return;
-            // }
-            // if (!response.assets) {
-            //     console.log('No image selected');
-            //     return;
-            // }
-            // const asset = response.assets[0];
-            // const path = `profile-pictures/${asset.fileName}`;
-            // const ref = storage(path);
-            // const task = ref.putFile(asset);
-            // task.then(() => {
-            //     console.log('Image uploaded to Firebase Storage');
-            // }).catch((error) => {
-            //     console.log('Error uploading image to Firebase Storage:', error);
-            // });
+        launchImageLibrary(options, async (response) => {
+            // Validation
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+                return;
+            }
+            if (!response.assets) {
+                console.log('No image selected');
+                return;
+            }
+            // Convert image from URI to BLOB
+            const fetchResponse = await fetch(response.assets[0].uri);
+            const theBlob = await fetchResponse.blob();
+            // console.log("The Blob", theBlob);
+
+            const imageRef = ref(storage, `profile-pictures/${userAdditionalInfo?.uid}`);
+            const uploadTask = uploadBytesResumable(imageRef, theBlob);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                },
+                (error) => {
+                    console.log(error);
+                },
+                async () => {
+                    console.log('Upload is done');
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    console.log('File available at', downloadURL);
+                }
+            )
         });
     }
+
     return (
         <View className="h-full bg-white">
             <Animated.View style={{ transform: [{ translateY: animation }] }} >
