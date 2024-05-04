@@ -16,7 +16,6 @@ export const getNews = () => {
     return useQuery(News).sorted('createdAt', true)
 }
     
-// check if there is a queue that is not completed and the orderer is the same as the logged in user
 export const getUserHistory = () => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     return useQuery(History).filtered('orderer == $0', additionalInfo).sorted('createdAt', true);
@@ -27,7 +26,6 @@ export const getStations = () => {
 }
 
 export const getStationQueue = () => {
-    const { additionalInfo } = useContext(AdditionalInfoContext);
-    return useQuery(History).filtered('station == $0', additionalInfo.station).filtered('completed == false');
+    return useQuery(History);
 }
 
