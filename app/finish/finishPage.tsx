@@ -4,7 +4,6 @@ import WasteTypeSelector from '../../component/finish/WasteTypeSelector';
 import { useState } from 'react';
 import WasteDataCard from '../../component/finish/WasteDataCard';
 import { ScrollView } from 'react-native-gesture-handler';
-import * as ImagePicker from 'react-native-image-picker';
 
 export type WastePlaceholder = {
   wasteType: string;
@@ -18,36 +17,15 @@ export default function FinishPage() {
   console.log(wasteList)
 
   const addWaste = () => {
-    if (wasteList.length >= 3) {
-      Alert.alert('Maximum Types Reached', 'You can only add a maximum of three types of waste.')
-      return
-    }
+    // if (wasteList.length >= 3) {
+    //   Alert.alert('Maximum Types Reached', 'You can only add a maximum of three types of waste.')
+    //   return
+    // }
     if (!wasteList.every((waste) => waste.wasteType != '' && waste.weight != '' && waste.imageUrl != '')) {
       Alert.alert('Incomplete Information', 'Please fill in all previous fields before proceeding.')
       return
     }
     setWasteList((prevList) => [...prevList, { wasteType: '', weight: '', imageUrl: '' }])
-  }
-
-  const handleAddImage = () => {
-    const cameraOptions: ImagePicker.CameraOptions = {
-      mediaType: 'photo',
-      saveToPhotos: true,
-    }
-    console.log('Camera Options', cameraOptions)
-    
-    ImagePicker.launchCamera(cameraOptions, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-        return;
-      }
-      if(!response.assets){
-        console.log('No image selected');
-        return;
-      }
-      
-
-    })
   }
 
   return (
@@ -62,7 +40,7 @@ export default function FinishPage() {
         </View>
 
         {wasteList.map((_, index) => (
-          <WasteDataCard key={index} index={index} wasteList={wasteList} setWasteList={setWasteList} handleAddImage={handleAddImage} />
+          <WasteDataCard key={index} index={index} wasteList={wasteList} setWasteList={setWasteList}/>
         ))}
       </ScrollView>
 
