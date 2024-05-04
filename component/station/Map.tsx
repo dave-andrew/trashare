@@ -34,9 +34,21 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                 lng: location.longitude
             },
             station: station,
-            waste: [],
+            waste: [{
+                wasteType: "Paper",
+                weight: 40,
+                imageUrl: "https://i.ebayimg.com/images/g/6T4AAOSwQkNgXJyd/s-l1200.webp"
+            }, {
+                wasteType: "Recyclable",
+                weight: 15,
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl3Cj9HZqHbLZ_g3HpeYvuwp9kfJZEZgjgbbeL-2YpFA&s"
+            }, {
+                wasteType: "Compost",
+                weight: 23,
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-C-TXa27ZHd6nqdTqGMvyH4NNG00Cd2_rWpeoCa17mQ&s"
+            }],
             orderer: additionalInfo,
-            isComplete: false,
+            isComplete: true,
             orderType: method
         }
         addQueue(queue)

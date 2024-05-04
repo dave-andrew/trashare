@@ -83,8 +83,6 @@ export default function ProfilePage() {
         });
     }
 
-    
-
     return (
         <View className="h-full bg-white">
             <Animated.View style={{ transform: [{ translateY: animation }] }} >

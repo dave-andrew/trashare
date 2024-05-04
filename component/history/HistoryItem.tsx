@@ -1,17 +1,12 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Image, Pressable, Text, View } from "react-native";
 import { History } from "../../models/History";
-import { useNavigation, useRouter } from "expo-router";
-
+import { useRouter } from "expo-router";
+import { AccumulationPointGraySpan } from "../container/AccumulationPointGraySpan";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function HistoryItem({ history }: { history: History }) {
 
-    const navigation = useNavigation();
     const router = useRouter();
-    console.log("History Item ", history);
-
-    // if(!history.station) return (<></>)
-
     return (
         <Pressable onPress={() => router.push({ pathname: "/history/detail", params: { id: history._id } })}
             className="m-2 my-1">
@@ -38,28 +33,8 @@ export default function HistoryItem({ history }: { history: History }) {
                             }, 0)
                             return (
                                 <View className="flex flex-row place-items-center">
-                                    <View className='bg-gray-200 w-[74px] px-2 py-1 rounded-md flex flex-row justify-between mr-1'>
-                                        <View className='flex flex-row place-items-center'>
-                                            <FontAwesome size={9} name="anchor" color={'#656565'} style={[{ paddingVertical: 4, marginRight: 3 }]} />
-                                            <Text className="text-gray-700 text-xs">
-                                                {totalWeight.toFixed(1)}
-                                            </Text>
-                                        </View>
-                                        <Text className="text-gray-600 text-xs">
-                                            g
-                                        </Text>
-                                    </View>
-                                    <View className='bg-gray-200 w-[74px] px-2 py-1 rounded-md flex flex-row justify-between'>
-                                        <View className='flex flex-row place-items-center'>
-                                            <FontAwesome size={9} name="anchor" color={'#656565'} style={[{ paddingVertical: 4, marginRight: 3 }]} />
-                                            <Text className="text-gray-700 text-xs">
-                                                {totalPoints.toFixed(1)}
-                                            </Text>
-                                        </View>
-                                        <Text className="text-gray-600 text-xs">
-                                            pt
-                                        </Text>
-                                    </View>
+                                    <AccumulationPointGraySpan nominalNumber={totalWeight.toFixed(1)} units="g" icon="anchor" />
+                                    <AccumulationPointGraySpan nominalNumber={totalPoints.toFixed(1)} units="pt" icon="database" />
                                 </View>
                             )
                         })() : (
@@ -73,8 +48,11 @@ export default function HistoryItem({ history }: { history: History }) {
 
                     </View>
 
-                    <View className="flex flex-col justify-between">
-                        <Text className="text-xs text-gray-400">{history.createdAt.toLocaleDateString()}</Text>
+                    <View className="flex flex-col justify-between place-items-end">
+                        <Text className="text-gray-400 text-end" style={[{
+                            fontSize: 10,
+                            alignSelf: 'flex-end'
+                        }]}>{history.createdAt.toLocaleDateString()}</Text>
                         {/* Create logo for each waste*/}
                         <View className='flex flex-row justify-end'>
                             {history.isComplete &&
