@@ -22,6 +22,12 @@ export const getUserHistory = () => {
     return useQuery(History).filtered('orderer == $0', additionalInfo).sorted('createdAt', true);
 }
 
+export const getUserQueue = () => {
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    return useQuery(History).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
+
+}
+
 export const getStations = () => {
     return useQuery(Station);
 }

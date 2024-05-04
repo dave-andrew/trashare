@@ -55,11 +55,6 @@ export default function StationPage() {
         setIsSearching(false)
     }, [station])
 
-    // TODO: kasih validasi user disini, kalo dia milik station, maka dia akan menampilkan Queue Page
-    if (additionalInfo?.role === 'station') {
-        return <QueuePage />
-    }
-
     return (
         <View style={{ flex: 1 }}>
             <View className='absolute top-12 left-0 right-0 z-10'>
