@@ -1,13 +1,13 @@
-import { useQuery, useRealm } from "@realm/react"
+import { useRealm } from "@realm/react"
 import { Button, Text } from "react-native"
 import { Station } from "../../models/Station";
 import { useCallback, useEffect } from "react";
+import { getStations } from "../datas/queries/useQueries";
 
 export default function StationSeeder() {
 
     const realm = useRealm();
-    const stationList = useQuery(Station);
-    // console.log(stationList)
+    const stationList = getStations();
 
     const addStation = useCallback(
         (station) => {

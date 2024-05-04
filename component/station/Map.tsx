@@ -3,10 +3,11 @@ import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Geo } from "../../app/(tabs)/stationPage";
 import { Station } from "../../models/Station";
-import { useQuery, useRealm } from "@realm/react";
+import { useRealm } from "@realm/react";
 import { History } from "../../models/History";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
 import BottomStationDetail from "./BottomStationDetail";
+import { getUserHistory } from "../../app/datas/queries/useQueries";
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
@@ -14,8 +15,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const realm = useRealm()
     const { additionalInfo } = useContext(AdditionalInfoContext);
 
-    // check if there is a queue that is not completed and the orderer is the same as the logged in user
-    const getQueue = useQuery(History).filtered('orderer == $0', additionalInfo)
+    const getQueue = getUserHistory()
 
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {

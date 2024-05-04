@@ -1,5 +1,4 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import { useQuery } from "@realm/react"
 import { useEffect, useState } from "react"
 import { Image, Pressable, Text, View } from "react-native"
 import { History } from "../../models/History"

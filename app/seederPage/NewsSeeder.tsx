@@ -1,13 +1,13 @@
-import { useQuery, useRealm } from "@realm/react";
+import { useRealm } from "@realm/react";
 import { News } from "../../models/News";
 import { useCallback, useEffect } from "react";
 import { Button, Text } from "react-native";
-import { User } from "../../models/User";
+import { getNews } from "../datas/queries/useQueries";
 
 
 export default function Newseeder() {
     const realm = useRealm();
-    const newsList = useQuery(News);
+    const newsList = getNews();
 
     const addNews =  useCallback((n) => {
         const a = realm.write(() => {
