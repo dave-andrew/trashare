@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { User } from "../../../models/User"
 import { AdditionalInfoContext } from "../../providers/AdditionalInfoProvider"
+import { Station } from "../../../models/Station"
 
 export function useMutationAdditionalInfo() {
     // Use Mutation with Cache to the Context
@@ -18,6 +19,7 @@ export function useMutationAdditionalInfo() {
         // Update cache
         setStateContext(newUser)
     }
+
     const updateProfilePicture = ({ user_id, profileUrl, realm }) => {
         console.log(`Updating ... ${user_id}`);
         const user = realm.objectForPrimaryKey(User, user_id)
@@ -32,8 +34,29 @@ export function useMutationAdditionalInfo() {
         const { setAdditionalInfoInput } = useContext(AdditionalInfoContext)
         setAdditionalInfoInput(user)
     }
+
+    const updateUserToStation = ({ user_id, station_id, realm }) => {
+        console.log(`Updating ... ${user_id}`);
+        const user = realm.objectForPrimaryKey(User, user_id)
+        console.log(`Updating ... ${user}`);
+        
+        console.log(`Searching ... ${station_id}`);
+        const station = realm.objectForPrimaryKey(Station, station_id)
+        console.log(`Updating ... ${station}`);
+        
+        realm.write(() => {
+            user.role = "station"
+            user.station = station
+        })
+        console.log(`Updated ... ${user.name} to ${user.station.name}`)
+
+        const { setAdditionalInfoInput } = useContext(AdditionalInfoContext)
+        setAdditionalInfoInput(user)
+    }
+
     return {
         registerAdditionalInfo,
         updateProfilePicture,
+        updateUserToStation
     }
 }

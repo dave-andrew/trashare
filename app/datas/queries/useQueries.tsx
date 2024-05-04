@@ -26,3 +26,8 @@ export const getStations = () => {
     return useQuery(Station);
 }
 
+export const getStationQueue = () => {
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    return useQuery(History).filtered('station == $0', additionalInfo.station).filtered('completed == false');
+}
+

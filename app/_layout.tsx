@@ -19,6 +19,7 @@ export default function AppLayout() {
                     }} />
                     <Stack.Screen name="finish/finishPage"
                         options={{
+                            title: "Finish Order",
                             // headerShown: false,
                         }}
                     />

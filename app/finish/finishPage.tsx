@@ -30,7 +30,7 @@ export default function FinishPage() {
 
   return (
     <View className='h-full'>
-      <ScrollView className="bg-white flex">
+      <ScrollView className="bg-[#F9F9F9] flex">
         <View className='flex flex-row items-center mx-2 mb-2 mt-4'>
           <Image className='w-14 h-14 rounded-full' source={{ uri: 'https://picsum.photos/200' }} />
           <View className='ml-4'>
