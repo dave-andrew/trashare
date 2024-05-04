@@ -1,7 +1,11 @@
 import { Text, View, Image, Pressable } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import WasteTypeSelector from '../../component/finish/WasteTypeSelector';
+import { useState } from 'react';
+import WasteDataCard from '../../component/finish/WasteDataCard';
 
 export default function FinishPage() {
+
   return (
     <View className="bg-white min-h-full">
       {/* <View
@@ -26,29 +30,7 @@ export default function FinishPage() {
         </View>
       </View>
 
-      <View className='flex flex-col mx-2 p-4 rounded-md bg-gray-100'>
-        <Pressable className='rounded-full absolute z-10 bg-white w-10 h-10 flex items-center justify-center top-6 right-6'>
-          <FontAwesome name='close' size={28} color={"#ccc"} />
-        </Pressable>
-
-        <Pressable className='w-full relative'>
-          <Image source={{ uri: 'https://picsum.photos/200' }} className='w-full h-40 rounded-md' />
-        </Pressable>
-
-        <View className='flex flex-row gap-1'>
-          <Pressable className='w-12 h-12 bg-gray-400 flex items-center justify-center rounded-full'>
-            <FontAwesome name='sticky-note' size={20} color={"#fff"}/>
-          </Pressable>
-          <Pressable className='w-12 h-12 bg-gray-400 flex items-center justify-center rounded-full'>
-            <FontAwesome name='recycle' size={20} color={"#fff"}/>
-          </Pressable>
-          <Pressable className='w-12 h-12 bg-gray-400 flex items-center justify-center rounded-full'>
-            <FontAwesome name='leaf' size={20} color={"#fff"}/>
-          </Pressable>
-        </View>
-      </View>
-
-
+      <WasteDataCard/>
     </View>
   )
 }
