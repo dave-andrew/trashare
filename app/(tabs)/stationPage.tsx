@@ -7,7 +7,8 @@ import * as Location from 'expo-location';
 import { Station } from '../../models/Station';
 
 import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
-import QueuePage from './queuePage';
+import { getUserQueue } from '../datas/queries/useQueries';
+import { useRealm } from '@realm/react';
 
 export interface Geo {
     latitude: number,
@@ -26,6 +27,7 @@ export default function StationPage() {
     });
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
+    const realm = useRealm();
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [search, setSearch] = useState('');
@@ -55,26 +57,37 @@ export default function StationPage() {
         setIsSearching(false)
     }, [station])
 
+    const getQueue = getUserQueue()
+    // console.log(getQueue);
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(getQueue)
+        })
+        console.log(getQueue);
+    }, [realm]);
+
     return (
         <View style={{ flex: 1 }}>
             <View className='absolute top-12 left-0 right-0 z-10'>
-                <SearchBar
-                    placeholder='Search station...'
-                    style={{ elevation: 5, borderRadius: 100, padding: 5, width: '95%' }}
-                    onChangeText={(text) => { setSearch(text) }}
-                    value={search}
-                    onClearPress={() => { setIsSearching(false); setSearch('') }}
-                    onFocus={() => { setIsSearching(true) }}
-                />
+                {getQueue.length === 0 && (
+                    <SearchBar
+                        placeholder='Search station...'
+                        style={{ elevation: 5, borderRadius: 100, padding: 5, width: '95%' }}
+                        onChangeText={(text) => { setSearch(text) }}
+                        value={search}
+                        onClearPress={() => { setIsSearching(false); setSearch('') }}
+                        onFocus={() => { setIsSearching(true) }}
+                    />
+                )}
             </View>
 
-            {isSearching ? (
+            {(isSearching && getQueue.length === 0) ? (
                 <View className='flex-1'>
                     <SearchStationList setStation={setStation} search={search} />
                 </View>
             ) : (
                 <View className='flex-1'>
-                    <Map location={location} station={station} />
+                    <Map location={location} station={(getQueue.length > 0) ? getQueue[0].station : station} />
                 </View>
             )}
         </View>
