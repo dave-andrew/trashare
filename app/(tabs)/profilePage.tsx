@@ -81,6 +81,7 @@ export default function ProfilePage() {
                     imageStyle={{ borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
                 </ImageBackground>
             </Animated.View>
+            
             <View
                 className='w-full h-[28vh]'>
                 {additionalInfo &&
