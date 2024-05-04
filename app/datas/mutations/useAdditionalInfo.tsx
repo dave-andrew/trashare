@@ -2,10 +2,19 @@ import { useContext } from "react"
 import { User } from "../../../models/User"
 import { AdditionalInfoContext } from "../../providers/AdditionalInfoProvider"
 import { Station } from "../../../models/Station"
+import { BSON } from "realm"
+import { getStationById } from "../queries/useQueries"
+
+function useSetAdditionalInfoInput() {
+    const { setAdditionalInfoInput } = useContext(AdditionalInfoContext);
+    return setAdditionalInfoInput;
+  }
 
 export function useMutationAdditionalInfo() {
-    // Use Mutation with Cache to the Context
-    const registerAdditionalInfo = ({ user_id, username, phone, gender, realm, setStateContext}) => {
+
+    const setAdditionalInfoInput = useSetAdditionalInfoInput();
+    
+    const registerAdditionalInfo = ({ user_id, username, phone, gender, realm, setStateContext }) => {
         const newUser = realm.write(() => {
             return realm.create(User, {
                 _id: user_id,
@@ -15,8 +24,6 @@ export function useMutationAdditionalInfo() {
             })
         })
         console.log(`Registered ... ${newUser.username}`)
-
-        // Update cache
         setStateContext(newUser)
     }
 
@@ -24,35 +31,30 @@ export function useMutationAdditionalInfo() {
         console.log(`Updating ... ${user_id}`);
         const user = realm.objectForPrimaryKey(User, user_id)
         console.log(`Updating ... ${user}`);
-        
+
         realm.write(() => {
             user.profileUrl = profileUrl
         })
         console.log(`Updated ... ${user.username}`)
-
-        // Update cache
-        const { setAdditionalInfoInput } = useContext(AdditionalInfoContext)
         setAdditionalInfoInput(user)
     }
 
-    const updateUserToStation = ({ user_id, station_id, realm }) => {
-        console.log(`Updating ... ${user_id}`);
-        const user = realm.objectForPrimaryKey(User, user_id)
-        console.log(`Updating ... ${user}`);
-        
-        console.log(`Searching ... ${station_id}`);
-        const station = realm.objectForPrimaryKey(Station, station_id)
-        console.log(`Updating ... ${station}`);
-        
+    const updateUserToStation = async ({ user_id, station_id, realm }) => {
+        console.log(`Updating... ${user_id}`);
+        const user = realm.objectForPrimaryKey(User, user_id);
+        console.log(`Updating... ${user}`);
+
+        console.log(`Updating... ${station_id}`);
+        const station = await realm.objectForPrimaryKey(Station, station_id);
+        console.log(`Updating... ${station}`);
+
         realm.write(() => {
-            user.role = "station"
-            user.station = station
-        })
-        console.log(`Updated ... ${user.name} to ${user.station.name}`)
-
-        const { setAdditionalInfoInput } = useContext(AdditionalInfoContext)
+            user.role = "station";
+            user.station = station;
+        });
+        console.log(`Updated... ${user.name} to ${user.station.name}`);
         setAdditionalInfoInput(user)
-    }
+    };
 
     return {
         registerAdditionalInfo,

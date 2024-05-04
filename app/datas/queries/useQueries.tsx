@@ -11,7 +11,6 @@ export const getAdditionalInfo = (user_id) => {
     return useQuery(User).filtered(`_id == "${user_id}"`);
 }
 
-
 export const getNews = () => {
     return useQuery(News).sorted('createdAt', true)
 }
@@ -24,7 +23,6 @@ export const getUserHistory = () => {
 export const getUserQueue = () => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     return useQuery(History).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
-
 }
 
 export const getStations = () => {
@@ -33,5 +31,9 @@ export const getStations = () => {
 
 export const getStationQueue = () => {
     return useQuery(History);
+}
+
+export const getStationById = (id: string) => {
+    return useQuery(Station).filtered(`_id == oid(${id})`)[0];
 }
 
