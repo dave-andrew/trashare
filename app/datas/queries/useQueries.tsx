@@ -25,7 +25,17 @@ export const getHistoryById = (id) => {
     return useQuery(History).filtered(`_id == oid(${id})`)[0];
 }
 
+export const getUserQueue = () => {
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    return useQuery(History).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
+
+}
+
 export const getStations = () => {
     return useQuery(Station);
+}
+
+export const getStationQueue = () => {
+    return useQuery(History);
 }
 

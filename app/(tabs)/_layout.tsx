@@ -40,7 +40,7 @@ export default function TabLayout() {
                 name="stationPage"
                 options={{
                     title: 'Station',
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-pin" color={color} />,
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-marker" color={color} />,
                     headerShown: false,
                     href: (additionalInfo?.role === 'user') ? 'stationPage' : null
                 }}

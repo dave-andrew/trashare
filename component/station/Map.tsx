@@ -1,28 +1,20 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Geo } from "../../app/(tabs)/stationPage";
 import { Station } from "../../models/Station";
 import { useRealm } from "@realm/react";
-import { History } from "../../models/History";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
 import BottomStationDetail from "./BottomStationDetail";
-import { getUserHistory } from "../../app/datas/queries/useQueries";
+import { getUserHistory, getUserQueue } from "../../app/datas/queries/useQueries";
 import { useQueueMutation } from "../../app/datas/mutations/useMutations";
+import MapViewDirections from 'react-native-maps-directions';
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
-    const [stationGeometry, setStationGeometry] = useState<Geo>()
+    const [stationGeometry, setStationGeometry] = useState<Geo | null>()
     const realm = useRealm()
     const { additionalInfo } = useContext(AdditionalInfoContext);
-
-    const getQueue = getUserHistory()
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(getQueue)
-        })
-        console.log(getQueue);
-    }, [realm]);
 
     useEffect(() => {
         if (station) {
@@ -62,6 +54,8 @@ export default function Map({ location, station }: { location: Geo, station: Sta
         addQueue(queue)
     }
 
+    const getQueue = getUserQueue()
+    console.log(getQueue)
     const { addQueue } = useQueueMutation(realm, getQueue)
     const { deleteQueue } = useQueueMutation(realm, getQueue)
 
@@ -72,20 +66,23 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                     coordinate={location}
                     title="You are here!"
                     image={require("../../assets/pin.png")} />
-                {stationGeometry && (
+                {station && (
                     <Marker
                         coordinate={stationGeometry}
                         title={station.name}
                         image={require("../../assets/pin.png")}
                     />
                 )}
+                {/* <MapViewDirections
+                    origin={location}
+                    destination={stationGeometry}
+                    apikey={"AIzaSyDXtsGosJEIjjY8aUkldb3ougbAyDBI3xY"}
+                    strokeWidth={2}
+                    strokeColor="lightblue"
+                /> */}
             </MapView>
             {station && (
                 <BottomStationDetail station={station} getQueue={getQueue} handleQueue={handleQueue} deleteQueue={deleteQueue} />
-            )}
-
-            {!station && getQueue.length > 0 && (
-                <BottomStationDetail station={getQueue[0].station} getQueue={getQueue} handleQueue={handleQueue} deleteQueue={deleteQueue} />
             )}
         </View>
     )

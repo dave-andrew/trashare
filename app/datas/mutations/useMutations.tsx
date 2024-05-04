@@ -2,11 +2,18 @@ import { useCallback, useEffect } from "react"
 import { News } from "../../../models/News"
 import { Station } from "../../../models/Station"
 import { History } from "../../../models/History"
+import { User } from "../../../models/User"
 
 export function useQueueMutation(realm, queue) {
     const addQueue = useCallback((queue) => {
         realm.write(() => {
             return realm.create(History, queue)
+        })
+    }, [realm])
+
+    const completeQueue = useCallback((queue) => {
+        realm.write(() => {
+            queue.isComplete = true
         })
     }, [realm])
 
@@ -27,7 +34,6 @@ export function useQueueMutation(realm, queue) {
         deleteQueue,
     }
 }
-
 
 export function useNewsMutation(realm, newsList) {
     const addNews = useCallback((n) => {
@@ -64,4 +70,3 @@ export function useStationMutation(realm, stationList) {
         addStation,
     }
 }
-

@@ -41,7 +41,7 @@ export default function HistoryItem({ history }: { history: History }) {
                             <View style={[{
                                 flexDirection: 'row',
                             }]}>
-                                <Text className="text-yellow-600 bg-yellow-300 px-2 py-1 rounded-xl text-xs">Pending</Text>
+                                <Text className="text-yellow-600 bg-yellow-200 px-6 py-1 rounded-xl text-xs">Pending</Text>
                             </View>
 
                         )}

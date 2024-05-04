@@ -9,6 +9,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
 import { useRealm } from "@realm/react";
 import { useMutationAdditionalInfo } from "../datas/mutations/useAdditionalInfo";
+import { BSON } from "realm";
 
 export default function ProfilePage() {
 
@@ -25,7 +26,17 @@ export default function ProfilePage() {
     }, [animation]);
 
     const { updateProfilePicture } = useMutationAdditionalInfo()
+    const { updateUserToStation } = useMutationAdditionalInfo()
     const realm = useRealm()
+
+    const handleUpdateUserToStation = (id: string) => {
+        updateUserToStation({
+            user_id: additionalInfo._id,
+            station_id: new BSON.ObjectID(id),
+            realm: realm
+        })
+    }
+
     const handleUploadPhoto = () => {
         const options: ImageLibraryOptions = {
             mediaType: 'photo',
@@ -81,6 +92,7 @@ export default function ProfilePage() {
                     imageStyle={{ borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
                 </ImageBackground>
             </Animated.View>
+            
             <View
                 className='w-full h-[28vh]'>
                 {additionalInfo &&
@@ -102,8 +114,13 @@ export default function ProfilePage() {
                 }
             </View>
             <UserInfoDashboard additionalInfo={additionalInfo} />
+            
+            <Pressable onPress={() => handleUpdateUserToStation("6634f92d90bc139d4d15a5ad")} className="bg-[#00B1F7] rounded-full w-[80%] mx-auto mt-4">
+                <Text>Upgrade to Station Rekosistem</Text>
+            </Pressable>
+            
             <ProfileOptionList additionalInfo={additionalInfo} />
-
+            
             {/* <EditScreenInfo path="app/(tabs)/profile.tsx" /> */}
         </View>
 
