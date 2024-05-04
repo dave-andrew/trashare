@@ -2,6 +2,11 @@ import { Image, Pressable, Text, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useRef, useState } from "react";
 import { checkConnection, fetchResult } from "../../trashareAiConfig";
+import { ImageLibraryOptions, launchImageLibrary } from "react-native-image-picker";
+
+interface IPrediction {
+    prediction: string;
+}
 
 export default function CameraPage() {
 
@@ -9,6 +14,7 @@ export default function CameraPage() {
     const type = CameraType.back;
 
     const [device, setDevice] = useState<CameraType | undefined>(undefined);
+    const [prediction, setPrediction] = useState({});
 
     // checkConnection()
 
@@ -27,10 +33,14 @@ export default function CameraPage() {
 
     const handlePhoto = async () => {
         const photo = await camera.current?.takePictureAsync();
-        const result = await fetch(photo?.uri)
-        const data = await result.blob()
 
-        await fetchResult(data)
+        // convert from photo to blob
+        const fetchResponse = await fetch(photo?.uri || "");
+        const theBlob = await fetchResponse.blob();
+
+        // send the blob to the API
+        const result = await fetchResult(theBlob);
+        setPrediction(result);
         
     }
 
@@ -46,6 +56,7 @@ export default function CameraPage() {
             <Camera
                 ref={camera}
                 type={device}
+                style={{aspectRatio: 3/4, overflow: "hidden"}}
                 className="flex-1 absolute top-0 left-0 w-full h-full"
             />
 

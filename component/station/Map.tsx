@@ -3,10 +3,12 @@ import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Geo } from "../../app/(tabs)/stationPage";
 import { Station } from "../../models/Station";
-import { useQuery, useRealm } from "@realm/react";
+import { useRealm } from "@realm/react";
 import { History } from "../../models/History";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
 import BottomStationDetail from "./BottomStationDetail";
+import { getUserHistory } from "../../app/datas/queries/useQueries";
+import { useQueueMutation } from "../../app/datas/mutations/useMutations";
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
@@ -14,9 +16,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const realm = useRealm()
     const { additionalInfo } = useContext(AdditionalInfoContext);
 
-    // check if there is a queue that is not completed and the orderer is the same as the logged in user
-    const getQueue = useQuery(History).filtered('orderer == $0', additionalInfo)
-
+    const getQueue = getUserHistory()
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {
             mutableSubs.add(getQueue)
@@ -36,12 +36,11 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     }, [station])
 
     const handleQueue = (method: string) => {
-        const userLocation = {
-            lat: location.latitude,
-            lng: location.longitude
-        }
         const queue = {
-            location: userLocation,
+            location: {
+                lat: location.latitude,
+                lng: location.longitude
+            },
             station: station,
             waste: [],
             orderer: additionalInfo,
@@ -51,24 +50,8 @@ export default function Map({ location, station }: { location: Geo, station: Sta
         addQueue(queue)
     }
 
-    const addQueue = useCallback((queue) => {
-        const res = realm.write(() => {
-            return realm.create(History, queue)
-        })
-        console.log(res);
-    }, [realm])
-
-    const deleteQueue = useCallback((queue) => {
-        realm.write(() => {
-            realm.delete(queue)
-        })
-    }, [realm])
-
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(getQueue)
-        })
-    }, [realm, getQueue])
+    const { addQueue } = useQueueMutation(realm, getQueue)
+    const { deleteQueue } = useQueueMutation(realm, getQueue)
 
     return (
         <View className="flex-1">

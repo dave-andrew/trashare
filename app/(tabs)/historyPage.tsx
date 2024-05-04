@@ -1,16 +1,14 @@
-import { FlatList, Image, ImageBackground, Text, View } from "react-native";
-import { useQuery, useRealm, useUser } from "@realm/react";
-import { History } from "../../models/History";
+import { FlatList, Image, Text, View } from "react-native";
 import HistoryItem from "../../component/history/HistoryItem";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { useContext } from "react";
 import CircularFilterDisk from "../../component/history/CircularFilterDisk";
+import { getUserHistory } from "../datas/queries/useQueries";
 
 export default function HistoryPage() {
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    const history = useQuery(History).filtered('orderer == $0', additionalInfo).sorted('createdAt', true);
-
+    const history = getUserHistory();
     console.log("History ", history)
 
     return (

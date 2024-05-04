@@ -1,22 +1,16 @@
-import { useQuery, useRealm } from "@realm/react";
+import { useRealm } from "@realm/react";
 import { News } from "../../models/News";
 import { useCallback, useEffect } from "react";
 import { Button, Text } from "react-native";
-import { User } from "../../models/User";
+import { getNews } from "../datas/queries/useQueries";
+import { useNewsMutation } from "../datas/mutations/useMutations";
 
 
 export default function Newseeder() {
     const realm = useRealm();
-    const newsList = useQuery(News);
+    const newsList = getNews();
 
-    const addNews =  useCallback((n) => {
-        const a = realm.write(() => {
-            
-            return realm.create(News, n);
-        });
-        
-        return a 
-    }, [realm, newsList])
+    const { addNews } = useNewsMutation(realm, newsList);
 
     const seedNews = async () => {
         if (newsList.length > 0) {
@@ -56,15 +50,8 @@ export default function Newseeder() {
         news.map(n => {
             return addNews(n);
         })
-
-        
     };
 
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(newsList);
-        })
-    }, [realm, newsList])
 
     return (
         <>

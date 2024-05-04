@@ -3,6 +3,7 @@ import { User } from "../../../models/User"
 import { AdditionalInfoContext } from "../../providers/AdditionalInfoProvider"
 
 export function useMutationAdditionalInfo() {
+    // Use Mutation with Cache to the Context
     const registerAdditionalInfo = ({ user_id, username, phone, gender, realm, setStateContext}) => {
         const newUser = realm.write(() => {
             return realm.create(User, {

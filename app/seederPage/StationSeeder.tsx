@@ -1,20 +1,16 @@
-import { useQuery, useRealm } from "@realm/react"
+import { useRealm } from "@realm/react"
 import { Button, Text } from "react-native"
 import { Station } from "../../models/Station";
 import { useCallback, useEffect } from "react";
+import { getStations } from "../datas/queries/useQueries";
+import { useStationMutation } from "../datas/mutations/useMutations";
 
 export default function StationSeeder() {
 
     const realm = useRealm();
-    const stationList = useQuery(Station);
-    // console.log(stationList)
+    const stationList = getStations();
 
-    const addStation = useCallback(
-        (station) => {
-            return realm.write(() => {
-                return realm.create(Station, station);
-            });
-    }, [realm, stationList])
+    const { addStation } = useStationMutation(realm, stationList);
 
     const seedStations = async () => {
         if (stationList.length > 0) {
@@ -73,7 +69,7 @@ export default function StationSeeder() {
                 },
                 mainType: "Recyclable",
                 gmapUrl: "https://maps.app.goo.gl/eb3zMeyB24ZVnF5B6"
-            }, 
+            },
             {
                 name: "Arah Environmental Indonesia",
                 formattedAddress: "Jl. Tulodong Bawah II No.3, RT.3/RW.1, Senayan, Kec. Kby. Baru, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12191",
@@ -104,7 +100,7 @@ export default function StationSeeder() {
                 openingHours: {
                     open: "12:00",
                     close: "15:00"
-                },  
+                },
                 mainType: "Paper",
                 gmapUrl: "https://maps.app.goo.gl/bjKxaDd3dmTvPVeS7"
             }
@@ -114,12 +110,6 @@ export default function StationSeeder() {
             return addStation(station);
         })
     };
-
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(stationList);
-        })
-    }, [realm, stationList])
 
     return (
         <>

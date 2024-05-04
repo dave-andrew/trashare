@@ -1,16 +1,17 @@
-import { useQuery, useRealm } from "@realm/react";
+import { useRealm } from "@realm/react";
 import { Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { Station } from "../../models/Station";
 import SearchStationItem from "./SearchStationItem";
 import { Results } from "realm";
+import { getStations } from "../../app/datas/queries/useQueries";
 
 
 export default function SearchStationList({ setStation, search }: { setStation: React.Dispatch<React.SetStateAction<Station>>, search: string }) {
 
     const realm = useRealm()
-    const locations = useQuery(Station)
+    const locations = getStations()
 
     const [filterStation, setFilterStation] = useState<Results<Station>>(locations)
 

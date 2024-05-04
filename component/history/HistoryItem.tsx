@@ -16,9 +16,9 @@ export default function HistoryItem({ history }: { history: History }) {
             <View style={{ flexDirection: 'row', elevation: 5 }} className="bg-white mb-2 p-4 rounded-xl">
 
                 <Image
-                    className='w-16 h-16 rounded-full mr-4'
+                    className='w-16 h-16 rounded-full mr-3'
                     source={{
-                        uri: 'https://picsum.photos/200/300',
+                        uri: history?.station?.imageUrl,
                     }} />
                 <View className="flex flex-row justify-between flex-grow">
                     <View className="flex flex-col justify-between">
@@ -64,7 +64,7 @@ export default function HistoryItem({ history }: { history: History }) {
                             <View style={[{
                                 flexDirection: 'row',
                             }]}>
-                                <Text className="text-yellow-600 bg-yellow-300 px-2 py-1 rounded-xl">Pending</Text>
+                                <Text className="text-yellow-600 bg-yellow-300 px-2 py-1 rounded-xl text-xs">Pending</Text>
                             </View>
 
                         )}

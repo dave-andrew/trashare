@@ -42,7 +42,7 @@ export default function TabLayout() {
                     title: 'Station',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-marker" color={color} />,
                     headerShown: false,
-                    href: additionalInfo?.role === 'user' ? 'stationPage' : null
+                    href: (additionalInfo?.role === 'user') ? 'stationPage' : null
                 }}
             />
             <Tabs.Screen
@@ -51,7 +51,7 @@ export default function TabLayout() {
                     title: 'Queue',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="list" color={color} />,
                     headerShown: false,
-                    href: additionalInfo?.role === 'user' ? null : 'queuePage'
+                    href: (additionalInfo?.role === 'station') ? 'queuePage' : null
                 }}
             />
             <Tabs.Screen

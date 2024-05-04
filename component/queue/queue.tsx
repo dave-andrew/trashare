@@ -1,7 +1,5 @@
-import { useQuery } from "@realm/react";
 import { Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { History } from "../../models/History";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
 import { useContext } from "react";
 
@@ -9,8 +7,6 @@ import { useContext } from "react";
 export default function QueuePage() {
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    const stationQueue = useQuery(History).filtered('isComplete == true').sorted('createdAt', true);
-    console.log("Station Queue ", stationQueue)
 
     console.log(additionalInfo.station)
 
