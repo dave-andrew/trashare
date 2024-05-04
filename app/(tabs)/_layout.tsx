@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
-import AdditionalInfoProvider, { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
+import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
 export default function TabLayout() {
 
-    const { additionalUserInfo } = useContext(AdditionalInfoContext);
-    console.log('tab', additionalUserInfo)
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    console.log('tab', additionalInfo)
     
     return (
         <Tabs screenOptions={{
@@ -39,23 +39,10 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="stationPage"
                 options={{
-                    title: (additionalUserInfo?.role === "user") ? 'Station' : 'Queue',
-                    tabBarIcon: ({ color }) => {
-                        if (additionalUserInfo?.role == 'user') {
-                            return <FontAwesome size={28} name="map-marker" color={color} />
-                        } else {
-                            return <FontAwesome size={28} name="list" color={color} />
-                        }
-                    },
+                    title: 'Queue',
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="list" color={color} />,
                     headerShown: false,
-                }}
-            />
-            {/* <Tabs.Screen
-                name="stationPage"
-                options={{
-                    title: 'Station',
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="map-marker" color={color} />,
-                    headerShown: false,
+                    href: null
                 }}
             />
             <Tabs.Screen
@@ -64,8 +51,9 @@ export default function TabLayout() {
                     title: 'Queue',
                     tabBarIcon: ({ color }) => <FontAwesome size={28} name="list" color={color} />,
                     headerShown: false,
+                    href: null
                 }}
-            /> */}
+            />
             <Tabs.Screen
                 name="cameraPage"
                 options={{
