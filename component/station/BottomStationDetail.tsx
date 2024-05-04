@@ -15,7 +15,7 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
 
   useEffect(() => {
     if (station) {
-      if (parseInt(station.openingHours.open) < new Date().getHours() && parseInt(station.openingHours.close) > new Date().getHours()) {
+      if (parseInt(station?.openingHours.open) < new Date().getHours() && parseInt(station?.openingHours.close) > new Date().getHours()) {
         setIsOpen(true)
         return
       }
@@ -30,21 +30,21 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
       enablePanDownToClose={getQueue.length == 0 ? true : false}
       handleIndicatorStyle={{ backgroundColor: '#eee', width: 60, height: 6 }}>
 
-      <Text className='text-center text-lg font-bold '>{station.name}</Text>
+      <Text className='text-center text-lg font-bold '>{station?.name}</Text>
       <View className='flex flex-row justify-between my-4'>
         <Image
           style={{ borderRadius: 10 }}
           className='w-[38%] h-28'
           source={{
-            uri: station.imageUrl,
+            uri: station?.imageUrl,
           }}
         />
         <View className="w-[58%] flex">
           <View className="flex flex-row gap-1">
             <Text className={`font-bold ${isOpen ? "text-green-500" : "text-red-500"}`}>{isOpen ? "Open" : "Close"}</Text>
-            <Text>({station.openingHours.open} - {station.openingHours.close})</Text>
+            <Text>({station?.openingHours.open} - {station?.openingHours.close})</Text>
           </View>
-          <Text className="mt-1 text-xs">{station.formattedAddress}</Text>
+          <Text className="mt-1 text-xs">{station?.formattedAddress}</Text>
         </View>
       </View>
 
@@ -61,14 +61,14 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
           leftText={"Cancel"}
           leftClick={() => deleteQueue(getQueue[0])}
           rightText={"Chat Station"}
-          rightClick={() => router.push({pathname: 'chat/chat', params: {station: station}})} />
+          rightClick={() => router.push({pathname: 'chat/chat', params: {station: station._id}})} />
         ) : (
           <BottomButtons
           leftType={"Red"}
           leftText={"Cancel"}
           leftClick={() => deleteQueue(getQueue[0])}
           rightText={"Directions"}
-          rightClick={() => Linking.openURL(station.gmapUrl)} />
+          rightClick={() => Linking.openURL(station?.gmapUrl)} />
         )
       )}
     </BottomSheet>
