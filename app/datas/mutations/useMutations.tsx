@@ -3,6 +3,7 @@ import { News } from "../../../models/News"
 import { Station } from "../../../models/Station"
 import { History } from "../../../models/History"
 import { User } from "../../../models/User"
+import { Chat } from "../../../models/Chat"
 
 export function useQueueMutation(realm, queue) {
     const addQueue = useCallback((queue) => {
@@ -68,5 +69,23 @@ export function useStationMutation(realm, stationList) {
 
     return {
         addStation,
+    }
+}
+
+export function useChatMutation(realm, chatList) {
+    const createChat = useCallback((chat) => {
+        return realm.write(() => {
+            return realm.create(Chat, chat);
+        });
+    }, [realm, chatList])
+
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(chatList);
+        })
+    }, [realm, chatList])
+
+    return {
+        createChat,
     }
 }

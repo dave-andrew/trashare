@@ -10,6 +10,8 @@ export default function HistoryItem({ history }: { history: History }) {
     const router = useRouter();
     console.log("History Item ", history);
 
+    // if(!history.station) return (<></>)
+
     return (
         <Pressable onPress={() => router.push({ pathname: "/history/detail", params: { id: history._id } })}
             className="m-2 my-1">
@@ -22,7 +24,7 @@ export default function HistoryItem({ history }: { history: History }) {
                     }} />
                 <View className="flex flex-row justify-between flex-grow">
                     <View className="flex flex-col justify-between">
-                        <Text className=" font-medium">{history.station.name}</Text>
+                        <Text className=" font-medium">{history?.station?.name}</Text>
                         {history.isComplete ? (() => {
                             let totalWeight = history.waste.reduce((total, waste) => total + waste.weight, 0);
                             let totalPoints = history.waste.reduce((total, waste) => {

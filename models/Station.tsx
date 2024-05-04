@@ -13,7 +13,6 @@ export class Station extends Realm.Object {
     openingHours: OpeningHours;
     mainType: string;
     gmapUrl: string;
-    users: User[];
 
     static primaryKey = '_id';
     static schema : ObjectSchema = {
