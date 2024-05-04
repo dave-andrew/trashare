@@ -11,7 +11,7 @@ export default function WasteDataCard() {
 
   return (
     <View
-      className='flex flex-col mx-2 p-4 rounded-lg bg-white'
+      className='flex flex-col m-2 p-4 rounded-lg bg-white'
       style={{elevation: 5}}>
       <Pressable className='rounded-full absolute z-10 bg-white w-10 h-10 flex items-center justify-center top-6 right-6'>
         <FontAwesome name='close' size={28} color={"#ccc"} />
