@@ -48,14 +48,13 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                 imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-C-TXa27ZHd6nqdTqGMvyH4NNG00Cd2_rWpeoCa17mQ&s"
             }],
             orderer: additionalInfo,
-            isComplete: true,
+            isComplete: false,
             orderType: method
         }
         addQueue(queue)
     }
 
     const getQueue = getUserQueue()
-    console.log(getQueue)
     const { addQueue } = useQueueMutation(realm, getQueue)
     const { deleteQueue } = useQueueMutation(realm, getQueue)
 
