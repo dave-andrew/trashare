@@ -12,10 +12,11 @@ import { ScrollView } from "react-native-gesture-handler";
 export default function Home() {
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
+    
     return (
         <View className="bg-white min-h-full">
             <ImageBackground
-                className='w-full h-[12vh] mx-auto'
+                className='w-full h-[14vh] mx-auto'
                 source={require('../../assets/backgrounds/RegisterBG.png')}
                 imageStyle={{ borderBottomLeftRadius: 24, borderBottomRightRadius: 24 }}>
                 {additionalInfo &&
@@ -35,9 +36,9 @@ export default function Home() {
                         icon={<FontAwesome size={28} name="anchor" color={'#656565'} />} />
                 </View>
 
-                <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seederPage/NewsSeeder")}><Text>News Seeder</Text></Pressable>
+                {/* <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seederPage/NewsSeeder")}><Text>News Seeder</Text></Pressable>
                 <Pressable className="my-1 bg-blue-200" onPress={() => router.push("/seederPage/StationSeeder")}><Text>Station Seeder</Text></Pressable>
-                <EditScreenInfo path="app/(tabs)/home.tsx" />
+                <EditScreenInfo path="app/(tabs)/home.tsx" /> */}
 
                 <SummaryInformationBar compostPoints={additionalInfo?.compostWaste}
                     paperPoints={additionalInfo?.paperWaste}

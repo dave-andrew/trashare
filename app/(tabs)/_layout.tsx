@@ -5,8 +5,9 @@ import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
 export default function TabLayout() {
 
-    const { additionalUserInfo } = useContext(AdditionalInfoContext);
-
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    console.log('tab', additionalInfo)
+    
     return (
         <Tabs screenOptions={{
             tabBarActiveTintColor: '#00B1F7',
@@ -26,6 +27,7 @@ export default function TabLayout() {
                 borderRadius: 10,
             },
         }}>
+            
             <Tabs.Screen
                 name="index"
                 options={{
@@ -37,16 +39,19 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="stationPage"
                 options={{
-                    title: (additionalUserInfo?.role === 'user') ? 'Station' : 'Queue',
-                    tabBarIcon: ({ color }) => {
-                        if (additionalUserInfo?.role == 'user') {
-                            return <FontAwesome size={28} name="map-marker" color={color} />
-                        } else {
-                            return <FontAwesome size={28} name="list" color={color} />
-                        }
-                    },
+                    title: 'Queue',
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="list" color={color} />,
                     headerShown: false,
-
+                    href: null
+                }}
+            />
+            <Tabs.Screen
+                name="queuePage"
+                options={{
+                    title: 'Queue',
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="list" color={color} />,
+                    headerShown: false,
+                    href: null
                 }}
             />
             <Tabs.Screen
@@ -82,6 +87,7 @@ export default function TabLayout() {
                     headerShown: false
                 }}
             />
+            
         </Tabs>
     );
 }

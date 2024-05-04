@@ -36,7 +36,6 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     }, [station])
 
     const handleQueue = (method: string) => {
-
         const userLocation = {
             lat: location.latitude,
             lng: location.longitude
@@ -49,24 +48,20 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             isComplete: false,
             orderType: method
         }
-
         addQueue(queue)
-        console.log(queue)
     }
 
     const addQueue = useCallback((queue) => {
         const res = realm.write(() => {
             return realm.create(History, queue)
-        }
-        )
+        })
+        console.log(res);
     }, [realm])
 
     const deleteQueue = useCallback((queue) => {
-        realm.write(
-            () => {
-                realm.delete(queue)
-            }
-        )
+        realm.write(() => {
+            realm.delete(queue)
+        })
     }, [realm])
 
     useEffect(() => {

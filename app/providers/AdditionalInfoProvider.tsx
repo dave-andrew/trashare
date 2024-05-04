@@ -34,7 +34,4 @@ export default function AdditionalInfoProvider({ children }: { children: React.R
             </AdditionalInfoContext.Provider>
         );
     }
-
-
-
 }

@@ -14,7 +14,7 @@ export default function NewsPortal() {
             mutableSubs.add(newsList)
         })
         console.log(newsList);
-        
+
     }, [realm]);
 
 
@@ -23,13 +23,17 @@ export default function NewsPortal() {
             <Text className="text-xl" style={[{
                 fontWeight: '500',
             }]}>News & Articles</Text>
-            <View className="mt-2 flex flex-row flex-wrap flex-start mx-[-8px]">
-                {newsList.map((news, index) => {
-                    return (
-                        <NewsPortalCard news={news} key={index} />
-                    )
-                })}
-            </View>
+            {newsList.length > 0 ?
+                <View className="mt-2 flex flex-row flex-wrap flex-start mx-[-8px]">
+                    {newsList.map((news, index) => {
+                        return (
+                            <NewsPortalCard news={news} key={index} />
+                        )
+                    })}
+                </View>
+                :
+                <Text className="text-center text-sm text-gray-500 mt-24">No News Found</Text>
+            }
         </View>
     )
 }
