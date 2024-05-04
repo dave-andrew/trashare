@@ -11,6 +11,12 @@ export function useQueueMutation(realm, queue) {
         })
     }, [realm])
 
+    const completeQueue = useCallback((queue) => {
+        realm.write(() => {
+            queue.isComplete = true
+        })
+    }, [realm])
+
     const deleteQueue = useCallback((queue) => {
         realm.write(() => {
             realm.delete(queue)
