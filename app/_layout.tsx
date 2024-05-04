@@ -22,6 +22,16 @@ export default function AppLayout() {
                             // headerShown: false,
                         }}
                     />
+                    <Stack.Screen name="history/detail"
+                        options={{
+                            title: "Order Details",
+                            headerStyle: { backgroundColor: '#fff'},
+                            headerTintColor: '#000',
+                            headerTitleStyle: {
+                                fontWeight: 'bold'
+                            },
+                        }}
+                    />
                 </Stack>
 
             </ProviderIndex>
