@@ -79,7 +79,9 @@ export default function ProfilePage() {
     }
 
     return (
-        <View className="h-full bg-white">
+        <View className="h-full" style={[{
+            backgroundColor: '#F9F9F9'
+        }]}>
             <Animated.View style={{ transform: [{ translateY: animation }] }} >
                 <ImageBackground
                     className='w-full h-[24vh] absolute'

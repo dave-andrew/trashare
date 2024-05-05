@@ -32,8 +32,6 @@ export const getUserQueue = () => {
 }
 
 export const getAllHistory = (realm) => {
-    const { additionalInfo } = useContext(AdditionalInfoContext);
-
     const histories = useQuery(History)
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {

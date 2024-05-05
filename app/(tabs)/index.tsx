@@ -14,7 +14,9 @@ export default function Home() {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     
     return (
-        <View className="bg-white min-h-full">
+        <View className="min-h-full" style={[{
+            backgroundColor: '#F9F9F9'
+        }]}>
             <ImageBackground
                 className='w-full h-[14vh] mx-auto'
                 source={require('../../assets/backgrounds/RegisterBG.png')}

@@ -7,11 +7,11 @@ export default function AppLayout() {
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ProviderIndex>
-                <Stack screenOptions={{ contentStyle: { backgroundColor: '#fff' } }}>
+                <Stack screenOptions={{ contentStyle: { backgroundColor: '#f9f9f9' } }}>
                     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                     <Stack.Screen name="miscPage/faqPage" options={{
                         title: "Frequently Asked Question",
-                        headerStyle: { backgroundColor: '#fff' },
+                        headerStyle: { backgroundColor: '#f9f9f9' },
                         headerTintColor: '#000',
                         headerTitleStyle: {
                             fontWeight: 'bold',

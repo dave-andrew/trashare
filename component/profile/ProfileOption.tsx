@@ -7,6 +7,7 @@ export default function ProfileOption(props: { points?: number, menu: string, ic
             <View style={[{
                 backgroundColor: 'white',
                 borderRadius: 10,
+                marginBottom: 6,
                 shadowColor: '#000',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.25,
@@ -68,7 +69,7 @@ export default function ProfileOption(props: { points?: number, menu: string, ic
     return (
         <View style={[{
             backgroundColor: 'white',
-            marginVertical: 8,
+            marginVertical: 6,
             borderRadius: 10,
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
