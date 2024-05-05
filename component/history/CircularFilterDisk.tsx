@@ -10,7 +10,7 @@ export default function CircularFilterDisk(props: { label: string }) {
             marginHorizontal: 3,
             borderRadius: 20,
             backgroundColor: '#EEEEEE',
-            borderColor: '#E2E2E2',
+            borderColor: '#B0B0B0',
             borderWidth: 1,
             alignItems: 'center',
         }]}>
