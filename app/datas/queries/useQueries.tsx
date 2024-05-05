@@ -2,7 +2,7 @@ import { useQuery } from "@realm/react";
 import { User } from "../../../models/User";
 import { News } from "../../../models/News";
 import { AdditionalInfoContext } from "../../providers/AdditionalInfoProvider";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { History } from "../../../models/History";
 import { Station } from "../../../models/Station";
 import { Chat } from "../../../models/Chat";
@@ -29,6 +29,18 @@ export const getHistoryById = (id) => {
 export const getUserQueue = () => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     return useQuery(History).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
+}
+
+export const getAllHistory = (realm) => {
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+
+    const histories = useQuery(History)
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(histories)
+        })
+    }, [realm, histories])
+    return histories;
 }
 
 export const getStations = () => {

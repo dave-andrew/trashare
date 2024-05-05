@@ -3,12 +3,14 @@ import HistoryItem from "../../component/history/HistoryItem";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { useContext } from "react";
 import CircularFilterDisk from "../../component/history/CircularFilterDisk";
-import { getStationQueue, getUserHistory } from "../datas/queries/useQueries";
+import { getAllHistory, getStationQueue, getUserHistory } from "../datas/queries/useQueries";
+import { useRealm } from "@realm/react";
+
 
 export default function HistoryPage() {
-
+    const realm = useRealm()
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    const history = getUserHistory();
+    const history = getAllHistory(realm);
     console.log("History ", history)
 
     return (
