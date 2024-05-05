@@ -13,8 +13,7 @@ export default function NewsPortal() {
         realm.subscriptions.update(mutableSubs => {
             mutableSubs.add(newsList)
         })
-        console.log(newsList);
-
+        // console.log(newsList);
     }, [realm]);
 
 

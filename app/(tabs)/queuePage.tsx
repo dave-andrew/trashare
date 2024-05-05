@@ -1,13 +1,13 @@
 import { Text, View, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
-import { getStationQueue, getUserHistory } from "../datas/queries/useQueries";
+import { getHistoryById, getStationQueue, getStations, getUserHistory } from "../datas/queries/useQueries";
 import HistoryItem from "../../component/history/HistoryItem";
 
 
 export default function QueuePage() {
 
-    const queues = getStationQueue()
+    const queues = getStations()
     console.log("Queue ", queues)
 
     return (
@@ -26,7 +26,7 @@ export default function QueuePage() {
                 <Text className="text-lg text-center mt-14 font-medium">Queue</Text>
             </View>
 
-            {queues.length == 0 ? (
+            {/* {queues.length == 0 ? (
                 <View className="justify-center items-center my-auto pb-12">
                     <Image source={require('../../assets/illustration/trash.png')} className={"mx-auto"} style={{ width: 160, height: 160 }} />
                     <Text className="text-lg font-medium">There is no queue yet...</Text>
@@ -43,7 +43,7 @@ export default function QueuePage() {
                             )
                         }
                     } />
-            )}
+            )} */}
         </View>
     )
 }
