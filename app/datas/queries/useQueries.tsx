@@ -16,21 +16,6 @@ export const getNews = () => {
     return useQuery(News).sorted('createdAt', true)
 }
 
-// check if there is a queue that is not completed and the orderer is the same as the logged in user
-export const getUserHistory = () => {
-    const { additionalInfo } = useContext(AdditionalInfoContext);
-    return useQuery(History).filtered('orderer == $0', additionalInfo).sorted('createdAt', true);
-}
-
-export const getHistoryById = (id) => {
-    return useQuery(History).filtered(`_id == oid(${id})`)[0];
-}
-
-export const getUserQueue = () => {
-    const { additionalInfo } = useContext(AdditionalInfoContext);
-    return useQuery(History).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
-}
-
 export const getAllHistory = (realm) => {
     const histories = useQuery(History)
     useEffect(() => {
@@ -41,13 +26,28 @@ export const getAllHistory = (realm) => {
     return histories;
 }
 
-export const getStations = () => {
-    return useQuery(Station);
+export const getUserHistory = (realm) => {
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    return getAllHistory(realm).filtered('orderer == $0', additionalInfo).sorted('createdAt', true);
 }
 
-export const getStationQueue = () => {
+export const getStationHistory = (realm) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    return useQuery(History).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
+    return getAllHistory(realm).filtered('station == $0', additionalInfo.station).filtered('isComplete == true').sorted('createdAt', true);
+}
+
+export const getHistoryById = (realm, id) => {
+    return getAllHistory(realm).filtered(`_id == oid(${id})`)[0];
+}
+
+export const getUserQueue = (realm) => {
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    return getAllHistory(realm).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
+}
+
+export const getStationQueue = (realm) => {
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    return getAllHistory(realm).filtered('station == $0', additionalInfo.station).filtered('isComplete == false').sorted('createdAt', true);
 }
 
 export const getUserChat = (station) => {
@@ -60,6 +60,16 @@ export const getStationChat = (orderer) => {
     return useQuery(Chat).filtered('station == $0', additionalInfo.station).filtered('user == $1', orderer);
 }
 
-export const getStationById = (station_id) => {
-    return useQuery(Station).filtered(`_id == oid(${station_id})`)[0];
+export const getStations = (realm) => {
+    const stations = useQuery(Station);
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(stations)
+        })
+    }, [realm, stations])
+    return stations;
+}
+
+export const getStationById = (realm, station_id) => {
+    return getStations(realm).filtered(`_id == oid(${station_id})`)[0];
 }

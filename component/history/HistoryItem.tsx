@@ -51,7 +51,6 @@ export default function HistoryItem({ history }: { history: History }) {
                             }]}>
                                 <Text className="text-yellow-600 bg-yellow-200 px-6 py-1 rounded-xl text-xs">Pending</Text>
                             </View>
-
                         )}
 
                     </View>

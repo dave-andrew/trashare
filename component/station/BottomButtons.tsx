@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import { getUserQueue } from '../../app/datas/queries/useQueries';
+import { useRealm } from '@realm/react';
 
 export default function BottomButtons({ leftType, leftText, leftClick, rightType, rightText, rightClick }: { leftType?: string, leftText: string, leftClick: () => void, rightType?: string, rightText: string, rightClick: () => void }) {
 
   const [cancelVisible, setCancelVisible] = useState(true);
-  const getQueue = getUserQueue();
+
+  const realm = useRealm();
+  const getQueue = getUserQueue(realm);
 
   useEffect(() => {
     setCancelVisible(true);

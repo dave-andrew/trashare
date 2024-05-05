@@ -11,8 +11,8 @@ import { getStations } from "../../app/datas/queries/useQueries";
 export default function SearchStationList({ setStation, search }: { setStation: React.Dispatch<React.SetStateAction<Station>>, search: string }) {
 
     const realm = useRealm()
-    const locations = getStations()
-    // console.log("Locations", locations)
+    const locations = getStations(realm)
+    console.log("Locations", locations)
 
     const [filterStation, setFilterStation] = useState<Results<Station>>(locations)
 

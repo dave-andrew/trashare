@@ -6,15 +6,15 @@ import { Station } from "../../models/Station";
 import { useRealm } from "@realm/react";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
 import BottomStationDetail from "./BottomStationDetail";
-import { getUserHistory, getUserQueue } from "../../app/datas/queries/useQueries";
+import { getUserQueue } from "../../app/datas/queries/useQueries";
 import { useQueueMutation } from "../../app/datas/mutations/useMutations";
 import MapViewDirections from 'react-native-maps-directions';
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
     const [stationGeometry, setStationGeometry] = useState<Geo | null>()
-    const realm = useRealm()
     const { additionalInfo } = useContext(AdditionalInfoContext);
+    const realm = useRealm()
 
     useEffect(() => {
         if (station) {
@@ -41,7 +41,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
         addQueue(queue)
     }
 
-    const getQueue = getUserQueue()
+    const getQueue = getUserQueue(realm)
     const { addQueue } = useQueueMutation(realm, getQueue)
     const { deleteQueue } = useQueueMutation(realm, getQueue)
 

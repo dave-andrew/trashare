@@ -117,7 +117,7 @@ export default function WasteDataCard({ index, wasteList, setWasteList }: { inde
         <TextInput
           className={"rounded-full border border-gray-400 py-2 px-4 w-[45%]"}
           placeholder={"Weight (g)"}
-          value={wasteList[index].weight}
+          value={wasteList[index].weight ? wasteList[index].weight.toString() : ''}
           onChangeText={(text) => handleWeightChange(text)}
           keyboardType='numeric'
         />

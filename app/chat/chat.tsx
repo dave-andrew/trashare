@@ -10,12 +10,12 @@ import RoundedTextField from "../../component/form/RoundedTextField";
 
 export default function ChatPage() {
 
+  const realm = useRealm()
   const station_id = useLocalSearchParams().station
-  const station = getStationById(station_id)
+  const station = getStationById(realm, station_id)
 
   const [messageInput, setMessageInput] = useState<string>("")
 
-  const realm = useRealm()
   const chat = getUserChat(station)
   console.log(chat)
   const { additionalInfo } = useContext(AdditionalInfoContext)
