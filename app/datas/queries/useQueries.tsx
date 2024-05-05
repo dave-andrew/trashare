@@ -36,7 +36,8 @@ export const getStations = () => {
 }
 
 export const getStationQueue = () => {
-    return useQuery(History);
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    return useQuery(History).filtered('isComplete == false').filtered('station == $0', additionalInfo.station);
 }
 
 export const getUserChat = (station: Station) => {
@@ -49,6 +50,6 @@ export const getStationChat = (orderer: User) => {
     return useQuery(Chat).filtered('station == $0', additionalInfo.station).filtered('user == $1', orderer);
 }
 
-export const getStationById = (station_id) => {
-    return useQuery(Station).filtered(`_id == oid${station_id}`)[0];
+export const getStationById = (id) => {
+    return useQuery(Station).filtered(`_id == oid(${id})`)[0];
 }
