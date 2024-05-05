@@ -47,7 +47,8 @@
     "react-native-vector-icons": "^10.0.3",
     "react-native-worklets-core": "^1.1.1",
     "realm": "^12.7.0",
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "lottie-react-native": "6.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

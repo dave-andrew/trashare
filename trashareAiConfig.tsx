@@ -35,8 +35,8 @@ export const fetchResult = (blob: Blob) => {
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                     console.log('File available at', downloadURL);
                     const response = await axios.post(url, { url: downloadURL });
-                    console.log('Response:', response.data);
-                    return response.data;
+                    console.log('Response: ', response.data);
+                    resolve({'response': response.data, downloadURL});
                 } catch (error) {
                     console.error('Error fetching result:', error.message);
                     reject(error);

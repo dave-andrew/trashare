@@ -1,12 +1,10 @@
-import { Image, Pressable, Text, View } from "react-native";
+import { AppState, Image, Pressable, Text, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useRef, useState } from "react";
 import { checkConnection, fetchResult } from "../../trashareAiConfig";
-import { ImageLibraryOptions, launchImageLibrary } from "react-native-image-picker";
-
-interface IPrediction {
-    prediction: string;
-}
+import LottieView from "lottie-react-native";
+import { Dimensions } from 'react-native';
+import CameraPredictionDetail from "../../component/camera/CameraPredictionDetail";
 
 export default function CameraPage() {
 
@@ -14,10 +12,11 @@ export default function CameraPage() {
     const type = CameraType.back;
 
     const [device, setDevice] = useState<CameraType | undefined>(undefined);
+    const [pageState, setPageState] = useState("camera")
     const [prediction, setPrediction] = useState({});
+    const [imageUrl, setImageUrl] = useState("");
 
-    // checkConnection()
-
+    const animation = useRef(null);
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
@@ -25,25 +24,55 @@ export default function CameraPage() {
                 setDevice(type);
             }
         })();
+        setPageState("camera");
+
     }, []);
 
-    if (!device) {
-        return <Text>No camera device detected!</Text>;
-    }
+    useEffect(() => {
+        (async () => {
+            if (pageState == 'loading') {
+                animation?.current?.reset();
+                animation?.current?.play();
+                camera?.current.pausePreview();
+            } else if (pageState == 'result') {
+                camera?.current.resumePreview();
+            } else {
+                camera?.current.resumePreview();
+            }
+        })();
+        console.log(pageState);
+        
+    }, [pageState]);
+
 
     const handlePhoto = async () => {
-        const photo = await camera.current?.takePictureAsync();
+        try {
+            const photo = await camera.current?.takePictureAsync();
+            setPageState("loading");
+            console.log(photo?.uri);
 
-        // convert from photo to blob
-        const fetchResponse = await fetch(photo?.uri || "");
-        const theBlob = await fetchResponse.blob();
+            // convert from photo to blob
+            const fetchResponse = await fetch(photo?.uri || "");
+            const theBlob = await fetchResponse.blob();
 
-        // send the blob to the API
-        const result = await fetchResult(theBlob);
-        setPrediction(result);
-        
+            // send the blob to the API
+            const result = await fetchResult(theBlob);
+            setPrediction(result.response);
+            setImageUrl(result.downloadURL);
+
+            setPageState("result");
+        } catch (error) {
+            console.error('Error during upload or sending:', error);
+        }
+
     }
 
+    const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height - 50;
+
+    if (!device) {
+        return <Text className="pt-10">No camera device detected!</Text>;
+    }
     return (
         <View style={{ flex: 1 }}>
             <View
@@ -53,22 +82,37 @@ export default function CameraPage() {
                     <Text className="text-lg font-medium">Scan</Text>
                 </View>
             </View>
+
             <Camera
                 ref={camera}
                 type={device}
-                style={{aspectRatio: 3/4, overflow: "hidden"}}
+                style={{ aspectRatio: 3 / 4, overflow: "hidden" }}
                 className="flex-1 absolute top-0 left-0 w-full h-full"
             />
-
-            <Pressable
-                onPress={handlePhoto}
-                className="absolute bottom-8 left-0 right-0 flex items-center justify-center h-15"
-            >
-                <Image
-                    source={require("../../assets/capture.png")}
-                    className="w-16 h-16"
-                    style={{ tintColor: 'white' }} />
-            </Pressable>
+            {pageState == 'loading' && <LottieView
+                loop
+                ref={animation}
+                style={{
+                    width: windowWidth * 2.7,
+                    height: windowHeight,
+                    position: 'absolute',
+                    top: '5%',
+                }}
+                source={require('../../assets/illustration/scan-animation.json')}
+            />}
+            {pageState == "result" ?
+                <CameraPredictionDetail prediction={prediction.prediction} imageUrl={imageUrl} setPageState={setPageState} />
+                :
+                <Pressable
+                    onPress={handlePhoto}
+                    className="absolute bottom-8 left-0 right-0 flex items-center justify-center h-15"
+                >
+                    <Image
+                        source={require("../../assets/capture.png")}
+                        className="w-16 h-16"
+                        style={{ tintColor: 'white' }} />
+                </Pressable>
+            }
         </View>
     );
 }
