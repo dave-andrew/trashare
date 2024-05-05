@@ -23,7 +23,7 @@ export default function BottomOrderDetail({ queue }: { queue: History }) {
               <Text className="font-bold text-xl">{queue?.orderer?.username}</Text>
             </View>
           </View>
-          <Pressable>
+          <Pressable onPress={() => router.push({pathname: 'chat/chat', params: {station: queue.orderer._id}})}>
             <Image className="w-10 h-10" source={require('../../../assets/chat-icon.png')}></Image>
           </Pressable>
         </View>
