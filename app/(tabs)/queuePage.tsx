@@ -1,13 +1,15 @@
 import { Text, View, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
-import { getHistoryById, getStationQueue, getStations, getUserHistory } from "../datas/queries/useQueries";
+import { getStationQueue } from "../datas/queries/useQueries";
 import HistoryItem from "../../component/history/HistoryItem";
+import { useRealm } from "@realm/react";
 
 
 export default function QueuePage() {
 
-    const queues = getStations()
+    const realm = useRealm()
+    const queues = getStationQueue(realm)
     console.log("Queue ", queues)
 
     return (

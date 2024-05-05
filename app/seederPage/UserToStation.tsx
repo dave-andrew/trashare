@@ -10,8 +10,9 @@ export default function UserToStation() {
   const { additionalInfo } = useContext(AdditionalInfoContext);
   const { setAdditionalInfo } = useContext(AdditionalInfoContext);
   const { updateUserToStation } = useMutationAdditionalInfo()
-  const stations = getStations();
+  
   const realm = useRealm()
+  const stations = getStations(realm);
   console.log("Station", stations);
 
   const handleUpdateUserToStation = () => {

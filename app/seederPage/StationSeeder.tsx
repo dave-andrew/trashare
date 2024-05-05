@@ -8,7 +8,7 @@ import { useStationMutation } from "../datas/mutations/useMutations";
 export default function StationSeeder() {
 
     const realm = useRealm();
-    const stationList = getStations();
+    const stationList = getStations(realm);
 
     const { addStation } = useStationMutation(realm, stationList);
 

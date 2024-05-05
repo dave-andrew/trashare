@@ -6,12 +6,14 @@ import { AccumulationPointGraySpan } from "../../component/container/Accumulatio
 import HistoryDetailStationInfo from "../../component/history/detail/HistoryDetailStationInfo";
 import HistoryDetailTripInfo from "../../component/history/detail/HistoryDetailTripInfo";
 import HistoryDetailWasteCard from "../../component/history/detail/HIstoryDetailWasteCard";
+import { useRealm } from "@realm/react";
 
 
 export default function DetailPage() {
 
+    const realm = useRealm();
     const historyid = useLocalSearchParams().id;
-    const history = getHistoryById(historyid?.toString())
+    const history = getHistoryById(realm, historyid?.toString())
     // console.log(typeof(new BSON.ObjectID(historyid?.toString())));
 
     return (

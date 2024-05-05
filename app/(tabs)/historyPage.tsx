@@ -10,7 +10,7 @@ import { useRealm } from "@realm/react";
 export default function HistoryPage() {
     const realm = useRealm()
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    const history = getAllHistory(realm);
+    const history = getUserHistory(realm);
     console.log("History ", history)
 
     return (
@@ -57,6 +57,5 @@ export default function HistoryPage() {
                 ></FlatList>
             )}
         </View >
-
     );
 }

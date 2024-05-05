@@ -27,9 +27,8 @@ export default function StationPage() {
         longitudeDelta: 0.0421
     });
 
-    const { additionalInfo } = useContext(AdditionalInfoContext);
     const realm = useRealm();
-    const getQueue = getUserQueue()
+    const getQueue = getUserQueue(realm)
     console.log("Queue: ", getQueue)
 
     const [errorMsg, setErrorMsg] = useState(null);

@@ -9,7 +9,6 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
 import { useRealm } from "@realm/react";
 import { useMutationAdditionalInfo } from "../datas/mutations/useAdditionalInfo";
-import { getStations, getStationQueue } from "../datas/queries/useQueries";
 import UserToStation from "../seederPage/UserToStation";
 
 export default function ProfilePage() {
