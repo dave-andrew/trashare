@@ -24,6 +24,13 @@ export function useQueueMutation(realm, queue) {
         })
     }, [realm])
 
+    const finishOrder = useCallback((queue, wasteList) => {
+        realm.write(() => {
+            queue.isComplete = true
+            queue.waste = wasteList
+        })
+    }, [realm])
+
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {
             mutableSubs.add(queue)
@@ -33,6 +40,7 @@ export function useQueueMutation(realm, queue) {
     return {
         addQueue,
         deleteQueue,
+        finishOrder
     }
 }
 

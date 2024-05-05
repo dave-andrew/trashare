@@ -33,6 +33,11 @@ export default function AppLayout() {
                             },
                         }}
                     />
+                    <Stack.Screen name="queue/detail"
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
                 </Stack>
 
             </ProviderIndex>
