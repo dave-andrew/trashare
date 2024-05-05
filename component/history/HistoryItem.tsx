@@ -7,8 +7,16 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 export default function HistoryItem({ history }: { history: History }) {
 
     const router = useRouter();
+
+    const handleNavigate = () => {
+        if (!history.isComplete) {
+            router.push({ pathname: "/(tabs)/stationPage" })
+        } else {
+            router.push({ pathname: "/history/detail", params: { id: history._id } })
+        }
+    }
     return (
-        <Pressable onPress={() => router.push({ pathname: "/history/detail", params: { id: history._id } })}
+        <Pressable onPress={handleNavigate}
             className="m-2 my-1">
             <View style={{ flexDirection: 'row', elevation: 5 }} className="bg-white mb-2 p-4 rounded-xl">
 

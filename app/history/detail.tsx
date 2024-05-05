@@ -17,7 +17,9 @@ export default function DetailPage() {
     // console.log(typeof(new BSON.ObjectID(historyid?.toString())));
 
     return (
-        <View className="flex flex-col p-5">
+        <View className="flex flex-col p-5" style={[{
+            backgroundColor: '#F9F9F9'
+        }]}>
             <HistoryDetailStationInfo station={history?.station} wastes={history?.waste} createdAt={history?.createdAt} />
             <HistoryDetailTripInfo station={history?.station} />
             <View className="flex flex-col">

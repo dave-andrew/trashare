@@ -3,20 +3,20 @@ import HistoryItem from "../../component/history/HistoryItem";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { useContext } from "react";
 import CircularFilterDisk from "../../component/history/CircularFilterDisk";
-import { getAllHistory, getStationQueue, getUserHistory } from "../datas/queries/useQueries";
-import { useRealm } from "@realm/react";
+import { getUserHistory } from "../datas/queries/useQueries";
 
 
 export default function HistoryPage() {
-    const realm = useRealm()
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    const history = getUserHistory(realm);
+    const history = getUserHistory();
     console.log("History ", history)
 
     return (
-        <View className="bg-white min-h-full">
+        <View className="min-h-full" style={[{
+            backgroundColor: '#F9F9F9'
+        }]}>
             <View
-                className='w-full h-[12vh] mb-2 bg-white'
+                className='w-[102%] h-[13vh] mb-2 ml-[-4px]'
                 style={{
                     borderBottomLeftRadius: 24,
                     borderBottomRightRadius: 24,
@@ -24,7 +24,7 @@ export default function HistoryPage() {
                     shadowOffset: { width: 0, height: 2 },
                     shadowOpacity: 0.25,
                     shadowRadius: 3.84,
-                    elevation: 5,
+                    elevation: 3,
                 }}>
                 {additionalInfo &&
                     <Text className="text-lg text-center mt-14 font-medium">History</Text>
@@ -45,6 +45,7 @@ export default function HistoryPage() {
                 </View>
             ) : (
                 <FlatList
+                    className="mb-48"
                     style={{ paddingHorizontal: 8, paddingVertical: 8 }}
                     data={history}
                     renderItem={
