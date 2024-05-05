@@ -12,6 +12,7 @@ export default function SearchStationList({ setStation, search }: { setStation: 
 
     const realm = useRealm()
     const locations = getStations()
+    // console.log("Locations", locations)
 
     const [filterStation, setFilterStation] = useState<Results<Station>>(locations)
 

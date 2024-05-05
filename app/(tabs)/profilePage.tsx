@@ -1,5 +1,5 @@
 import { Animated, Image, ImageBackground, Pressable, Text, View } from "react-native";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import UserInfoDashboard from "../../component/profile/UserInfoDashboard";
@@ -9,17 +9,18 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
 import { useRealm } from "@realm/react";
 import { useMutationAdditionalInfo } from "../datas/mutations/useAdditionalInfo";
-import { getStationById } from "../datas/queries/useQueries";
+import { getStations, getStationQueue } from "../datas/queries/useQueries";
+import UserToStation from "../seederPage/UserToStation";
 
 export default function ProfilePage() {
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
     const { updateProfilePicture } = useMutationAdditionalInfo()
-    const { updateUserToStation } = useMutationAdditionalInfo()
+    
 
     const realm = useRealm()
-
     const animation = useMemo(() => new Animated.Value(-142), []);
+
     useEffect(() => {
         Animated.timing(animation, {
             toValue: 0,
@@ -27,20 +28,10 @@ export default function ProfilePage() {
             duration: 1200,
             useNativeDriver: true
         }).start();
+
     }, [animation]);
 
-    const handleUpdateUserToStation = (stationId: string) => {
-        const station = getStationById(stationId);
-        if (station) {
-            console.log("Station not found!");
-            return;
-        }
-        updateUserToStation({
-            user_id: additionalInfo._id,
-            station_id: station._id,
-            realm: realm
-        });
-    };
+    
 
     const handleUploadPhoto = () => {
         const options: ImageLibraryOptions = {
@@ -119,9 +110,7 @@ export default function ProfilePage() {
             </View>
             <UserInfoDashboard additionalInfo={additionalInfo} />
 
-            <Pressable onPress={() => handleUpdateUserToStation("6634f92d90bc139d4d15a5ad")} className="bg-[#00B1F7] rounded-full w-[80%] mx-auto mt-4">
-                <Text>Upgrade to Station Rekosistem</Text>
-            </Pressable>
+            <UserToStation />
 
             <ProfileOptionList additionalInfo={additionalInfo} />
 

@@ -6,7 +6,7 @@ import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 export default function TabLayout() {
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    console.log('tab', additionalInfo)
+    console.log("Additional Info", additionalInfo)
     
     return (
         <Tabs screenOptions={{

@@ -7,6 +7,7 @@ import { History } from "../../../models/History";
 import { Station } from "../../../models/Station";
 import { Chat } from "../../../models/Chat";
 
+
 export const getAdditionalInfo = (user_id) => {
     return useQuery(User).filtered(`_id == "${user_id}"`);
 }
@@ -35,7 +36,8 @@ export const getStations = () => {
 }
 
 export const getStationQueue = () => {
-    return useQuery(History);
+    const { additionalInfo } = useContext(AdditionalInfoContext);
+    return useQuery(History).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
 }
 
 export const getUserChat = (station) => {

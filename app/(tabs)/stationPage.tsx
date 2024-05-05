@@ -9,6 +9,7 @@ import { Station } from '../../models/Station';
 import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 import { getUserQueue } from '../datas/queries/useQueries';
 import { useRealm } from '@realm/react';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export interface Geo {
     latitude: number,
@@ -28,15 +29,18 @@ export default function StationPage() {
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
     const realm = useRealm();
+    const getQueue = getUserQueue()
+    console.log("Queue: ", getQueue)
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [search, setSearch] = useState('');
     const [isSearching, setIsSearching] = useState<boolean>(false);
+
     const [station, setStation] = useState<Station>();
+    console.log("Current Station", station)
 
     useEffect(() => {
         (async () => {
-
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 setErrorMsg('Permission to access location was denied');
@@ -57,13 +61,10 @@ export default function StationPage() {
         setIsSearching(false)
     }, [station])
 
-    const getQueue = getUserQueue()
-    // console.log(getQueue);
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {
             mutableSubs.add(getQueue)
         })
-        console.log(getQueue);
     }, [realm]);
 
     return (

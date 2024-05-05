@@ -11,7 +11,7 @@ export class Message extends Realm.Object {
         embedded: true,
         properties: {
             text: 'string',
-            createdAt: 'date',
+            createdAt: { type: 'date', default: new Date()},
             user: 'User',
         },
     };

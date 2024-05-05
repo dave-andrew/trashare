@@ -79,6 +79,12 @@ export function useChatMutation(realm, chatList) {
         });
     }, [realm, chatList])
 
+    const addMessage = useCallback((chat, message) => {
+        return realm.write(() => {
+            chat.message.push(message)
+        })
+    }, [realm, chatList]);
+
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {
             mutableSubs.add(chatList);
@@ -87,5 +93,6 @@ export function useChatMutation(realm, chatList) {
 
     return {
         createChat,
+        addMessage
     }
 }
