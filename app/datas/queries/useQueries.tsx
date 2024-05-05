@@ -40,16 +40,16 @@ export const getStationQueue = () => {
     return useQuery(History).filtered('isComplete == false').filtered('station == $0', additionalInfo.station);
 }
 
-export const getUserChat = (station: Station) => {
+export const getUserChat = (station) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    return useQuery(Chat).filtered('user == $0', additionalInfo).filtered('station == $1', station);
+    return useQuery(Chat).filtered('station == $0 AND user == $1', station, additionalInfo);
 }
 
-export const getStationChat = (orderer: User) => {
+export const getStationChat = (orderer) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     return useQuery(Chat).filtered('station == $0', additionalInfo.station).filtered('user == $1', orderer);
 }
 
-export const getStationById = (id) => {
-    return useQuery(Station).filtered(`_id == oid(${id})`)[0];
+export const getStationById = (station_id) => {
+    return useQuery(Station).filtered(`_id == oid(${station_id})`)[0];
 }
