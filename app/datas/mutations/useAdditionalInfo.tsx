@@ -5,14 +5,10 @@ import { Station } from "../../../models/Station"
 import { BSON } from "realm"
 import { getStationById } from "../queries/useQueries"
 
-function useSetAdditionalInfoInput() {
-    const { setAdditionalInfoInput } = useContext(AdditionalInfoContext);
-    return setAdditionalInfoInput;
-  }
 
 export function useMutationAdditionalInfo() {
 
-    const setAdditionalInfoInput = useSetAdditionalInfoInput();
+    const { setAdditionalInfo } = useContext(AdditionalInfoContext);
     
     const registerAdditionalInfo = ({ user_id, username, phone, gender, realm, setStateContext }) => {
         const newUser = realm.write(() => {
@@ -36,7 +32,7 @@ export function useMutationAdditionalInfo() {
             user.profileUrl = profileUrl
         })
         console.log(`Updated ... ${user.username}`)
-        setAdditionalInfoInput(user)
+        setAdditionalInfo(user)
     }
 
     const updateUserToStation = async ({ user_id, station_id, realm }) => {
@@ -53,7 +49,7 @@ export function useMutationAdditionalInfo() {
             user.station = station;
         });
         console.log(`Updated... ${user.name} to ${user.station.name}`);
-        setAdditionalInfoInput(user)
+        setAdditionalInfo(user)
     };
 
     return {

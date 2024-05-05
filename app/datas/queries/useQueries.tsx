@@ -6,7 +6,6 @@ import { useContext } from "react";
 import { History } from "../../../models/History";
 import { Station } from "../../../models/Station";
 import { Chat } from "../../../models/Chat";
-import { BSON } from "realm";
 
 export const getAdditionalInfo = (user_id) => {
     return useQuery(User).filtered(`_id == "${user_id}"`);
