@@ -1,7 +1,7 @@
 import { FlatList, Image, Text, View } from "react-native";
 import HistoryItem from "../../component/history/HistoryItem";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import CircularFilterDisk from "../../component/history/CircularFilterDisk";
 import { getStationHistory, getUserHistory } from "../datas/queries/useQueries";
 import { useRealm } from "@realm/react";
@@ -12,6 +12,45 @@ export default function HistoryPage() {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     const history = additionalInfo.role == 'station' ? getStationHistory(realm) : getUserHistory(realm);
     console.log("History ", history)
+
+    const [filter, setFilter] = useState({
+        "Recyclable": false,
+        "Paper": false,
+        "Compost": false,
+    })
+
+    const filterFunction = (h) => {
+
+        // If not filtered at all
+        if (!filter.Paper && !filter.Compost && !filter.Recyclable) {
+            return true
+        }
+
+        // If one filtered is true, then include if any of the waste is valid
+        let isValid = false
+        h.waste.map((w) => {
+            if (filter.Paper && w.wasteType == "Paper") {
+                isValid = true
+                return
+            }
+            if (filter.Compost && w.wasteType == "Compost") {
+                isValid = true
+                return
+            }
+            if (filter.Recyclable && w.wasteType == "Recyclable") {
+                isValid = true
+                return
+            }
+        })
+
+        return isValid
+    }
+
+    const [filteredHistory, setFilteredHistory] = useState(history.filter(filterFunction))
+
+    useEffect(() => {
+        setFilteredHistory(history.filter(filterFunction))
+    }, [filter])
 
     return (
         <View className="min-h-full" style={[{
@@ -34,9 +73,20 @@ export default function HistoryPage() {
             </View>
 
             <View className="p-4 flex flex-row">
-                <CircularFilterDisk label="Recyclable" />
-                <CircularFilterDisk label="Paper" />
-                <CircularFilterDisk label="Compost" />
+                {/* Filter Set */}
+                <CircularFilterDisk label="Recyclable" selected={filter.Recyclable} onPress={() => setFilter(prevFilter => ({
+                    ...prevFilter,
+                    Recyclable: !prevFilter.Recyclable
+                }))} />
+                <CircularFilterDisk label="Paper" selected={filter.Paper} onPress={() => setFilter(prevFilter => ({
+                    ...prevFilter,
+                    Paper: !prevFilter.Paper
+                }))} />
+                <CircularFilterDisk label="Compost" selected={filter.Compost} onPress={() => setFilter(prevFilter => ({
+                    ...prevFilter,
+                    Compost: !prevFilter.Compost
+                }))} />
+
             </View>
 
             {history.length == 0 ? (
@@ -49,7 +99,7 @@ export default function HistoryPage() {
                 <FlatList
                     className="mb-48"
                     style={{ paddingHorizontal: 8, paddingVertical: 8 }}
-                    data={history}
+                    data={filteredHistory}
                     renderItem={
                         ({ item }) => {
                             return (

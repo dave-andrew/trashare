@@ -6,6 +6,7 @@ import HistoryItem from "../../component/history/HistoryItem";
 import { useRealm } from "@realm/react";
 import QueueItem from "../../component/queue/QueueItem";
 import CircularFilterDisk from "../../component/history/CircularFilterDisk";
+import { useEffect, useState } from "react";
 
 
 export default function QueuePage() {
@@ -13,6 +14,35 @@ export default function QueuePage() {
     const realm = useRealm()
     const queues = getStationQueue(realm)
     console.log("Queue ", queues)
+
+    const [filter, setFilter] = useState({
+        "Send": false,
+        "Drop": false,
+    })
+
+    const filterFunction = (q) => {
+
+        // If not filtered at all
+        if (!filter.Send && !filter.Drop) {
+            return true
+        }
+
+        // If one filtered is true, then include if any of the order type is valid
+        if (filter.Send && q.orderType == "Send") {
+            return true
+        }
+        if (filter.Drop && q.orderType == "Drop") {
+            return true
+        }
+
+        return false
+    }
+
+    const [filteredQueues, setFilteredQueues] = useState(queues.filter(filterFunction))
+
+    useEffect(() => {
+        setFilteredQueues(queues.filter(filterFunction))
+    }, [filter])
 
     return (
         <View className="bg-[#F9F9F9] min-h-full">
@@ -31,11 +61,17 @@ export default function QueuePage() {
             </View>
 
             <View className="p-4 flex flex-row">
-                <CircularFilterDisk label="Send" />
-                <CircularFilterDisk label="Drop" />
+                <CircularFilterDisk label="Send" selected={filter.Send} onPress={() => setFilter({
+                    "Send": !filter.Send,
+                    "Drop": false
+                })} />
+                <CircularFilterDisk label="Drop" selected={filter.Drop} onPress={() => setFilter({
+                    "Send": false,
+                    "Drop": !filter.Drop
+                })} />
             </View>
 
-            {queues.length == 0 ? (
+            {filteredQueues.length == 0 ? (
                 <View className="justify-center items-center my-auto pb-12">
                     <Image source={require('../../assets/illustration/trash.png')} className={"mx-auto"} style={{ width: 160, height: 160 }} />
                     <Text className="text-lg font-medium">There is no queue yet...</Text>
@@ -44,7 +80,7 @@ export default function QueuePage() {
             ) : (
                 <FlatList
                     style={{ paddingHorizontal: 8, paddingVertical: 8 }}
-                    data={queues}
+                    data={filteredQueues}
                     renderItem={
                         ({ item }) => {
                             return (
