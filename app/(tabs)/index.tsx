@@ -12,7 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 export default function Home() {
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    
+
     return (
         <View className="min-h-full" style={[{
             backgroundColor: '#F9F9F9'
@@ -27,12 +27,12 @@ export default function Home() {
             </ImageBackground>
             <ScrollView className="mb-24">
                 <View className="flex flex-row w-full">
-                    <DashboardRoundedGrayBox customClass=" ml-4 mr-2"
+                    {additionalInfo?.role == 'user' && <DashboardRoundedGrayBox customClass=" ml-4 mr-2"
                         label={"Total Points"}
                         point={additionalInfo?.points}
                         units={'pt'}
-                        icon={<FontAwesome size={28} name="database" color={'#656565'} />} />
-                    <DashboardRoundedGrayBox customClass=" mr-4 ml-2" label={"Total Weights"}
+                        icon={<FontAwesome size={28} name="database" color={'#656565'} />} />}
+                    <DashboardRoundedGrayBox customClass={additionalInfo?.role == 'station' ? 'mx-4' : ' mr-4 ml-2'} label={"Total Weights"}
                         point={additionalInfo?.compostWaste + additionalInfo?.paperWaste + additionalInfo?.recyclableWaste}
                         units={'gr'}
                         icon={<FontAwesome size={28} name="anchor" color={'#656565'} />} />

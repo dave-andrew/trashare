@@ -1,13 +1,15 @@
 import { Text, View, Image, Pressable, Alert } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import WasteTypeSelector from '../../component/finish/WasteTypeSelector';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import WasteDataCard from '../../component/finish/WasteDataCard';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getHistoryById } from '../datas/queries/useQueries';
 import { useRealm } from '@realm/react';
 import { useQueueMutation } from '../datas/mutations/useMutations';
+import { useMutationAdditionalInfo } from '../datas/mutations/useAdditionalInfo';
+import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
 export type WastePlaceholder = {
   wasteType: string;
@@ -22,6 +24,8 @@ export default function FinishPage() {
   const queue_id = useLocalSearchParams().id;
   const queue = getHistoryById(realm, queue_id?.toString())
   const {finishOrder} = useQueueMutation(realm, queue)
+  const { updateUserWasteData } = useMutationAdditionalInfo()
+  const { additionalInfo, setAdditionalInfo } = useContext(AdditionalInfoContext)
 
 
   const [wasteList, setWasteList] = useState<WastePlaceholder[]>([{ wasteType: '', weight: null, imageUrl: '' }])
@@ -56,6 +60,8 @@ export default function FinishPage() {
             return { ...waste, weight: Number(waste.weight) };
           });
           finishOrder(queue, updatedWasteList)
+          const { stationUser } = updateUserWasteData({user_id: queue.orderer._id, user_station_id: additionalInfo._id, wasteList: wasteList, realm: realm})
+          setAdditionalInfo(stationUser)
           router.push({ pathname: '(tabs)/queuePage' })
         }
       }
