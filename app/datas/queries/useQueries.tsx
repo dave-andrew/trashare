@@ -8,8 +8,15 @@ import { Station } from "../../../models/Station";
 import { Chat } from "../../../models/Chat";
 
 
-export const getAdditionalInfo = (user_id) => {
-    return useQuery(User).filtered(`_id == "${user_id}"`);
+export const getAdditionalInfo = (realm, user_id) => {
+    const users = useQuery(User).filtered(`_id == "${user_id}"`);
+
+    useEffect(() => {
+        realm?.subscriptions?.update(mutableSubs => {
+            mutableSubs.add(users)
+        })
+    }, [realm, users])
+    return users
 }
 
 export const getNews = () => {
@@ -28,7 +35,7 @@ export const getAllHistory = (realm) => {
 
 export const getUserHistory = (realm) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    return getAllHistory(realm).filtered('orderer == $0', additionalInfo).sorted('createdAt', true);
+    return getAllHistory(realm).filtered('orderer == $0', additionalInfo._id).sorted('createdAt', true);
 }
 
 
@@ -43,7 +50,7 @@ export const getHistoryById = (realm, id) => {
 
 export const getUserQueue = (realm) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    return getAllHistory(realm).filtered('orderer == $0', additionalInfo).filtered('isComplete == false');
+    return getAllHistory(realm).filtered('orderer == $0', additionalInfo._id).filtered('isComplete == false');
 }
 
 export const getStationQueue = (realm) => {

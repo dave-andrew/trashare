@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import WasteDataCard from '../../component/finish/WasteDataCard';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { getHistoryById } from '../datas/queries/useQueries';
+import { getAdditionalInfo, getHistoryById } from '../datas/queries/useQueries';
 import { useRealm } from '@realm/react';
 import { useQueueMutation } from '../datas/mutations/useMutations';
 import { useMutationAdditionalInfo } from '../datas/mutations/useAdditionalInfo';
@@ -26,7 +26,7 @@ export default function FinishPage() {
   const {finishOrder} = useQueueMutation(realm, queue)
   const { updateUserWasteData } = useMutationAdditionalInfo()
   const { additionalInfo, setAdditionalInfo } = useContext(AdditionalInfoContext)
-
+  const ordererAdditionalInfo = getAdditionalInfo(realm, queue?.orderer)[0]
 
   const [wasteList, setWasteList] = useState<WastePlaceholder[]>([{ wasteType: '', weight: null, imageUrl: '' }])
   console.log(wasteList)
@@ -60,7 +60,7 @@ export default function FinishPage() {
             return { ...waste, weight: Number(waste.weight) };
           });
           finishOrder(queue, updatedWasteList)
-          const { stationUser } = updateUserWasteData({user_id: queue.orderer._id, user_station_id: additionalInfo._id, wasteList: wasteList, realm: realm})
+          const { stationUser } = updateUserWasteData({user_id: queue.orderer, user_station_id: additionalInfo._id, wasteList: wasteList, realm: realm})
           setAdditionalInfo(stationUser)
           router.push({ pathname: '(tabs)/queuePage' })
         }
@@ -72,10 +72,10 @@ export default function FinishPage() {
     <View className='h-full'>
       <ScrollView className="bg-[#F9F9F9] flex">
         <View className='flex flex-row items-center mx-2 mb-2 mt-4'>
-          <Image className='w-14 h-14 rounded-full' source={{ uri: queue.orderer?.profileUrl ? queue.orderer.profileUrl : "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/default-user.png?alt=media&token=7db015cf-943d-42fe-8370-744febfcee8a"}} />
+          <Image className='w-14 h-14 rounded-full' source={{ uri: ordererAdditionalInfo?.profileUrl ? ordererAdditionalInfo.profileUrl : "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/default-user.png?alt=media&token=7db015cf-943d-42fe-8370-744febfcee8a"}} />
           <View className='ml-4'>
             <Text className='text-gray-500 font-medium'>Ordered by</Text>
-            <Text className='text-lg font-medium'>{queue.orderer?.username}</Text>
+            <Text className='text-lg font-medium'>{ordererAdditionalInfo?.username}</Text>
           </View>
         </View>
 

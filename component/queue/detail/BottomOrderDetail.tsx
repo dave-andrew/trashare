@@ -3,10 +3,15 @@ import { History } from "../../../models/History";
 import { View, Image, Text, Pressable } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from "expo-router";
+import { getAdditionalInfo } from "../../../app/datas/queries/useQueries";
+import { useRealm } from "@realm/react";
 
 export default function BottomOrderDetail({ queue }: { queue: History }) {
 
   const router = useRouter();
+  const realm = useRealm();
+  const ordererAdditionalInfo = getAdditionalInfo(realm, queue?.orderer)[0]
+
 
   return (
     <BottomSheet
@@ -17,13 +22,13 @@ export default function BottomOrderDetail({ queue }: { queue: History }) {
       <View className="flex flex-col">
         <View className="flex flex-row justify-between items-center pt-2 pb-4">
           <View className="flex flex-row gap-3 items-center">
-            <Image className="rounded-full w-16 h-16" source={{ uri: queue?.orderer?.profileUrl ? queue.orderer.profileUrl : "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/default-user.png?alt=media&token=7db015cf-943d-42fe-8370-744febfcee8a" }} />
+            <Image className="rounded-full w-16 h-16" source={{ uri: ordererAdditionalInfo?.profileUrl ? ordererAdditionalInfo.profileUrl : "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/default-user.png?alt=media&token=7db015cf-943d-42fe-8370-744febfcee8a" }} />
             <View className="flex- flex-col">
               <Text className="text-[#656565] font-medium">Ordered By</Text>
-              <Text className="font-bold text-xl">{queue?.orderer?.username}</Text>
+              <Text className="font-bold text-xl">{ordererAdditionalInfo?.username}</Text>
             </View>
           </View>
-          <Pressable onPress={() => router.push({pathname: 'chat/chat', params: {station: queue.orderer._id}})}>
+          <Pressable onPress={() => router.push({pathname: 'chat/chat', params: {station: ordererAdditionalInfo._id}})}>
             <Image className="w-10 h-10" source={require('../../../assets/chat-icon.png')}></Image>
           </Pressable>
         </View>
