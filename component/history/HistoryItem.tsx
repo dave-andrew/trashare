@@ -27,7 +27,7 @@ export default function HistoryItem({ history }: { history: History }) {
                     }} />
                 <View className="flex flex-row justify-between flex-grow">
                     <View className="flex flex-col justify-between">
-                        <Text className=" font-medium">{history?.station?.name}</Text>
+                        <Text className="font-medium max-w-[95%] mb-3">{history?.station?.name}</Text>
                         {history.isComplete ? (() => {
                             let totalWeight = history.waste.reduce((total, waste) => total + waste.weight, 0);
                             let totalPoints = history.waste.reduce((total, waste) => {

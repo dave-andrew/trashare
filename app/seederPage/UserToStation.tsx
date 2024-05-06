@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useMutationAdditionalInfo } from "../datas/mutations/useAdditionalInfo";
-import { getStations } from "../datas/queries/useQueries";
+import { getStationById, getStations } from "../datas/queries/useQueries";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { useRealm } from "@realm/react";
 import { Pressable, Text } from "react-native";
@@ -12,11 +12,10 @@ export default function UserToStation() {
   const { updateUserToStation } = useMutationAdditionalInfo()
   
   const realm = useRealm()
-  const stations = getStations(realm);
-  console.log("Station", stations);
+  const station = getStationById(realm, '6634f92d90bc139d4d15a5b0')
+  console.log("Station", station);
 
   const handleUpdateUserToStation = () => {
-    const station = stations[0];
     const user = updateUserToStation({
       user_id: additionalInfo._id,
       station_id: station._id,

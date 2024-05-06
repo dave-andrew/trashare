@@ -31,6 +31,7 @@ export const getUserHistory = (realm) => {
     return getAllHistory(realm).filtered('orderer == $0', additionalInfo).sorted('createdAt', true);
 }
 
+
 export const getStationHistory = (realm) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     return getAllHistory(realm).filtered('station == $0', additionalInfo.station).filtered('isComplete == true').sorted('createdAt', true);
