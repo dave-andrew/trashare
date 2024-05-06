@@ -6,7 +6,7 @@ import { Station } from "../../models/Station";
 import { useRealm } from "@realm/react";
 import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvider";
 import BottomStationDetail from "./BottomStationDetail";
-import { getAdditionalInfo, getUserQueue } from "../../app/datas/queries/useQueries";
+import { getUserQueue } from "../../app/datas/queries/useQueries";
 import { useQueueMutation } from "../../app/datas/mutations/useMutations";
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
@@ -26,9 +26,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
         }
     }, [station])
 
-    const userData = getAdditionalInfo(additionalInfo._id)
-    console.log(userData[0]);
-    
+
     const handleQueue = (method: string) => {
         const queue = {
             location: {
@@ -36,12 +34,12 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                 lng: location.longitude
             },
             station: station,
-        orderer: userData[0],
+            orderer: additionalInfo._id,
             isComplete: false,
             orderType: method
         }
         console.log(queue);
-        
+
         addQueue(queue)
     }
 

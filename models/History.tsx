@@ -13,7 +13,7 @@ export class History extends Realm.Object {
         weight: number,
         imageUrl: string,
     }[];
-    orderer!: User;
+    orderer!: string;
     createdAt!: Date;
     isComplete!: boolean;
     orderType!: string;
@@ -31,7 +31,7 @@ export class History extends Realm.Object {
                 objectType: 'Waste',
                 optional: false
             },
-            orderer: 'User',
+            orderer: 'string',
             createdAt: { type: 'date', default: new Date() },
             isComplete: { type: 'bool', default: false },
             orderType: { type: 'string' }

@@ -12,7 +12,7 @@ export default function AdditionalInfoProvider({ children }: { children: React.R
     const user = useUser()
     const [additionalInfo, setAdditionalInfo] = useState<User>()
 
-    const additionalInfoList = getAdditionalInfo(user.id)
+    const additionalInfoList = getAdditionalInfo(realm, user.id)
     useEffect(() => {
         realm.subscriptions.update(mutableSubs => {
             mutableSubs.add(additionalInfoList)
