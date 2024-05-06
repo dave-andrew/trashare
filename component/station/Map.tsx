@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Geo } from "../../app/(tabs)/stationPage";
 import { Station } from "../../models/Station";
@@ -52,14 +52,30 @@ export default function Map({ location, station }: { location: Geo, station: Sta
             <MapView className='flex-1' region={stationGeometry ? stationGeometry : location}>
                 <Marker
                     coordinate={location}
-                    title="You are here!"
-                    image={require("../../assets/pin.png")} />
+                    title="You are here!">
+                    <Image
+                        source={require('../../assets/marker/main-pin.png')}
+                        style={{ width: 50, height: 50, display: "flex" }}
+                        resizeMode="contain"
+                    />
+                </Marker>
                 {station && (
                     <Marker
                         coordinate={stationGeometry}
                         title={station.name}
-                        image={require("../../assets/pin.png")}
-                    />
+                    >
+                        <Image
+                            source={
+                                station.mainType == "Recyclable" ?
+                                    require('../../assets/marker/recycle-pin.png') :
+                                    station.mainType == "Compost" ?
+                                        require('../../assets/marker/compost-pin.png') :
+                                        require('../../assets/marker/paper-pin.png')
+                            }
+                            style={{ width: 50, height: 50, display: "flex" }}
+                            resizeMode="contain"
+                        />
+                    </Marker>
                 )}
                 {/* <MapViewDirections
                     origin={location}
