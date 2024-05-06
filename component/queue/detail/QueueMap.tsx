@@ -46,11 +46,11 @@ export default function QueueMap({ queue }: { queue: History }) {
         <Marker
           coordinate={stationGeometry}
           title={queue.station.name}
-          image={require("../../../assets/pin.png")} />
+          image={require("../../../assets/marker/main-pin.png")} />
         <Marker
           coordinate={userGeometry}
           title="Your destination!"
-          image={require("../../../assets/pin.png")} />
+          image={require("../../../assets/marker/main-pin.png")} />
         <MapViewDirections
           origin={location}
           destination={stationGeometry}

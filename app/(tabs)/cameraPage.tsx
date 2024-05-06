@@ -1,4 +1,4 @@
-import { AppState, Image, Pressable, Text, View } from "react-native";
+import { Animated, AppState, Easing, Image, Pressable, Text, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useRef, useState } from "react";
 
@@ -43,7 +43,7 @@ export default function CameraPage() {
             }
         })();
         console.log(pageState);
-        
+
     }, [pageState]);
 
 
@@ -72,8 +72,42 @@ export default function CameraPage() {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height - 50;
 
+    const spinValue = new Animated.Value(0);
+    Animated.loop(
+        Animated.timing(
+            spinValue,
+            {
+                toValue: 1,
+                duration: 3000,
+                easing: Easing.linear,
+                useNativeDriver: true
+            }
+        )
+    ).start()
+    const spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg']
+    })
+
     if (!device) {
-        return <Text className="pt-10">No camera device detected!</Text>;
+        return (
+            <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'white',
+                width: '100%',
+                height: '100%',
+            }}>
+                <Animated.Image source={require('../../assets/illustration/loading.png')} style={{
+                    width: 100,
+                    height: 100,
+                    transform: [{ rotate: spin }]
+                }} />
+                <Text className="text-xl font-bold mt-2">Loading your camera</Text>
+                <Text className="mx-3">Make sure to accept the permission to get started</Text>
+            </View>
+        );
     }
     return (
         <View style={{ flex: 1 }}>
