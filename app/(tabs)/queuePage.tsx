@@ -73,7 +73,7 @@ export default function QueuePage() {
 
             {filteredQueues.length == 0 ? (
                 <View className="justify-center items-center my-auto pb-12">
-                    <Image source={require('../../assets/illustration/trash.png')} className={"mx-auto"} style={{ width: 160, height: 160 }} />
+                    <Image source={require('../../assets/illustration/queue-icon.png')} className={"mx-auto"} style={{ width: 160, height: 160 }} />
                     <Text className="text-lg font-medium">There is no queue yet...</Text>
                     <Text className="text-gray-500">No queue yet? C'mon let's get some trash!</Text>
                 </View>
