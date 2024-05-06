@@ -6,10 +6,8 @@ import SearchStationList from '../../component/station/SearchStationList';
 import * as Location from 'expo-location';
 import { Station } from '../../models/Station';
 
-import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 import { getUserQueue } from '../datas/queries/useQueries';
 import { useRealm } from '@realm/react';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 export interface Geo {
     latitude: number,
