@@ -1,23 +1,33 @@
-import { useEmailPasswordAuth } from "@realm/react";
-import { useState } from "react";
-import {Alert, Image, ImageBackground, Pressable, Text, View} from "react-native";
+import { AuthOperationName, useEmailPasswordAuth } from "@realm/react";
+import { useEffect, useRef, useState } from "react";
+import { Alert, Image, ImageBackground, Pressable, Text, View } from "react-native";
 import RoundedTextFIeld from "../../component/form/RoundedTextField";
 import { Credential } from "./auth";
 
-export default function Login({setMode}: {setMode: (mode: boolean) => void}) {
+export default function Login({ setMode }: { setMode: (mode: boolean) => void }) {
 
     const [loading, setLoading] = useState(false);
     const [credential, setCredential] = useState<Credential>({
         email: '',
         password: ''
     });
-    const {logIn} = useEmailPasswordAuth();
+    const { result, logIn } = useEmailPasswordAuth();
+
+    const firstUpdate = useRef(true);
+    useEffect(() => {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+        }
+        if (result.error) {
+            Alert.alert('Error', result.error.message);
+        }
+    }, [logIn]);
 
     const handleLogin = () => {
         try {
             setLoading(true);
-            logIn({ email: credential.email, password: credential.password});
-
+            logIn({ email: credential.email, password: credential.password });
         } catch (error) {
             // Handle login error
             Alert.alert('Error', 'Failed to log in. Please check your credentials.' + error);
@@ -28,22 +38,22 @@ export default function Login({setMode}: {setMode: (mode: boolean) => void}) {
 
     return (
         <ImageBackground source={require('../../assets/backgrounds/RegisterBG.png')}
-                         style={{width: '100%', height: '100%'}}>
+            style={{ width: '100%', height: '100%' }}>
             <View className="p-6 flex justify-center place-items-center h-full w-full">
-                <Image source={require('../../assets/logo/trashare.png')} className={"mx-auto"}/>
+                <Image source={require('../../assets/logo/trashare.png')} className={"mx-auto"} />
                 <View className="bg-white p-8 mt-4 rounded-xl">
                     <Text
                         className="text-xl font-bold text-center mb-6">Login</Text>
                     <View className={""}>
                         <RoundedTextFIeld value={credential.email}
-                                          placeholder={"Email"}
-                                          onChangeFunction={(text) => setCredential({...credential, email: text})}
+                            placeholder={"Email"}
+                            onChangeFunction={(text) => setCredential({ ...credential, email: text })}
                         />
                     </View>
                     <RoundedTextFIeld value={credential.password}
-                                      placeholder={"Password"}
-                                      secureTextEntry={true}
-                                      onChangeFunction={(text) => setCredential({...credential, password: text})}
+                        placeholder={"Password"}
+                        secureTextEntry={true}
+                        onChangeFunction={(text) => setCredential({ ...credential, password: text })}
                     />
                     <View className={"flex flex-row py-1 mx-auto"}>
                         <Text className={"text-gray-800 font-light text-xs"}>
@@ -57,9 +67,9 @@ export default function Login({setMode}: {setMode: (mode: boolean) => void}) {
                     </View>
 
                     <Pressable
-                        className={"rounded-2xl bg-sky-400 mt-4 mx-auto"}
+                        className={"rounded-2xl bg-sky-400 mt-4 mx-auto disabled:bg-gray-800"}
                         onPress={handleLogin}
-                        disabled={loading || !credential.email || !credential.password}>
+                        disabled={loading}>
                         <Text className={"text-white font-bold text-lg py-1 w-48 text-center"}>
                             Login
                         </Text>

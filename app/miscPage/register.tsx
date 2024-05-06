@@ -1,5 +1,5 @@
 import { useEmailPasswordAuth, AuthOperationName } from "@realm/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Text, View, Alert, ImageBackground, Image, Touchable, Pressable } from "react-native";
 import RoundedTextFIeld from "../../component/form/RoundedTextField";
 
@@ -18,13 +18,26 @@ export default function Register({ setMode }: {
     })
 
     const { logIn, result } = useEmailPasswordAuth();
+    const firstUpdate = useRef(true);
     useEffect(() => {
-        if (result.success || result.operation == AuthOperationName.Register) {
+        if (firstUpdate.current) {
+            firstUpdate.current = false;
+            return;
+          }
+
+        if (result.success && result.operation == AuthOperationName.Register) {
+            console.log(result);
+
             if (credentialInput.email != '' && credentialInput.password != '') {
                 logIn({ email: credentialInput.email, password: credentialInput.password });
             }
+        } else {
+            if (result.error) {
+                Alert.alert('Error', result.error.message);
+            }
+            return;
         }
-    }, [result, logIn]);
+    }, [result]);
 
     const handleRegister = async () => {
         try {
@@ -35,10 +48,20 @@ export default function Register({ setMode }: {
                     Alert.alert('Error', 'Password does not match.');
                     return;
                 }
+
+                if(credentialInput.email == '' || credentialInput.password == '' || credentialInput.confirmPassword == '') {
+                    Alert.alert('Error', 'Please fill in all fields.');
+                    return;
+                }
+
+                if(!credentialInput.email.endsWith('@trashare.com')) {
+                    Alert.alert('Error', 'Email must ends with @trashare.com');
+                    return;
+                }
                 register({ email: credentialInput.email, password: credentialInput.password });
             }
         } catch (error) {
-            Alert.alert('Error', 'Failed to log in.' + error);
+            Alert.alert('Error', 'Failed to register.' + error);
         } finally {
             setLoading(false);
         }
@@ -81,7 +104,7 @@ export default function Register({ setMode }: {
                         <Pressable
                             className={"rounded-2xl bg-sky-400 mt-4 mx-auto"}
                             onPress={handleRegister}
-                            disabled={loading || !credentialInput.email || !credentialInput.password}>
+                            disabled={loading}>
                             <Text className={"text-white font-bold text-lg py-1 w-48 text-center"}>
                                 Register
                             </Text>
