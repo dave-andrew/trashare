@@ -1,4 +1,4 @@
-rootProject.name = 'trashare-expo'
+rootProject.name = 'Trashare'
 
 dependencyResolutionManagement {
   versionCatalogs {

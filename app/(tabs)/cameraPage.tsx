@@ -97,6 +97,7 @@ export default function CameraPage() {
                     height: windowHeight,
                     position: 'absolute',
                     top: '5%',
+                    backgroundColor: 'rgba(0,0,0,0.5)',
                 }}
                 source={require('../../assets/illustration/scan-animation.json')}
             />}

@@ -9,37 +9,44 @@ export default function CameraPredictionDetail(props: { prediction: string, imag
     const classesList = {
         'cardboard': {
             "category": "Paper",
-            "icon-name": "sticky-note",
+            "iconName": "sticky-note",
+            "color": "#FFAA7A",
             "shortDescription": "Cardboard is a generic term for heavy-duty paper-based products having greater thickness and superior durability or other specific mechanical attributes to paper;"
         },
         'glass': {
-            "category": "Hazardous",
-            "icon-name": "exclamation-triangle",
+            "category": "Not Accepted",
+            "iconName": "exclamation-triangle",
+            "color": "#FF0000",
             "shortDescription": "Glass is a non-crystalline, often transparent amorphous solid, that has widespread practical, technological, and decorative use in, for example, window panes, tableware, and optics. "
         },
         'metal': {
-            "category": "Hazardous",
-            "icon-name": "exclamation-triangle",
+            "category": "Not Accepted",
+            "iconName": "exclamation-triangle",
+            "color": "#FF0000",
             "shortDescription": "Metal is a material that, when freshly prepared, polished, or fractured, shows a lustrous appearance, and conducts electricity and heat relatively well."
         },
         'paper': {
             "category": "Paper",
-            "icon-name": "sticky-note",
+            "iconName": "sticky-note",
+            "color": "#FFAA7A",
             "shortDescription": "Paper is a thin sheet material produced by mechanically and/or chemically processing cellulose fibres derived from wood, rags, grasses or other vegetable."
         },
         'plastic': {
             "category": "Recyclable",
-            "icon-name": "recycle",
-            "shortDescription": "Cardboard is a generic term for heavy-duty paper-based products having greater thickness and superior durability or other specific mechanical attributes to paper; such as foldability, rigidity and impact resistance. The construction can range from a thick sheet known as paperboard to corrugated fiberboard which is made of multiple corrugated and flat layers."
+            "iconName": "recycle",
+            "color": "#5FD7FA",
+            "shortDescription": "Cardboard is a generic term for heavy-duty paper-based products having greater thickness and superior durability or other specific mechanical attributes to paper; such as foldability, rigidity and impact resistance."
         },
         'trash': {
             "category": "Compost",
-            "icon-name": "leaf",
+            "iconName": "leaf",
+            "color": "#4fe3b7",
             "shortDescription": "TODO: Diskusi trash itu apa"
         },
         'biological': {
             "category": "Compost",
-            "icon-name": "leaf",
+            "iconName": "leaf",
+            "color": "#4fe3b7",
             "shortDescription": "Biological waste is any organic waste that can be composted, such as food waste, yard waste, and animal waste."
         },
     }
@@ -56,7 +63,7 @@ export default function CameraPredictionDetail(props: { prediction: string, imag
             }}>
 
             <View className="flex flex-row mx-auto my-[-2]">
-                <FontAwesome size={20} name={'recycle'} color={'#5FD7FA'} style={[{
+                <FontAwesome size={20} name={classesList[props.prediction].iconName} color={classesList[props.prediction].color} style={[{
                     marginVertical: 8
                 }]} />
                 <Text className='text-center text-lg font-bold ml-4'>{props.prediction.charAt(0).toUpperCase() + props.prediction.slice(1)}</Text>
@@ -69,11 +76,13 @@ export default function CameraPredictionDetail(props: { prediction: string, imag
                         uri: props.imageUrl,
                     }}
                 />
-                <View className="ml-4 flex">
+                <View className="flex pl-3">
                     <Text className="mb-1 text-gray-500" style={[{
                         fontWeight: '500'
-                    }]}>Category: Plastics</Text>
-                    <Text className="mt-1 text-xs text-gray-500">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae sequi aliquid ratione minus voluptatum, est soluta, quaerat alias corrupti earum esse vel dolor! Illum culpa provident pariatur voluptatum ad alias.</Text>
+                    }]}>Category: {classesList[props.prediction].category}</Text>
+                    <Text className="mt-1 text-xs text-gray-500 max-w-[87%]">
+                        {classesList[props.prediction].shortDescription}
+                    </Text>
                 </View>
             </View>
 

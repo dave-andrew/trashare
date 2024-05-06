@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "trashare-expo",
-    "slug": "trashare-expo",
-    "scheme": "trashare-expo",
-    "version": "1.0.0",
+    "name": "Trashare",
+    "slug": "Trashare",
+    "scheme": "Trashare",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#00B1F7"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -19,10 +19,6 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
       "package": "com.bluejackets.trashare"
     },
     "web": {
