@@ -1,10 +1,12 @@
 import { AppState, Image, Pressable, Text, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useRef, useState } from "react";
-import { checkConnection, fetchResult } from "../../trashareAiConfig";
+
 import LottieView from "lottie-react-native";
 import { Dimensions } from 'react-native';
+import { fetchResult } from "../../trashareAiConfig";
 import CameraPredictionDetail from "../../component/camera/CameraPredictionDetail";
+
 
 export default function CameraPage() {
 

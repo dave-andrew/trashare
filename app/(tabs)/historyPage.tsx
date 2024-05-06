@@ -41,7 +41,7 @@ export default function HistoryPage() {
 
             {history.length == 0 ? (
                 <View className="justify-center items-center my-auto pb-12">
-                    <Image source={require('../../assets/illustration/trash.png')} className={"mx-auto"} style={{ width: 160, height: 160 }} />
+                    <Image source={require('../../assets/illustration/history-icon.png')} className={"mx-auto"} style={{ width: 160, height: 160 }} />
                     <Text className="text-lg font-medium">There is no history yet...</Text>
                     <Text className="text-gray-500">No history yet? C'mon let's get some trash!</Text>
                 </View>
