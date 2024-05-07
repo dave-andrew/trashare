@@ -25,12 +25,12 @@ export default function CameraChat() {
     const realm = useRealm()
 
     const station_id = useLocalSearchParams().station
-    console.log(station_id)
     const station = getStationById(realm, station_id)
 
     const chat = getUserChat(station)
 
-    const additionalInfo = useContext(AdditionalInfoContext);
+
+    const { additionalInfo } = useContext(AdditionalInfoContext);
     const { addMessage } = useChatMutation(realm, chat)
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function CameraChat() {
     }
 
     const handleBack = () => {
-        if(pageState == "result"){
+        if (pageState == "result") {
             setPageState("camera");
             camera?.current.resumePreview();
         } else {
@@ -84,11 +84,19 @@ export default function CameraChat() {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log('File available at', downloadURL);
-                    addMessage(chat[0], {
-                        text: downloadURL,
-                        user: additionalInfo,
-                        type: "image"
-                    })
+                    
+                    try {
+                        const a = addMessage(chat[0], {
+                            text: downloadURL,
+                            user: additionalInfo,
+                            type: "image"
+                        })
+
+                        console.log(a)
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
                     router.back()
                 });
             })
@@ -140,11 +148,11 @@ export default function CameraChat() {
                 className="flex-1 absolute top-0 left-0 w-full h-full"
             />
             <Pressable onPress={handleBack} className="absolute" style={{ top: 50, left: 25 }}>
-                <Image source={require('../../assets/arrow-white.png')} style={{width: 25, height: 25}} />
+                <Image source={require('../../assets/arrow-white.png')} style={{ width: 25, height: 25 }} />
             </Pressable>
             {pageState == "result" ?
                 <Pressable onPress={sendImage} className="absolute" style={{ bottom: 25, right: 25 }}>
-                    <Image source={require('../../assets/send-message.png')} style={{width: 25, height: 25}} />
+                    <Image source={require('../../assets/send-message.png')} style={{ width: 25, height: 25 }} />
                 </Pressable>
                 :
                 <Pressable
