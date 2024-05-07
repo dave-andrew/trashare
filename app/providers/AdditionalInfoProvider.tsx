@@ -13,21 +13,16 @@ export default function AdditionalInfoProvider({ children }: { children: React.R
     const [additionalInfo, setAdditionalInfo] = useState<User>()
 
     const additionalInfoList = getAdditionalInfo(realm, user.id)
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(additionalInfoList)
-        })
-    }, [user]);
-
-    useEffect(() => {
-        setAdditionalInfo(additionalInfoList[0])
-    }, [])
     
     if (additionalInfoList?.length == 0) {
         return (
             <AdditionalInfoPage user_id={user.id} setStateContext={setAdditionalInfo} />
         )
     } else {
+        if(additionalInfo != additionalInfoList[0]){
+            setAdditionalInfo(additionalInfoList[0])
+        }
+        console.log(additionalInfo);
         return (
             <AdditionalInfoContext.Provider value={{additionalInfo, setAdditionalInfo}}>
                 {children}
