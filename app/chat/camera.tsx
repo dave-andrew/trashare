@@ -1,24 +1,38 @@
 import { Animated, AppState, Easing, Image, Pressable, Text, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import LottieView from "lottie-react-native";
 import { Dimensions } from 'react-native';
 import { fetchResult } from "../../trashareAiConfig";
 import CameraPredictionDetail from "../../component/camera/CameraPredictionDetail";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { router, useLocalSearchParams } from "expo-router";
+import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
+import { storage } from "../../firebaseConfig";
+import { useChatMutation } from "../datas/mutations/useMutations";
+import { useRealm } from "@realm/react";
+import { getStationById, getUserChat } from "../datas/queries/useQueries";
 
-
-export default function CameraPage() {
-
+export default function CameraChat() {
     const camera = useRef<Camera>(null);
     const type = CameraType.back;
 
     const [device, setDevice] = useState<CameraType | undefined>(undefined);
     const [pageState, setPageState] = useState("camera")
-    const [prediction, setPrediction] = useState<any>({});
     const [imageUrl, setImageUrl] = useState("");
 
-    const animation = useRef(null);
+    const realm = useRealm()
+
+    const station_id = useLocalSearchParams().station
+    console.log(station_id)
+    const station = getStationById(realm, station_id)
+
+    const chat = getUserChat(station)
+
+    const additionalInfo = useContext(AdditionalInfoContext);
+    const { addMessage } = useChatMutation(realm, chat)
+
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
@@ -30,47 +44,55 @@ export default function CameraPage() {
 
     }, []);
 
-    useEffect(() => {
-        (async () => {
-            if (pageState == 'loading') {
-                animation?.current?.reset();
-                animation?.current?.play();
-                camera?.current.pausePreview();
-            } else if (pageState == 'result') {
-                camera?.current.resumePreview();
-            } else {
-                camera?.current.resumePreview();
-            }
-        })();
-        console.log(pageState);
-
-    }, [pageState]);
-
-
     const handlePhoto = async () => {
         try {
             const photo = await camera.current?.takePictureAsync();
-            setPageState("loading");
-            console.log(photo?.uri);
 
-            // convert from photo to blob
-            const fetchResponse = await fetch(photo?.uri || "");
-            const theBlob = await fetchResponse.blob();
+            setImageUrl(photo?.uri || "");
+            camera?.current.pausePreview();
+            setPageState("result")
 
-            // send the blob to the API
-            const result : any = await fetchResult(theBlob);
-            setPrediction(result.response);
-            setImageUrl(result.downloadURL);
-
-            setPageState("result");
         } catch (error) {
             console.error('Error during upload or sending:', error);
         }
 
     }
 
-    const windowWidth = Dimensions.get('window').width;
-    const windowHeight = Dimensions.get('window').height - 50;
+    const handleBack = () => {
+        if(pageState == "result"){
+            setPageState("camera");
+            camera?.current.resumePreview();
+        } else {
+            router.back()
+        }
+    }
+
+    const sendImage = async () => {
+
+        const theBlob = await fetch(imageUrl).then(response => response.blob());
+        const imageRef = ref(storage, `chat-images/${additionalInfo?.uid}+${new Date().getTime()}.jpg`);
+        const uploadTask = uploadBytesResumable(imageRef, theBlob);
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                console.log(error)
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    addMessage(chat[0], {
+                        text: downloadURL,
+                        user: additionalInfo,
+                        type: "image"
+                    })
+                    router.back()
+                });
+            })
+    }
 
     const spinValue = new Animated.Value(0);
     Animated.loop(
@@ -111,34 +133,19 @@ export default function CameraPage() {
     }
     return (
         <View style={{ flex: 1 }}>
-            <View
-                className='w-full h-[11vh] rounded-max mx-auto bg-white z-10 rounded-b-2xl'
-            >
-                <View className="mt-[6vh] justify-center items-center ml-4">
-                    <Text className="text-lg font-medium">Scan</Text>
-                </View>
-            </View>
-
             <Camera
                 ref={camera}
                 type={device}
                 style={{ aspectRatio: 3 / 4, overflow: "hidden" }}
                 className="flex-1 absolute top-0 left-0 w-full h-full"
             />
-            {pageState == 'loading' && <LottieView
-                loop
-                ref={animation}
-                style={{
-                    width: windowWidth * 2.7,
-                    height: windowHeight,
-                    position: 'absolute',
-                    top: '5%',
-                    backgroundColor: 'rgba(0,0,0,0.5)',
-                }}
-                source={require('../../assets/illustration/scan-animation.json')}
-            />}
+            <Pressable onPress={handleBack} className="absolute" style={{ top: 50, left: 25 }}>
+                <Image source={require('../../assets/arrow-white.png')} style={{width: 25, height: 25}} />
+            </Pressable>
             {pageState == "result" ?
-                <CameraPredictionDetail prediction={prediction.prediction} imageUrl={imageUrl} setPageState={setPageState} />
+                <Pressable onPress={sendImage} className="absolute" style={{ bottom: 25, right: 25 }}>
+                    <Image source={require('../../assets/send-message.png')} style={{width: 25, height: 25}} />
+                </Pressable>
                 :
                 <Pressable
                     onPress={handlePhoto}

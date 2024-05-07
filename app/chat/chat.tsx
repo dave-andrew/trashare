@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
 import { getStationById, getUserChat } from "../datas/queries/useQueries";
 import { useChatMutation } from "../datas/mutations/useMutations";
@@ -11,12 +11,23 @@ import ChatBubble from 'react-native-chat-bubble';
 import { ImageLibraryOptions, launchImageLibrary } from "react-native-image-picker";
 import { storage } from "../../firebaseConfig";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons/faPaperPlane'
+import { faImage } from '@fortawesome/free-solid-svg-icons/faImage'
 
 export default function ChatPage() {
 
   const realm = useRealm()
   const station_id = useLocalSearchParams().station
   const station = getStationById(realm, station_id)
+
+  if (!station) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    )
+  }
 
   const [messageInput, setMessageInput] = useState<string>("")
   const flatListRef = useRef<FlatList>(null);
@@ -29,12 +40,27 @@ export default function ChatPage() {
   const { addMessage } = useChatMutation(realm, chat)
 
   const handleAddMessage = () => {
+    if (messageInput === "") return
+
     addMessage(chat[0], {
       text: messageInput,
       user: additionalInfo,
       type: "text"
     })
     setMessageInput("")
+  }
+
+  const handleBack = () => {
+    router.back()
+  }
+
+  const handleCamera = () => {
+    
+    const params = {
+      station: station_id
+    }
+    
+    router.push({pathname: "chat/camera", params: params})
   }
 
   const chooseImage = () => {
@@ -60,7 +86,7 @@ export default function ChatPage() {
       // console.log("The Blob", theBlob);
 
       // upload image to firebase
-      const imageRef = ref(storage, `chat-images/${additionalInfo?.uid}`);
+      const imageRef = ref(storage, `chat-images/${additionalInfo?.uid}+${new Date().getTime()}.jpg`);
       const uploadTask = uploadBytesResumable(imageRef, theBlob);
 
       uploadTask.on('state_changed',
@@ -104,15 +130,25 @@ export default function ChatPage() {
   }, [chat])
 
   useEffect(() => {
-    if (flatListRef.current) {
-      flatListRef.current.scrollToEnd({ animated: true });
+    if (flatListRef.current && chat.length > 0) {
+      flatListRef.current.scrollToEnd({ animated: false });
     }
-  }, [chat]);
+  }, [chat, flatListRef.current]);
 
   return (
     <ImageBackground
       source={require('../../assets/backgrounds/RegisterBG.png')}
       style={{ width: '100%', height: '100%' }}>
+
+      <View
+        className='w-[102%] h-[13vh] bg-white items-end'
+        style={{ flexDirection: 'row' }}
+      >
+        <Pressable onPress={handleBack} className="ml-4 mb-4">
+          <Image source={require('../../assets/arrow.png')} style={{ width: 20, height: 20 }} />
+        </Pressable>
+        <Text className="text-lg text-center font-medium ml-6 mb-3">{station.name}</Text>
+      </View>
 
       {chat.length > 0 && (
         <View className="flex-1">
@@ -139,12 +175,16 @@ export default function ChatPage() {
           >
           </FlatList>
 
-          <View 
+          <View
             style={{ flexDirection: 'row', elevation: 10 }}
-            className="bg-white w-full justify-between items-center"
+            className="bg-white w-full justify-around items-center"
           >
-            <Pressable onPress={chooseImage}>
-              <Text>Image</Text>
+            <Pressable onPress={handleCamera} className="ml-3">
+              <Image source={require('../../assets/photo-camera.png')} style={{ width: 25, height: 25 }} />
+            </Pressable>
+
+            <Pressable onPress={chooseImage} className="ml-3">
+              <Image source={require('../../assets/insert-picture-icon.png')} style={{ width: 25, height: 25 }} />
             </Pressable>
 
             <ChatTextField
@@ -154,8 +194,8 @@ export default function ChatPage() {
               onSubmitEditing={handleAddMessage}
             />
 
-            <Pressable onPress={handleAddMessage}>
-              <Text>Send</Text>
+            <Pressable onPress={handleAddMessage} className="rounded-full p-3 mr-3" style={{ backgroundColor: "#00B1F7" }}>
+              <Image source={require('../../assets/send-message.png')} style={{ width: 15, height: 15 }} />
             </Pressable>
           </View>
         </View>
