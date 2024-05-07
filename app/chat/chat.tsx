@@ -6,7 +6,7 @@ import { useRealm } from "@realm/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { FlatList } from "react-native-gesture-handler";
-import RoundedTextField from "../../component/form/RoundedTextField";
+import RoundedTextField, { ChatTextField } from "../../component/form/RoundedTextField";
 import ChatBubble from 'react-native-chat-bubble';
 import { ImageLibraryOptions, launchImageLibrary } from "react-native-image-picker";
 import { storage } from "../../firebaseConfig";
@@ -114,44 +114,52 @@ export default function ChatPage() {
       source={require('../../assets/backgrounds/RegisterBG.png')}
       style={{ width: '100%', height: '100%' }}>
 
-      <FlatList
-        ref={flatListRef}
-        className="py-2 px-4"
-        data={chat[0].message}
-        renderItem={({ item }) => {
-          return (
-            <ChatBubble
-              isOwnMessage={item.user._id === additionalInfo._id}
-              bubbleColor="#8CE7FF"
-              tailColor="#8CE7FF"
-              withTail={true}
-            >
-              {
-                item.type === "text" ?
-                  <Text className="text-base">{item.text}</Text> :
-                  <Image source={{ uri: item.text }} style={{ width: 200, height: 200 }} />
-              }
-            </ChatBubble>
-          )
-        }}
-      >
-      </FlatList>
+      {chat.length > 0 && (
+        <View className="flex-1">
+          <FlatList
+            ref={flatListRef}
+            className="py-2 px-4"
+            data={chat[0].message}
+            renderItem={({ item }) => {
+              return (
+                <ChatBubble
+                  isOwnMessage={item.user._id === additionalInfo._id}
+                  bubbleColor="#8CE7FF"
+                  tailColor="#8CE7FF"
+                  withTail={true}
+                >
+                  {
+                    item.type === "text" ?
+                      <Text className="text-base">{item.text}</Text> :
+                      <Image source={{ uri: item.text }} style={{ width: 200, height: 200 }} />
+                  }
+                </ChatBubble>
+              )
+            }}
+          >
+          </FlatList>
 
-      <View style={{ flexDirection: 'row' }}>
-        <Pressable onPress={chooseImage}>
-          <Text>Image</Text>
-        </Pressable>
+          <View 
+            style={{ flexDirection: 'row', elevation: 10 }}
+            className="bg-white w-full justify-between items-center"
+          >
+            <Pressable onPress={chooseImage}>
+              <Text>Image</Text>
+            </Pressable>
 
-        <RoundedTextField
-          placeholder="Type a message..."
-          onChangeFunction={(text) => setMessageInput(text)}
-          value={messageInput}
-        />
+            <ChatTextField
+              placeholder="Type a message..."
+              onChangeFunction={(text) => setMessageInput(text)}
+              value={messageInput}
+              onSubmitEditing={handleAddMessage}
+            />
 
-        <Pressable onPress={handleAddMessage}>
-          <Text>Send</Text>
-        </Pressable>
-      </View>
+            <Pressable onPress={handleAddMessage}>
+              <Text>Send</Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
 
     </ImageBackground>
   )
