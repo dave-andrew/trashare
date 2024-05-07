@@ -39,7 +39,6 @@ export default function QueueMap({ queue }: { queue: History }) {
     longitudeDelta: 0.0421
   });
 
-
   return (
     <View className="flex-1">
       <MapView className='flex-1' region={stationGeometry ? stationGeometry : location}>

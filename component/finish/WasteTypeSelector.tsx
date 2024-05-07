@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function WasteTypeSelector({wasteType, setWasteType}: {wasteType: string, setWasteType: (type: string) => void}) {
   
   return (
-    <View className='flex flex-row gap-1'>
+    <View className='flex flex-row gap-1 z-50'>
       <Pressable
         className={`w-12 h-12 ${wasteType == 'Paper' ? 'bg-orange-500' : 'bg-[#a0a0a0]'} flex items-center justify-center rounded-full`}
         onPress={() => setWasteType('Paper')}>

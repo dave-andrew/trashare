@@ -12,12 +12,6 @@ export function useQueueMutation(realm, queue) {
         })
     }, [realm])
 
-    const completeQueue = useCallback((queue) => {
-        realm.write(() => {
-            queue.isComplete = true
-        })
-    }, [realm])
-
     const deleteQueue = useCallback((queue) => {
         realm.write(() => {
             realm.delete(queue)
@@ -25,17 +19,18 @@ export function useQueueMutation(realm, queue) {
     }, [realm])
 
     const finishOrder = useCallback((queue, wasteList) => {
-        realm.write(() => {
+        const data = realm.write(() => {
             queue.isComplete = true
             queue.waste = wasteList
         })
+        console.log("Finished order success!", data)
     }, [realm])
 
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(queue)
-        })
-    }, [realm, queue])
+    // useEffect(() => {
+    //     realm.subscriptions.update(mutableSubs => {
+    //         mutableSubs.add(queue)
+    //     })
+    // }, [realm, queue])
 
     return {
         addQueue,

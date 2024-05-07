@@ -23,7 +23,7 @@ export default function FinishPage() {
   const router = useRouter();
   const queue_id = useLocalSearchParams().id;
   const queue = getHistoryById(realm, queue_id?.toString())
-  const {finishOrder} = useQueueMutation(realm, queue)
+  const { finishOrder } = useQueueMutation(realm, queue)
   const { updateUserWasteData } = useMutationAdditionalInfo()
   const { additionalInfo, setAdditionalInfo } = useContext(AdditionalInfoContext)
   const ordererAdditionalInfo = getAdditionalInfo(realm, queue?.orderer)[0]
@@ -59,9 +59,13 @@ export default function FinishPage() {
           const updatedWasteList = wasteList.map((waste) => {
             return { ...waste, weight: Number(waste.weight) };
           });
+          console.log(updatedWasteList)
           finishOrder(queue, updatedWasteList)
-          const { stationUser } = updateUserWasteData({user_id: queue.orderer, user_station_id: additionalInfo._id, wasteList: wasteList, realm: realm})
+
+          const { user, stationUser } = updateUserWasteData({ user_id: queue.orderer, user_station_id: additionalInfo._id, wasteList: wasteList, realm: realm })
           setAdditionalInfo(stationUser)
+          console.log('User', user)
+          console.log('Station User', stationUser)
           router.push({ pathname: '(tabs)/queuePage' })
         }
       }
@@ -72,7 +76,7 @@ export default function FinishPage() {
     <View className='h-full'>
       <ScrollView className="bg-[#F9F9F9] flex">
         <View className='flex flex-row items-center mx-2 mb-2 mt-4'>
-          <Image className='w-14 h-14 rounded-full' source={{ uri: ordererAdditionalInfo?.profileUrl ? ordererAdditionalInfo.profileUrl : "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/default-user.png?alt=media&token=7db015cf-943d-42fe-8370-744febfcee8a"}} />
+          <Image className='w-14 h-14 rounded-full' source={{ uri: ordererAdditionalInfo?.profileUrl ? ordererAdditionalInfo.profileUrl : "https://firebasestorage.googleapis.com/v0/b/trashare-3a2a9.appspot.com/o/default-user.png?alt=media&token=7db015cf-943d-42fe-8370-744febfcee8a" }} />
           <View className='ml-4'>
             <Text className='text-gray-500 font-medium'>Ordered by</Text>
             <Text className='text-lg font-medium'>{ordererAdditionalInfo?.username}</Text>
@@ -80,7 +84,7 @@ export default function FinishPage() {
         </View>
 
         {wasteList.map((_, index) => (
-          <WasteDataCard key={index} index={index} wasteList={wasteList} setWasteList={setWasteList}/>
+          <WasteDataCard key={index} index={index} wasteList={wasteList} setWasteList={setWasteList} />
         ))}
       </ScrollView>
 
