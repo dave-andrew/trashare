@@ -52,7 +52,7 @@ export default function QueueMap({ queue }: { queue: History }) {
           title="Your destination!"
           image={require("../../../assets/marker/main-pin.png")} />
         <MapViewDirections
-          origin={location}
+          origin={userGeometry}
           destination={stationGeometry}
           apikey={"AIzaSyDXtsGosJEIjjY8aUkldb3ougbAyDBI3xY"}
           strokeWidth={2}

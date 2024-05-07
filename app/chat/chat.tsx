@@ -33,6 +33,7 @@ export default function ChatPage() {
   const flatListRef = useRef<FlatList>(null);
 
   const chat = getUserChat(station)
+  
   console.log(chat)
   const { additionalInfo } = useContext(AdditionalInfoContext)
 
