@@ -1,5 +1,4 @@
 import { Button, Image, ImageBackground, Pressable, Text, View } from "react-native";
-import EditScreenInfo from "../../component/EditScreenInfo";
 import { useContext } from "react";
 import { router } from "expo-router";
 import FontAwesome from '@expo/vector-icons/FontAwesome';

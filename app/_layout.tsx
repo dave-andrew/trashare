@@ -38,6 +38,16 @@ export default function AppLayout() {
                             headerShown: false,
                         }}
                     />
+                    <Stack.Screen name="chat/chat"
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen name="chat/camera"
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
                 </Stack>
 
             </ProviderIndex>
