@@ -68,7 +68,7 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
             leftText={"Cancel"}
             leftClick={() => deleteQueue(getQueue[0])}
             rightText={"Chat Station"}
-            rightClick={() => router.push({ pathname: 'chat/chat', params: { station: station._id } })} />
+            rightClick={() => router.push({ pathname: 'chat/chat', params: { station: station._id, userType: "user" } })} />
         ) : (
           <BottomButtons
             leftType={"Red"}
