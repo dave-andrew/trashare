@@ -12,14 +12,21 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
 
   const router = useRouter()
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  
+  const parseTime = (timeStr) => {
+    const [hours, minutes] = timeStr.split(':');
+    return new Date().setHours(parseInt(hours), parseInt(minutes), 0);
+  };
 
   useEffect(() => {
     if (station) {
-      if (parseInt(station?.openingHours.open) < new Date().getHours() && parseInt(station?.openingHours.close) > new Date().getHours()) {
-        setIsOpen(true)
-        return
+      const currentTimeMillis = new Date().getTime();
+      console.log("Time: ", currentTimeMillis, parseTime(station?.openingHours.open), parseTime(station?.openingHours.close));
+      
+      if (parseTime(station?.openingHours.open) <= currentTimeMillis &&
+        parseTime(station?.openingHours.close) >= currentTimeMillis) {
+        setIsOpen(true);
       }
-      setIsOpen(false)
     }
   }, [])
 
@@ -57,18 +64,18 @@ export default function BottomStationDetail({ station, getQueue, handleQueue, de
       ) : (
         getQueue[0].orderType == "Send" ? (
           <BottomButtons
-          leftType={"Red"}
-          leftText={"Cancel"}
-          leftClick={() => deleteQueue(getQueue[0])}
-          rightText={"Chat Station"}
-          rightClick={() => router.push({pathname: 'chat/chat', params: {station: station._id}})} />
+            leftType={"Red"}
+            leftText={"Cancel"}
+            leftClick={() => deleteQueue(getQueue[0])}
+            rightText={"Chat Station"}
+            rightClick={() => router.push({ pathname: 'chat/chat', params: { station: station._id } })} />
         ) : (
           <BottomButtons
-          leftType={"Red"}
-          leftText={"Cancel"}
-          leftClick={() => deleteQueue(getQueue[0])}
-          rightText={"Directions"}
-          rightClick={() => Linking.openURL(station?.gmapUrl)} />
+            leftType={"Red"}
+            leftText={"Cancel"}
+            leftClick={() => deleteQueue(getQueue[0])}
+            rightText={"Directions"}
+            rightClick={() => Linking.openURL(station?.gmapUrl)} />
         )
       )}
     </BottomSheet>
