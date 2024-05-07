@@ -23,7 +23,7 @@ export default function Register({ setMode }: {
         if (firstUpdate.current) {
             firstUpdate.current = false;
             return;
-          }
+        }
 
         if (result.success && result.operation == AuthOperationName.Register) {
             console.log(result);
@@ -49,12 +49,15 @@ export default function Register({ setMode }: {
                     return;
                 }
 
-                if(credentialInput.email == '' || credentialInput.password == '' || credentialInput.confirmPassword == '') {
+                if (credentialInput.email == '' || credentialInput.password == '' || credentialInput.confirmPassword == '') {
                     Alert.alert('Error', 'Please fill in all fields.');
                     return;
                 }
 
-                if(!credentialInput.email.endsWith('@trashare.com')) {
+                if (!credentialInput.email.endsWith('@trashare.com') &&
+                    !credentialInput.email.endsWith('@gmail.com') &&
+                    !credentialInput.email.endsWith('@yahoo.com') &&
+                    !credentialInput.email.endsWith('@binus.ac.id')) {
                     Alert.alert('Error', 'Email must ends with @trashare.com');
                     return;
                 }
