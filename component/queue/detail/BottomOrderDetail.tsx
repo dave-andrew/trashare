@@ -5,13 +5,19 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from "expo-router";
 import { getAdditionalInfo } from "../../../app/datas/queries/useQueries";
 import { useRealm } from "@realm/react";
+import { useContext } from "react";
+import { AdditionalInfoContext } from "../../../app/providers/AdditionalInfoProvider";
 
 export default function BottomOrderDetail({ queue }: { queue: History }) {
 
   const router = useRouter();
   const realm = useRealm();
   const ordererAdditionalInfo = getAdditionalInfo(realm, queue?.orderer)[0]
+  const { additionalInfo } = useContext(AdditionalInfoContext)
 
+  if(!additionalInfo) {
+    return <></>
+  }
 
   return (
     <BottomSheet
@@ -28,7 +34,7 @@ export default function BottomOrderDetail({ queue }: { queue: History }) {
               <Text className="font-bold text-xl">{ordererAdditionalInfo?.username}</Text>
             </View>
           </View>
-          <Pressable onPress={() => router.push({pathname: 'chat/chat', params: {station: ordererAdditionalInfo._id}})}>
+          <Pressable onPress={() => router.push({pathname: 'chat/chat', params: {station: additionalInfo.station._id}})}>
             <Image className="w-10 h-10" source={require('../../../assets/chat-icon.png')}></Image>
           </Pressable>
         </View>

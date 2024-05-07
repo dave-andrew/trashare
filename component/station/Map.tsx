@@ -8,6 +8,7 @@ import { AdditionalInfoContext } from "../../app/providers/AdditionalInfoProvide
 import BottomStationDetail from "./BottomStationDetail";
 import { getUserQueue } from "../../app/datas/queries/useQueries";
 import { useQueueMutation } from "../../app/datas/mutations/useMutations";
+import MapViewDirections from "react-native-maps-directions";
 
 export default function Map({ location, station }: { location: Geo, station: Station }) {
 
@@ -46,6 +47,7 @@ export default function Map({ location, station }: { location: Geo, station: Sta
     const getQueue = getUserQueue(realm)
     const { addQueue } = useQueueMutation(realm, getQueue)
     const { deleteQueue } = useQueueMutation(realm, getQueue)
+    
 
     return (
         <View className="flex-1">
@@ -77,13 +79,13 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                         />
                     </Marker>
                 )}
-                {/* <MapViewDirections
+                <MapViewDirections
                     origin={location}
                     destination={stationGeometry}
                     apikey={"AIzaSyDXtsGosJEIjjY8aUkldb3ougbAyDBI3xY"}
                     strokeWidth={2}
-                    strokeColor="lightblue"
-                /> */}
+                    strokeColor="black"
+                />
             </MapView>
             {station && (
                 <BottomStationDetail station={station} getQueue={getQueue} handleQueue={handleQueue} deleteQueue={deleteQueue} />
