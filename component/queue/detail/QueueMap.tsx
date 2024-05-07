@@ -56,7 +56,7 @@ export default function QueueMap({ queue }: { queue: History }) {
           destination={stationGeometry}
           apikey={"AIzaSyDXtsGosJEIjjY8aUkldb3ougbAyDBI3xY"}
           strokeWidth={2}
-          strokeColor="lightblue"
+          strokeColor="black"
         />
       </MapView>
     </View>
