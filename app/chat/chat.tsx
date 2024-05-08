@@ -21,13 +21,12 @@ export default function ChatPage() {
   const flatListRef = useRef(null);
 
   const [messageInput, setMessageInput] = useState<string>("")
-  const flatListRef = useRef<FlatList>(null);
+
+  const station = getStationById(realm, station_id)
 
   const chat = getUserChat(station)
   
   console.log(chat)
-  const { additionalInfo } = useContext(AdditionalInfoContext)
-  console.log(additionalInfo)
 
   const { createChat } = useChatMutation(realm, chat)
   const { addMessage } = useChatMutation(realm, chat)
