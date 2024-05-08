@@ -1,77 +1,91 @@
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
-import { getStationById, getUserChat } from "../datas/queries/useQueries";
-import { useChatMutation } from "../datas/mutations/useMutations";
-import { useRealm } from "@realm/react";
-import { useContext, useEffect, useRef, useState } from "react";
-import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { FlatList } from "react-native-gesture-handler";
-import RoundedTextField, { ChatTextField } from "../../component/form/RoundedTextField";
 import ChatBubble from 'react-native-chat-bubble';
-import { ImageLibraryOptions, launchImageLibrary } from "react-native-image-picker";
+import { launchImageLibrary, ImageLibraryOptions } from "react-native-image-picker";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { useRealm } from "@realm/react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useChatMutation } from "../datas/mutations/useMutations";
+import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
+import { getAdditionalInfo, getStationById, getStationChat, getUserChat } from "../datas/queries/useQueries";
 import { storage } from "../../firebaseConfig";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons/faPaperPlane'
-import { faImage } from '@fortawesome/free-solid-svg-icons/faImage'
+import { Chat } from "../../models/Chat";
+import RoundedTextField, { ChatTextField } from "../../component/form/RoundedTextField";
 
 export default function ChatPage() {
+  const realm = useRealm();
+  const station_id = useLocalSearchParams().station;
+  const userType = useLocalSearchParams().userType;
+  const { additionalInfo } = useContext(AdditionalInfoContext);
+  const flatListRef = useRef(null);
 
-  const realm = useRealm()
-  const station_id = useLocalSearchParams().station
-  const station = getStationById(realm, station_id)
+  const [messageInput, setMessageInput] = useState("");
+  const [chat, setChat] = useState<any>();
 
-  if (!station) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    )
-  }
+  useEffect(() => {
+    let stationData = null;
+    let ordererData = null;
+    
+    if (userType === "station") {
+      stationData = getStationById(realm, station_id);
+    } else {
+      stationData = additionalInfo.station;
+      ordererData = getAdditionalInfo(realm, station_id);
+    }
 
-  const [messageInput, setMessageInput] = useState<string>("")
-  const flatListRef = useRef<FlatList>(null);
+    const chatData = userType === "station" ? getUserChat(stationData) : getStationChat(ordererData);
 
-  const chat = getUserChat(station)
-  
-  console.log(chat)
-  const { additionalInfo } = useContext(AdditionalInfoContext)
+    setChat(chatData);
+  }, [realm, station_id, userType, additionalInfo]);
 
-  const { createChat } = useChatMutation(realm, chat)
-  const { addMessage } = useChatMutation(realm, chat)
+  const { createChat, addMessage } = useChatMutation(realm, chat);
+
+  useEffect(() => {
+    if (chat.length === 0) {
+      createChat({
+        user: additionalInfo,
+        station: station_id,
+        messages: []
+      });
+    }
+  }, [chat, createChat, additionalInfo, station_id]);
+
+  useEffect(() => {
+    if (flatListRef.current && chat.length > 0) {
+      flatListRef.current.scrollToEnd({ animated: false });
+    }
+  }, [chat]);
 
   const handleAddMessage = () => {
-    if (messageInput === "") return
+    if (messageInput === "") return;
 
     addMessage(chat[0], {
       text: messageInput,
       user: additionalInfo,
       type: "text"
-    })
-    setMessageInput("")
-  }
+    });
+    setMessageInput("");
+  };
 
   const handleBack = () => {
-    router.back()
-  }
+    router.back();
+  };
 
   const handleCamera = () => {
-    
     const params = {
       station: station_id
-    }
-    
-    router.push({pathname: "chat/camera", params: params})
-  }
+    };
+
+    router.push({ pathname: "chat/camera", params: params });
+  };
 
   const chooseImage = () => {
-
     const options: ImageLibraryOptions = {
       mediaType: 'photo',
       quality: 1,
-    }
+    };
 
-    // choose image from device
     launchImageLibrary(options, async (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -81,12 +95,10 @@ export default function ChatPage() {
         console.log('No image selected');
         return;
       }
-      // Convert image from URI to BLOB
+
       const fetchResponse = await fetch(response.assets[0].uri);
       const theBlob = await fetchResponse.blob();
-      // console.log("The Blob", theBlob);
 
-      // upload image to firebase
       const imageRef = ref(storage, `chat-images/${additionalInfo?.uid}+${new Date().getTime()}.jpg`);
       const uploadTask = uploadBytesResumable(imageRef, theBlob);
 
@@ -104,37 +116,19 @@ export default function ChatPage() {
           }
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            // console.log('File available at', downloadURL);
             addMessage(chat[0], {
               text: downloadURL,
               user: additionalInfo,
               type: "image"
-            })
+            });
           });
-        })
-    })
-
-  }
-
-  useEffect(() => {
-    if (chat.length === 0) {
-      createChat({
-        user: additionalInfo,
-        station: station,
-        messages: []
-      })
-    }
-  }, [chat])
-
-  useEffect(() => {
-    if (flatListRef.current && chat.length > 0) {
-      flatListRef.current.scrollToEnd({ animated: false });
-    }
-  }, [chat, flatListRef.current]);
+        });
+    });
+  };
 
   return (
     <ImageBackground
@@ -148,7 +142,7 @@ export default function ChatPage() {
         <Pressable onPress={handleBack} className="ml-4 mb-4">
           <Image source={require('../../assets/arrow.png')} style={{ width: 20, height: 20 }} />
         </Pressable>
-        <Text className="text-lg text-center font-medium ml-6 mb-3">{station.name}</Text>
+        <Text className="text-lg text-center font-medium ml-6 mb-3">{chat[0]?.station?.name}</Text>
       </View>
 
       {chat.length > 0 && (
@@ -156,7 +150,7 @@ export default function ChatPage() {
           <FlatList
             ref={flatListRef}
             className="py-2 px-4"
-            data={chat[0].message}
+            data={chat[0]?.messages}
             renderItem={({ item }) => {
               return (
                 <ChatBubble
@@ -171,11 +165,9 @@ export default function ChatPage() {
                       <Image source={{ uri: item.text }} style={{ width: 200, height: 200 }} />
                   }
                 </ChatBubble>
-              )
+              );
             }}
-          >
-          </FlatList>
-
+          />
           <View
             style={{ flexDirection: 'row', elevation: 10 }}
             className="bg-white w-full justify-around items-center"
@@ -201,7 +193,6 @@ export default function ChatPage() {
           </View>
         </View>
       )}
-
     </ImageBackground>
-  )
+  );
 }
