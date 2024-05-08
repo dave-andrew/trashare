@@ -9,12 +9,12 @@ The First Educational Application in Indonesia that empowers you to be part of a
 - **Become A Waste Management Pro!** <br />View personal trash summary to understand you habits and track your progress to a greener lifestyle.
 
 - **Stay Informed and get educated**
-  <br />Get access to valuable information and tips on responsible waste disposal and recycling. Our resources will help you on your journey to segregate each trash based on their type
+  <br />Get access to valuable information and tips on responsible waste disposal and recycling. Our resources and AI will help you on your journey to segregate each trash based on their type.
 
 - **Your hassle-free trash assistant**
   <br />Connect to company in need of certain type of trash, chat with them, order pick up, and drop off transaction with a single tap on your phone!
 
-<p align="center"><a href="https://identity.ic0.app" target="_blank" rel="noopener noreferrer"><img width="800" src=https://github.com/dave-andrew/HireVerse/blob/master/assets/showcase/showcase-vid.gif" alt="Internet Identity"></a></p>
+<p align="center"><img width="800" src=https://github.com/dave-andrew/trashare/blob/master/assets/showcase/showcase-vid.gif" alt="Preview Scanning"></p>
 
 ## Features
 
@@ -54,7 +54,7 @@ Download the application from APK
 
 ## Preview
 
-![Image Preview](https://github.com/dave-andrew/HireVerse/blob/master/assets/showcase/showcase-summary.png)
+![Image Preview Summary](https://github.com/dave-andrew/trashare/blob/master/assets/showcase/showcase-summary.png)
 
 ## Video Installation Guide & Demo
 
@@ -89,7 +89,7 @@ Download the application from APK
 
 ## Contact
 
-If you have any questions or want to discuss HireVerse further, please feel free to reach out to us at:
+If you have any questions or want to discuss Trashare further, please feel free to reach out to us at:
 
 - Email: vincent.tanjaya@binus.edu
 - Email: jessica.ryan@binus.edu
