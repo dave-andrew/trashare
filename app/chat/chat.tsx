@@ -22,20 +22,21 @@ export default function ChatPage() {
   let station = null;
   let orderer = null;
 
-  if(additionalInfo.station) {
+
+  if (additionalInfo.station) {
     station = additionalInfo.station;
+    orderer = getAdditionalInfo(realm, orderer_id)[0];
+
   } else {
     station = getStationById(realm, station_id);
-  }
-
-  if(orderer_id) {
-    orderer = getAdditionalInfo(realm, orderer_id);
-  } else {
     orderer = additionalInfo;
+
   }
-  
+  console.log("STATION", station)
+  console.log("ORDERERRRR", orderer)
+  // const chat = [];
   const chat = getUserChat(station, orderer);
-  
+
   console.log("Chat:", chat)
 
   const { createChat, addMessage } = useChatMutation(realm, chat);
@@ -104,8 +105,8 @@ export default function ChatPage() {
               return (
                 <ChatBubble
                   isOwnMessage={item.user._id === additionalInfo._id}
-                  bubbleColor="#8CE7FF"
-                  tailColor="#8CE7FF"
+                  bubbleColor={(item.user._id === additionalInfo._id) ? "#8CE7FF" : "#FFFFFF"}
+                  tailColor={(item.user._id === additionalInfo._id) ? "#8CE7FF" : "#FFFFFF"}
                   withTail={true}
                 >
                   {

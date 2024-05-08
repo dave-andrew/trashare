@@ -82,9 +82,9 @@ export default function Map({ location, station }: { location: Geo, station: Sta
                 <MapViewDirections
                     origin={location}
                     destination={stationGeometry}
-                    apikey={"AIzaSyDXtsGosJEIjjY8aUkldb3ougbAyDBI3xY"}
-                    strokeWidth={2}
-                    strokeColor="black"
+                    apikey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}
+                    strokeWidth={5}
+                    strokeColor="#4285F4"
                 />
             </MapView>
             {station && (
