@@ -105,8 +105,8 @@ export default function ChatPage() {
               return (
                 <ChatBubble
                   isOwnMessage={item.user._id === additionalInfo._id}
-                  bubbleColor="#8CE7FF"
-                  tailColor="#8CE7FF"
+                  bubbleColor={(item.user._id === additionalInfo._id) ? "#8CE7FF" : "#FFFFFF"}
+                  tailColor={(item.user._id === additionalInfo._id) ? "#8CE7FF" : "#FFFFFF"}
                   withTail={true}
                 >
                   {
