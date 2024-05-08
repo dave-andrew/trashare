@@ -54,8 +54,8 @@ export default function QueueMap({ queue }: { queue: History }) {
           origin={userGeometry}
           destination={stationGeometry}
           apikey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}
-          strokeWidth={2}
-          strokeColor="black"
+          strokeWidth={5}
+          strokeColor="#4285F4"
         />
       </MapView>
     </View>
