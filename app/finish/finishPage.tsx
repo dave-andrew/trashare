@@ -1,13 +1,10 @@
 import { Text, View, Image, Pressable, Alert, Button } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import WasteTypeSelector from '../../component/finish/WasteTypeSelector';
 import { useContext, useState } from 'react';
 import WasteDataCard from '../../component/finish/WasteDataCard';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getAdditionalInfo, getHistoryById } from '../datas/queries/useQueries';
 import { useRealm } from '@realm/react';
-import { useQueueMutation } from '../datas/mutations/useMutations';
 import { useMutationAdditionalInfo } from '../datas/mutations/useAdditionalInfo';
 import { AdditionalInfoContext } from '../providers/AdditionalInfoProvider';
 
@@ -30,8 +27,7 @@ export default function FinishPage() {
   const router = useRouter();
   const queue_id = useLocalSearchParams().id;
   const queue = getHistoryById(realm, queue_id?.toString())
-  const { finishOrder } = useQueueMutation(realm, queue)
-  const { updateUserWasteData, finishOrderAndUpdateUser } = useMutationAdditionalInfo()
+  const { finishOrderAndUpdateUser } = useMutationAdditionalInfo()
   const { additionalInfo, setAdditionalInfo } = useContext(AdditionalInfoContext)
   const ordererAdditionalInfo = getAdditionalInfo(realm, queue?.orderer)[0]
 
@@ -63,17 +59,6 @@ export default function FinishPage() {
           const updatedWasteList = wasteList.map((waste) => {
             return { ...waste, weight: Number(waste.weight) };
           });
-          
-          // const userWastes = countWeights()
-          // const user = updateUserWasteData({ user_id: queue.orderer, userWastes: userWastes, realm: realm })
-          // console.log("Updated User Data: ", user)
-          
-          // const station = updateUserWasteData({ user_id: additionalInfo._id, userWastes: userWastes, realm: realm })
-          // console.log("Updated Station Data", station)
-          // setAdditionalInfo(station)
-
-          // const finish = finishOrder(queue, updatedWasteList)
-          // console.log('Finish order successful!', finish)
 
           const data = finishOrderAndUpdateUser({
             user_id: queue.orderer, user_station_id: additionalInfo._id, queue_id: queue._id, wasteList: wasteList, realm: realm
