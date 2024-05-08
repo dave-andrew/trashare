@@ -23,7 +23,7 @@ export function useQueueMutation(realm, queue) {
             queue.isComplete = true
             queue.waste = wasteList
         })
-        console.log("Finished order success!", data)
+        return data
     }, [realm])
 
     // useEffect(() => {

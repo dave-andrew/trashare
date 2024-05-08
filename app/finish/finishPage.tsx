@@ -17,6 +17,13 @@ export type WastePlaceholder = {
   imageUrl: string;
 };
 
+export interface UserWasteData {
+  paperWeight: number;
+  recylableWeight: number;
+  compostWeight: number;
+  totalPoint: number;
+}
+
 export default function FinishPage() {
 
   const realm = useRealm();
@@ -24,7 +31,7 @@ export default function FinishPage() {
   const queue_id = useLocalSearchParams().id;
   const queue = getHistoryById(realm, queue_id?.toString())
   const { finishOrder } = useQueueMutation(realm, queue)
-  const { updateUserWasteData } = useMutationAdditionalInfo()
+  const { updateUserWasteData, finishOrderAndUpdateUser } = useMutationAdditionalInfo()
   const { additionalInfo, setAdditionalInfo } = useContext(AdditionalInfoContext)
   const ordererAdditionalInfo = getAdditionalInfo(realm, queue?.orderer)[0]
 
@@ -49,23 +56,29 @@ export default function FinishPage() {
       return
     }
     Alert.alert('Finish Order', 'Are you sure you want to finish this order?', [
-      {
-        text: 'Cancel',
-        style: 'cancel'
-      },
+      { text: 'Cancel', style: 'cancel' },
       {
         text: 'Yes',
         onPress: () => {
           const updatedWasteList = wasteList.map((waste) => {
             return { ...waste, weight: Number(waste.weight) };
           });
-          console.log(updatedWasteList)
-          finishOrder(queue, updatedWasteList)
+          
+          // const userWastes = countWeights()
+          // const user = updateUserWasteData({ user_id: queue.orderer, userWastes: userWastes, realm: realm })
+          // console.log("Updated User Data: ", user)
+          
+          // const station = updateUserWasteData({ user_id: additionalInfo._id, userWastes: userWastes, realm: realm })
+          // console.log("Updated Station Data", station)
+          // setAdditionalInfo(station)
 
-          const { user, stationUser } = updateUserWasteData({ user_id: queue.orderer, user_station_id: additionalInfo._id, wasteList: wasteList, realm: realm })
-          setAdditionalInfo(stationUser)
-          console.log('User', user)
-          console.log('Station User', stationUser)
+          // const finish = finishOrder(queue, updatedWasteList)
+          // console.log('Finish order successful!', finish)
+
+          const data = finishOrderAndUpdateUser({
+            user_id: queue.orderer, user_station_id: additionalInfo._id, queue_id: queue._id, wasteList: wasteList, realm: realm
+          })
+          console.log('Finished order!', data)
           router.push({ pathname: '(tabs)/queuePage' })
         }
       }
