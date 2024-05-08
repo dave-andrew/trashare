@@ -59,7 +59,6 @@ export const getStationQueue = (realm) => {
 }
 
 export const getUserChat = (station, orderer) => {
-    const { additionalInfo } = useContext(AdditionalInfoContext);
     return useQuery(Chat).filtered('station == $0 AND user == $1', station, orderer);
 }
 

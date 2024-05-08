@@ -22,20 +22,21 @@ export default function ChatPage() {
   let station = null;
   let orderer = null;
 
-  if(additionalInfo.station) {
+
+  if (additionalInfo.station) {
     station = additionalInfo.station;
+    orderer = getAdditionalInfo(realm, orderer_id)[0];
+
   } else {
     station = getStationById(realm, station_id);
-  }
-
-  if(orderer_id) {
-    orderer = getAdditionalInfo(realm, orderer_id);
-  } else {
     orderer = additionalInfo;
+
   }
-  
+  console.log("STATION", station)
+  console.log("ORDERERRRR", orderer)
+  // const chat = [];
   const chat = getUserChat(station, orderer);
-  
+
   console.log("Chat:", chat)
 
   const { createChat, addMessage } = useChatMutation(realm, chat);
