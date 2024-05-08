@@ -20,42 +20,17 @@ export default function ChatPage() {
   const { additionalInfo } = useContext(AdditionalInfoContext);
   const flatListRef = useRef(null);
 
-  const [messageInput, setMessageInput] = useState("");
-  const [chat, setChat] = useState<any>();
+  const [messageInput, setMessageInput] = useState<string>("")
+  const flatListRef = useRef<FlatList>(null);
 
-  useEffect(() => {
-    let stationData = null;
-    let ordererData = null;
-    
-    if (userType === "station") {
-      stationData = getStationById(realm, station_id);
-    } else {
-      stationData = additionalInfo.station;
-      ordererData = getAdditionalInfo(realm, station_id);
-    }
+  const chat = getUserChat(station)
+  
+  console.log(chat)
+  const { additionalInfo } = useContext(AdditionalInfoContext)
+  console.log(additionalInfo)
 
-    const chatData = userType === "station" ? getUserChat(stationData) : getStationChat(ordererData);
-
-    setChat(chatData);
-  }, [realm, station_id, userType, additionalInfo]);
-
-  const { createChat, addMessage } = useChatMutation(realm, chat);
-
-  useEffect(() => {
-    if (chat.length === 0) {
-      createChat({
-        user: additionalInfo,
-        station: station_id,
-        messages: []
-      });
-    }
-  }, [chat, createChat, additionalInfo, station_id]);
-
-  useEffect(() => {
-    if (flatListRef.current && chat.length > 0) {
-      flatListRef.current.scrollToEnd({ animated: false });
-    }
-  }, [chat]);
+  const { createChat } = useChatMutation(realm, chat)
+  const { addMessage } = useChatMutation(realm, chat)
 
   const handleAddMessage = () => {
     if (messageInput === "") return;
@@ -73,12 +48,13 @@ export default function ChatPage() {
   };
 
   const handleCamera = () => {
+
     const params = {
       station: station_id
-    };
+    }
 
-    router.push({ pathname: "chat/camera", params: params });
-  };
+    router.push({ pathname: "chat/camera", params: params })
+  }
 
   const chooseImage = () => {
     const options: ImageLibraryOptions = {
@@ -145,16 +121,16 @@ export default function ChatPage() {
         <Text className="text-lg text-center font-medium ml-6 mb-3">{chat[0]?.station?.name}</Text>
       </View>
 
-      {chat.length > 0 && (
+      {(chat.length > 0 && additionalInfo) && (
         <View className="flex-1">
           <FlatList
             ref={flatListRef}
-            className="py-2 px-4"
-            data={chat[0]?.messages}
+            className="mb-2 px-4"
+            data={chat[0].message}
             renderItem={({ item }) => {
               return (
                 <ChatBubble
-                  isOwnMessage={item.user._id === additionalInfo._id}
+                  isOwnMessage={item.user._id === additionalInfo?._id}
                   bubbleColor="#8CE7FF"
                   tailColor="#8CE7FF"
                   withTail={true}
@@ -162,12 +138,18 @@ export default function ChatPage() {
                   {
                     item.type === "text" ?
                       <Text className="text-base">{item.text}</Text> :
-                      <Image source={{ uri: item.text }} style={{ width: 200, height: 200 }} />
+                      <Image source={{ uri: item.text }} style={{
+                        width: 200,
+                        height: 200,
+                        borderRadius: 16
+                      }} />
                   }
                 </ChatBubble>
               );
             }}
-          />
+          >
+          </FlatList>
+
           <View
             style={{ flexDirection: 'row', elevation: 10 }}
             className="bg-white w-full justify-around items-center"
