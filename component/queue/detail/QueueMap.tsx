@@ -53,7 +53,7 @@ export default function QueueMap({ queue }: { queue: History }) {
         <MapViewDirections
           origin={userGeometry}
           destination={stationGeometry}
-          apikey={"AIzaSyDXtsGosJEIjjY8aUkldb3ougbAyDBI3xY"}
+          apikey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}
           strokeWidth={2}
           strokeColor="black"
         />

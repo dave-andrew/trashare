@@ -2,18 +2,7 @@ import axios from 'react-native-axios';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from './firebaseConfig';
 
-export const url = "http://154.41.254.221:8000/predict";
-export const baseUrl = "http://154.41.254.221:8000/";
-
-export const checkConnection = async () => {
-    try {
-        const response = await fetch(baseUrl);
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.error('Error checking connection:', error);
-    }
-};
+export const url = process.env.EXPO_PUBLIC_API_TRASHARE_AI_URL;
 
 export const fetchResult = (blob: Blob) => {
     return new Promise(async (resolve, reject) => {
