@@ -14,7 +14,7 @@ The First Educational Application in Indonesia that empowers you to be part of a
 - **Your hassle-free trash assistant**
   <br />Connect to company in need of certain type of trash, chat with them, order pick up, and drop off transaction with a single tap on your phone!
 
-<p align="center"><img width="800" src=https://github.com/dave-andrew/trashare/blob/master/assets/showcase/showcase-vid.gif" alt="Preview Scanning"></p>
+<p align="center"><img width="200" src="./assets/showcase/showcase-vid.gif" alt="Preview Scanning"></p>
 
 ## Features
 
@@ -54,7 +54,7 @@ Download the application from APK
 
 ## Preview
 
-![Image Preview Summary](https://github.com/dave-andrew/trashare/blob/master/assets/showcase/showcase-summary.png)
+![Image Preview Summary](./assets/showcase/showcase-summary.png)
 
 ## Video Installation Guide & Demo
 
