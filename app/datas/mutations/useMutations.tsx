@@ -6,31 +6,40 @@ import { User } from "../../../models/User"
 import { Chat } from "../../../models/Chat"
 
 export function useQueueMutation(realm, queue) {
-    const addQueue = useCallback((queue) => {
+    const addQueue = (queue) => {
         realm.write(() => {
             return realm.create(History, queue)
         })
-    }, [realm])
+    }
 
-    const deleteQueue = useCallback((queue) => {
+    const completeQueue = (queue) => {
+        realm.write(() => {
+            queue.isComplete = true
+        })
+    }
+
+    const deleteQueue = (queue) => {
         realm.write(() => {
             realm.delete(queue)
         })
-    }, [realm])
+    }
 
-    const finishOrder = useCallback((queue, wasteList) => {
-        const data = realm.write(() => {
+    const finishOrder = (queue, wasteList) => {
+        realm.write(() => {
             queue.isComplete = true
             queue.waste = wasteList
         })
-        return data
-    }, [realm])
+    }
 
     // useEffect(() => {
     //     realm.subscriptions.update(mutableSubs => {
+    //         console.log("Use Effect Realm Called");
     //         mutableSubs.add(queue)
+    //         console.log("Use Effect Realm2 Called");
     //     })
+    //     console.log("Use Effect Called");
     // }, [realm, queue])
+    
 
     return {
         addQueue,
@@ -86,6 +95,8 @@ export function useChatMutation(realm, chatList) {
         return realm.write(() => {
             chat.message.push(message)
         })
+        
+    
     }, [realm, chatList]);
 
     useEffect(() => {

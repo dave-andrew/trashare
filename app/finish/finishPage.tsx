@@ -1,4 +1,4 @@
-import { Text, View, Image, Pressable, Alert } from 'react-native';
+import { Text, View, Image, Pressable, Alert, Button } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import WasteTypeSelector from '../../component/finish/WasteTypeSelector';
 import { useContext, useState } from 'react';
@@ -86,6 +86,7 @@ export default function FinishPage() {
   }
 
   return (
+    // <Button title="Finish Page" onPress={() => console.log('Finish Page')} />
     <View className='h-full'>
       <ScrollView className="bg-[#F9F9F9] flex">
         <View className='flex flex-row items-center mx-2 mb-2 mt-4'>
