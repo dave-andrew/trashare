@@ -111,7 +111,7 @@ export default function ProfilePage() {
             </View>
             <UserInfoDashboard additionalInfo={additionalInfo} />
 
-            <UserToStation />
+            {/* <UserToStation /> */}
 
             <ProfileOptionList additionalInfo={additionalInfo} />
 
