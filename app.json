@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#00B1F7"
+      "backgroundColor": "#000000" 
     },
     "assetBundlePatterns": [
       "**/*"
@@ -19,7 +19,17 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.bluejackets.trashare"
+      "package": "com.bluejackets.trashare",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "adaptiveIcon" : {
+        "foregroundImage": "./assets/logo/adaptive-icon.png",
+        "backgroundColor": "#00B1F7"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -40,6 +50,14 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b86c60ed-9ee4-4677-af9a-b0e6dc750ee4"
+      }
+    }
   }
 }
