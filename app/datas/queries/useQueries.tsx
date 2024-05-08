@@ -58,14 +58,14 @@ export const getStationQueue = (realm) => {
     return getAllHistory(realm).filtered('station == $0', additionalInfo.station).filtered('isComplete == false').sorted('createdAt', true);
 }
 
-export const getUserChat = (station) => {
+export const getUserChat = (station, orderer) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    return useQuery(Chat).filtered('station == $0 AND user == $1', station, additionalInfo);
+    return useQuery(Chat).filtered('station == $0 AND user == $1', station, orderer);
 }
 
 export const getStationChat = (orderer) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    return useQuery(Chat).filtered('station == $0', additionalInfo.station).filtered('user == $1', orderer);
+    return useQuery(Chat).filtered('station == $0 AND user == $1', additionalInfo.station, orderer);
 }
 
 export const getStations = (realm) => {

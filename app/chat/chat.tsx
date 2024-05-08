@@ -2,34 +2,59 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import ChatBubble from 'react-native-chat-bubble';
-import { launchImageLibrary, ImageLibraryOptions } from "react-native-image-picker";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useRealm } from "@realm/react";
 import { router, useLocalSearchParams } from "expo-router";
 import { useChatMutation } from "../datas/mutations/useMutations";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { getAdditionalInfo, getStationById, getStationChat, getUserChat } from "../datas/queries/useQueries";
-import { storage } from "../../firebaseConfig";
-import { Chat } from "../../models/Chat";
 import RoundedTextField, { ChatTextField } from "../../component/form/RoundedTextField";
+import { chooseImage } from "./chatFunction";
 
 export default function ChatPage() {
   const realm = useRealm();
   const station_id = useLocalSearchParams().station;
+  const orderer_id = useLocalSearchParams().orderer;
   const userType = useLocalSearchParams().userType;
   const { additionalInfo } = useContext(AdditionalInfoContext);
   const flatListRef = useRef(null);
 
-  const [messageInput, setMessageInput] = useState<string>("")
+  const [messageInput, setMessageInput] = useState("");
+  let station = null;
+  let orderer = null;
 
-  const station = getStationById(realm, station_id)
+  if(additionalInfo.station) {
+    station = additionalInfo.station;
+  } else {
+    station = getStationById(realm, station_id);
+  }
 
-  const chat = getUserChat(station)
+  if(orderer_id) {
+    orderer = getAdditionalInfo(realm, orderer_id);
+  } else {
+    orderer = additionalInfo;
+  }
   
-  console.log(chat)
+  const chat = getUserChat(station, orderer);
+  
+  console.log("Chat:", chat)
 
-  const { createChat } = useChatMutation(realm, chat)
-  const { addMessage } = useChatMutation(realm, chat)
+  const { createChat, addMessage } = useChatMutation(realm, chat);
+
+  useEffect(() => {
+    if (chat.length === 0) {
+      createChat({
+        user: additionalInfo,
+        station: station_id,
+        messages: []
+      });
+    }
+  }, [chat, createChat, additionalInfo, station_id]);
+
+  useEffect(() => {
+    if (flatListRef.current && chat.length > 0) {
+      flatListRef.current.scrollToEnd({ animated: false });
+    }
+  }, [chat]);
 
   const handleAddMessage = () => {
     if (messageInput === "") return;
@@ -47,62 +72,11 @@ export default function ChatPage() {
   };
 
   const handleCamera = () => {
-
     const params = {
       station: station_id
-    }
-
-    router.push({ pathname: "chat/camera", params: params })
-  }
-
-  const chooseImage = () => {
-    const options: ImageLibraryOptions = {
-      mediaType: 'photo',
-      quality: 1,
     };
 
-    launchImageLibrary(options, async (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-        return;
-      }
-      if (!response.assets) {
-        console.log('No image selected');
-        return;
-      }
-
-      const fetchResponse = await fetch(response.assets[0].uri);
-      const theBlob = await fetchResponse.blob();
-
-      const imageRef = ref(storage, `chat-images/${additionalInfo?.uid}+${new Date().getTime()}.jpg`);
-      const uploadTask = uploadBytesResumable(imageRef, theBlob);
-
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-          }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            addMessage(chat[0], {
-              text: downloadURL,
-              user: additionalInfo,
-              type: "image"
-            });
-          });
-        });
-    });
+    router.push({ pathname: "chat/camera", params: params });
   };
 
   return (
@@ -120,16 +94,16 @@ export default function ChatPage() {
         <Text className="text-lg text-center font-medium ml-6 mb-3">{chat[0]?.station?.name}</Text>
       </View>
 
-      {(chat.length > 0 && additionalInfo) && (
+      {chat && chat.length > 0 && (
         <View className="flex-1">
           <FlatList
             ref={flatListRef}
-            className="mb-2 px-4"
-            data={chat[0].message}
+            className="py-2 px-4"
+            data={chat[0]?.message}
             renderItem={({ item }) => {
               return (
                 <ChatBubble
-                  isOwnMessage={item.user._id === additionalInfo?._id}
+                  isOwnMessage={item.user._id === additionalInfo._id}
                   bubbleColor="#8CE7FF"
                   tailColor="#8CE7FF"
                   withTail={true}
@@ -137,18 +111,12 @@ export default function ChatPage() {
                   {
                     item.type === "text" ?
                       <Text className="text-base">{item.text}</Text> :
-                      <Image source={{ uri: item.text }} style={{
-                        width: 200,
-                        height: 200,
-                        borderRadius: 16
-                      }} />
+                      <Image source={{ uri: item.text }} style={{ width: 200, height: 200 }} />
                   }
                 </ChatBubble>
               );
             }}
-          >
-          </FlatList>
-
+          />
           <View
             style={{ flexDirection: 'row', elevation: 10 }}
             className="bg-white w-full justify-around items-center"
@@ -157,7 +125,7 @@ export default function ChatPage() {
               <Image source={require('../../assets/photo-camera.png')} style={{ width: 25, height: 25 }} />
             </Pressable>
 
-            <Pressable onPress={chooseImage} className="ml-3">
+            <Pressable onPress={() => chooseImage(chat)} className="ml-3">
               <Image source={require('../../assets/insert-picture-icon.png')} style={{ width: 25, height: 25 }} />
             </Pressable>
 
