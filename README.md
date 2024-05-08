@@ -1,4 +1,4 @@
-<p align="center"><img src="./assets/logo/icon-cropped.png" alt="Icon Cropped" /></p>
+<p align="center"><img src="./assets/logo/icon-cropped.png" alt="Icon Cropped" width="400" /></p>
 
 ## Introduction
 
