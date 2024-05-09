@@ -74,7 +74,8 @@ export default function ChatPage() {
 
   const handleCamera = () => {
     const params = {
-      station: station_id
+      station: station._id,
+      orderer: orderer._id,
     };
 
     router.push({ pathname: "chat/camera", params: params });
