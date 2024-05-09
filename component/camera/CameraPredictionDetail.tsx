@@ -53,7 +53,7 @@ export default function CameraPredictionDetail(props: { prediction: string, imag
     return (
         <BottomSheet
             style={{ elevation: 5, paddingHorizontal: 32, gap: 10 }}
-            snapPoints={['30%']}
+            snapPoints={['35%']}
             enablePanDownToClose={true}
             handleIndicatorStyle={{ backgroundColor: '#eee', width: 60, height: 6 }}
             onChange={(index) => {

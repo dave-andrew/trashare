@@ -12,7 +12,7 @@ import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { storage } from "../../firebaseConfig";
 import { useChatMutation } from "../datas/mutations/useMutations";
 import { useRealm } from "@realm/react";
-import { getStationById, getUserChat } from "../datas/queries/useQueries";
+import { getAdditionalInfo, getStationById, getUserChat } from "../datas/queries/useQueries";
 
 export default function CameraChat() {
     const camera = useRef<Camera>(null);
@@ -25,10 +25,11 @@ export default function CameraChat() {
     const realm = useRealm()
 
     const station_id = useLocalSearchParams().station
+    const orderer_id = useLocalSearchParams().orderer
     const station = getStationById(realm, station_id)
+    const orderer = getAdditionalInfo(realm, orderer_id)[0];
 
-    const chat = getUserChat(station)
-
+    const chat = getUserChat(station, orderer)
 
     const { additionalInfo } = useContext(AdditionalInfoContext);
     const { addMessage } = useChatMutation(realm, chat)
