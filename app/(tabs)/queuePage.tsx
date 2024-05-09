@@ -3,10 +3,11 @@ import { FlatList } from "react-native-gesture-handler";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { getStationQueue } from "../datas/queries/useQueries";
 import HistoryItem from "../../component/history/HistoryItem";
-import { useRealm } from "@realm/react";
+import { useQuery, useRealm } from "@realm/react";
 import QueueItem from "../../component/queue/QueueItem";
 import CircularFilterDisk from "../../component/history/CircularFilterDisk";
 import { useEffect, useState } from "react";
+import { Station } from "../../models/Station";
 
 
 export default function QueuePage() {
@@ -43,6 +44,14 @@ export default function QueuePage() {
     useEffect(() => {
         setFilteredQueues(queues.filter(filterFunction))
     }, [filter])
+
+    const stations = useQuery(Station)
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(stations)
+        })
+    }, [realm, queues])
+    
 
     return (
         <View className="bg-[#F9F9F9] min-h-full">

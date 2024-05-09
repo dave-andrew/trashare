@@ -35,7 +35,8 @@ export const getAllHistory = (realm) => {
 
 export const getUserHistory = (realm) => {
     const { additionalInfo } = useContext(AdditionalInfoContext);
-    return getAllHistory(realm).filtered('orderer == $0', additionalInfo._id).sorted('createdAt', true);
+    return getAllHistory(realm).filtered('orderer == $0 ', additionalInfo._id).sorted('createdAt', true);
+    // return getAllHistory(realm).filtered("_id == oid(663c960a0c1b1d33c5175f06) ").sorted('createdAt', true);
 }
 
 

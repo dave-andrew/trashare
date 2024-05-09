@@ -4,7 +4,8 @@ import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { useContext, useEffect, useState } from "react";
 import CircularFilterDisk from "../../component/history/CircularFilterDisk";
 import { getStationHistory, getUserHistory } from "../datas/queries/useQueries";
-import { useRealm } from "@realm/react";
+import { useQuery, useRealm } from "@realm/react";
+import { Station } from "../../models/Station";
 
 
 export default function HistoryPage() {
@@ -12,20 +13,21 @@ export default function HistoryPage() {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     const history = additionalInfo.role == 'station' ? getStationHistory(realm) : getUserHistory(realm);
     console.log("History ", history)
-
+    
+    
     const [filter, setFilter] = useState({
         "Recyclable": false,
         "Paper": false,
         "Compost": false,
     })
-
+    
     const filterFunction = (h) => {
-
+        
         // If not filtered at all
         if (!filter.Paper && !filter.Compost && !filter.Recyclable) {
             return true
         }
-
+        
         // If one filtered is true, then include if any of the waste is valid
         let isValid = false
         h.waste.map((w) => {
@@ -42,16 +44,25 @@ export default function HistoryPage() {
                 return
             }
         })
-
+        
         return isValid
     }
-
+    
     const [filteredHistory, setFilteredHistory] = useState(history.filter(filterFunction))
-
+    
     useEffect(() => {
         setFilteredHistory(history.filter(filterFunction))
     }, [filter])
 
+
+    const stations = useQuery(Station)
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(stations)
+        })
+    }, [realm, history])
+    
+    console.log("Filtered History ", filteredHistory);
     return (
         <View className="min-h-full" style={[{
             backgroundColor: '#F9F9F9'
