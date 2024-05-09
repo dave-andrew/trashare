@@ -45,7 +45,7 @@ export default function ChatPage() {
     if (chat.length === 0) {
       createChat({
         user: additionalInfo,
-        station: station_id,
+        station: station,
         messages: []
       });
     }
@@ -93,7 +93,11 @@ export default function ChatPage() {
         <Pressable onPress={handleBack} className="ml-4 mb-4">
           <Image source={require('../../assets/arrow.png')} style={{ width: 20, height: 20 }} />
         </Pressable>
-        <Text className="text-lg text-center font-medium ml-6 mb-3">{chat[0]?.station?.name}</Text>
+        {
+          chat.length > 0 && (
+            <Text className="text-lg text-center font-medium ml-6 mb-3">{chat[0]?.station?.name}</Text>
+          )
+        }
       </View>
 
       {chat && chat.length > 0 && (
