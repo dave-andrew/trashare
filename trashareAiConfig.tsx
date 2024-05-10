@@ -21,7 +21,6 @@ export const fetchResult = (blob: Blob) => {
             async () => {
                 try {
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                    Alert.alert('Error', downloadURL);
                     
                     const response = await fetch(url, {
                         method: 'POST',
@@ -36,10 +35,9 @@ export const fetchResult = (blob: Blob) => {
                     }
 
                     const responseData = await response.json();
-                    Alert.alert("Result", JSON.stringify(responseData));
                     resolve({ response: responseData, downloadURL });
                 } catch (error) {
-                    console.error('Error fetching result:', error.message);
+                    Alert.alert("Result", error.message);
                     reject(error);
                 } finally {
                     // Clean up the upload task
