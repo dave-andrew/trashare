@@ -36,20 +36,21 @@ export default function ChatPage() {
   }
 
   const chat = getUserChat(station, orderer);
+  setTimeout(() => console.log("Chat:", chat), 500)
 
   console.log("Chat:", chat[0])
 
   const { createChat, addMessage } = useChatMutation(realm, chat);
 
   useEffect(() => {
-    if (chat.length === 0) {
+    if (chat && chat.length === 0) {
       createChat({
         user: orderer,
         station: station,
         messages: []
       });
     }
-  }, [chat]);
+  }, [realm, chat]);
 
   useEffect(() => {
     if (flatListRef.current && chat.length > 0) {

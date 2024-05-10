@@ -109,3 +109,21 @@ export function useChatMutation(realm, chatList) {
         addMessage
     }
 }
+
+export const useUserMutation = (realm, userList) => {
+    const updatePoints = useCallback((user: User) => {
+        realm.write(() => {
+            user.points = 0
+        })
+    }, [realm, userList])
+
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(userList);
+        })
+    }, [realm, userList])
+
+    return {
+        updatePoints,
+    }
+}

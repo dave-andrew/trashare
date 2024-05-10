@@ -35,6 +35,11 @@ export default function StationPage() {
 
     const [station, setStation] = useState<Station>();
     console.log("Current Station", station)
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(getQueue)
+        })
+    }, [realm, getQueue]);
 
     useEffect(() => {
         (async () => {
@@ -57,12 +62,6 @@ export default function StationPage() {
     useEffect(() => {
         setIsSearching(false)
     }, [station])
-
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(getQueue)
-        })
-    }, [realm]);
 
     return (
         <View style={{ flex: 1 }}>

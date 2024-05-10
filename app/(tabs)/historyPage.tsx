@@ -13,6 +13,13 @@ export default function HistoryPage() {
     const { additionalInfo } = useContext(AdditionalInfoContext);
     const history = additionalInfo.role == 'station' ? getStationHistory(realm) : getUserHistory(realm);
     console.log("History ", history)
+
+    const stations = useQuery(Station)
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(stations)
+        })
+    }, [realm, history])
     
     
     const [filter, setFilter] = useState({
@@ -53,14 +60,6 @@ export default function HistoryPage() {
     useEffect(() => {
         setFilteredHistory(history.filter(filterFunction))
     }, [filter])
-
-
-    const stations = useQuery(Station)
-    useEffect(() => {
-        realm.subscriptions.update(mutableSubs => {
-            mutableSubs.add(stations)
-        })
-    }, [realm, history])
     
     console.log("Filtered History ", filteredHistory);
     return (

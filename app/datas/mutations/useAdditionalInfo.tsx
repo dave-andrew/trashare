@@ -32,6 +32,17 @@ export function useMutationAdditionalInfo() {
         setAdditionalInfoInput(user)
     }
 
+    const updateUserPoints = ({ user_id, points, realm }) => {
+        console.log(`Updating ... ${user_id}`);
+        const user = realm.objectForPrimaryKey(User, user_id)
+
+        const newUser = realm.write(() => {
+            user.points = points
+        })
+
+        return user
+    }
+
     const updateUserWasteData = ({ user_id, userWastes, realm }) => {
         console.log(`Updating ... ${user_id}`);
         const user = realm.objectForPrimaryKey(User, user_id)
@@ -126,6 +137,7 @@ export function useMutationAdditionalInfo() {
         updateProfilePicture,
         updateUserToStation,
         updateUserWasteData,
-        finishOrderAndUpdateUser
+        finishOrderAndUpdateUser,
+        updateUserPoints
     }
 }

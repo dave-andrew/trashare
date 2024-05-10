@@ -1,7 +1,11 @@
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-export default function ProfileOption(props: { points?: number, menu: string, icon: any, onPress?: () => void }) {
+export default function ProfileOption(props: { points?: number, menu: string, icon: any, onPress?: () => void, station?: any }) {
+
+
+    console.log("Station", props.station);
+
     if (props.menu == 'Total Points') {
         return (
             <View style={[{
@@ -50,17 +54,21 @@ export default function ProfileOption(props: { points?: number, menu: string, ic
                             }]}>pt</Text>
                         </View>
                     </View>
-                    
-                    
-                    <Text style={[{
-                        borderRadius: 20,
-                        paddingHorizontal: 32,
-                        paddingVertical: 6,
-                        backgroundColor: '#00B1F7',
-                        color: 'white',
-                    }]}>
-                        Withdraw
-                    </Text>
+
+
+                    {props.station === null && (
+                        <Pressable onPress={props.onPress}>
+                            <Text style={[{
+                                borderRadius: 20,
+                                paddingHorizontal: 32,
+                                paddingVertical: 6,
+                                backgroundColor: '#00B1F7',
+                                color: 'white',
+                            }]}>
+                                Withdraw
+                            </Text>
+                        </Pressable>
+                    )}
                 </View>
             </View>
         )
