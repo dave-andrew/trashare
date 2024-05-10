@@ -7,6 +7,7 @@ import { useRealm } from "@realm/react"
 import { History } from "../../../models/History"
 import BottomOrderDetail from "./BottomOrderDetail"
 import MapViewDirections from "react-native-maps-directions"
+import { Image } from "react-native"
 
 export default function QueueMap({ queue }: { queue: History }) {
 
@@ -44,12 +45,22 @@ export default function QueueMap({ queue }: { queue: History }) {
       <MapView className='flex-1' region={stationGeometry ? stationGeometry : location}>
         <Marker
           coordinate={stationGeometry}
-          title={queue.station.name}
-          image={require("../../../assets/marker/main-pin.png")} />
+          title={queue.station.name}>
+          <Image
+            source={require('../../assets/marker/main-pin.png')}
+            style={{ width: 50, height: 50, display: "flex" }}
+            resizeMode="contain"
+          />
+        </Marker>
         <Marker
           coordinate={userGeometry}
-          title="Your destination!"
-          image={require("../../../assets/marker/main-pin.png")} />
+          title="Your destination!">
+          <Image
+            source={require('../../assets/marker/main-pin.png')}
+            style={{ width: 50, height: 50, display: "flex" }}
+            resizeMode="contain"
+          />
+        </Marker>
         <MapViewDirections
           origin={userGeometry}
           destination={stationGeometry}
