@@ -1,5 +1,11 @@
 <p align="center"><img src="./assets/logo/icon-cropped.png" alt="Icon Cropped" width="400" /></p>
 
+## BlueJacket Team
+- Dave Andrew Nathaniel
+- Jessica Ryan
+- Vincent Tanjaya
+
+
 ## Introduction
 
 Heya! Introducing Trashare
