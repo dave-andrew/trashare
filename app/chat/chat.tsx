@@ -2,13 +2,16 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import ChatBubble from 'react-native-chat-bubble';
-import { useRealm } from "@realm/react";
+import { useQuery, useRealm } from "@realm/react";
 import { router, useLocalSearchParams } from "expo-router";
 import { useChatMutation } from "../datas/mutations/useMutations";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
 import { getAdditionalInfo, getStationById, getStationChat, getUserChat } from "../datas/queries/useQueries";
-import RoundedTextField, { ChatTextField } from "../../component/form/RoundedTextField";
-import { chooseImage } from "./chatFunction";
+import { ChatTextField } from "../../component/form/RoundedTextField";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ImageLibraryOptions, launchImageLibrary } from "react-native-image-picker";
+import { storage } from "../../firebaseConfig";
+import { User } from "../../models/User";
 
 export default function ChatPage() {
   const realm = useRealm();
@@ -30,26 +33,23 @@ export default function ChatPage() {
   } else {
     station = getStationById(realm, station_id);
     orderer = additionalInfo;
-
   }
-  console.log("STATION", station)
-  console.log("ORDERERRRR", orderer)
-  // const chat = [];
+
   const chat = getUserChat(station, orderer);
 
-  console.log("Chat:", chat)
+  console.log("Chat:", chat[0])
 
   const { createChat, addMessage } = useChatMutation(realm, chat);
 
   useEffect(() => {
     if (chat.length === 0) {
       createChat({
-        user: additionalInfo,
+        user: orderer,
         station: station,
         messages: []
       });
     }
-  }, [chat, createChat, additionalInfo, station_id]);
+  }, [chat]);
 
   useEffect(() => {
     if (flatListRef.current && chat.length > 0) {
@@ -81,6 +81,62 @@ export default function ChatPage() {
     router.push({ pathname: "chat/camera", params: params });
   };
 
+  const chooseImage = (chat: any) => {
+
+    const options: ImageLibraryOptions = {
+      mediaType: "photo",
+      quality: 1,
+    };
+
+    launchImageLibrary(options, async (response) => {
+      if (response.didCancel || !response.assets) {
+        console.log("User cancelled image picker or no image selected");
+        return;
+      }
+
+      const fetchResponse = await fetch(response.assets[0].uri);
+      const theBlob = await fetchResponse.blob();
+
+      const imageRef = ref(storage, `chat-images/${additionalInfo?.uid}+${new Date().getTime()}.jpg`);
+      const uploadTask = uploadBytesResumable(imageRef, theBlob);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            addMessage(chat[0], {
+              text: downloadURL,
+              user: additionalInfo,
+              type: "image",
+            });
+          });
+        }
+      );
+    });
+  };
+  
+  const users = useQuery(User)
+    useEffect(() => {
+        realm.subscriptions.update(mutableSubs => {
+            mutableSubs.add(users)
+        })
+    }, [realm, chat])
+
   return (
     <ImageBackground
       source={require('../../assets/backgrounds/RegisterBG.png')}
@@ -107,6 +163,7 @@ export default function ChatPage() {
             className="py-2 px-4"
             data={chat[0]?.message}
             renderItem={({ item }) => {
+              
               return (
                 <ChatBubble
                   isOwnMessage={item.user._id === additionalInfo._id}
@@ -117,7 +174,7 @@ export default function ChatPage() {
                   {
                     item.type === "text" ?
                       <Text className="text-base">{item.text}</Text> :
-                      <Image source={{ uri: item.text }} style={{ width: 200, height: 200 }} />
+                      <Image source={{ uri: item.text }} style={{ width: 200, height: 200, borderRadius: 20 }} />
                   }
                 </ChatBubble>
               );

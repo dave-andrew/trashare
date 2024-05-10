@@ -1,6 +1,6 @@
-import axios from 'react-native-axios';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from './firebaseConfig';
+import { Alert } from "react-native";
 
 export const url = process.env.EXPO_PUBLIC_API_TRASHARE_AI_URL;
 
@@ -19,13 +19,25 @@ export const fetchResult = (blob: Blob) => {
                 reject(error);
             },
             async () => {
-                console.log('Upload is done');
                 try {
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                    console.log('File available at', downloadURL);
-                    const response = await axios.post(url, { url: downloadURL });
-                    console.log('Response: ', response.data);
-                    resolve({'response': response.data, downloadURL});
+                    Alert.alert('Error', downloadURL);
+                    
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ url: downloadURL })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch result');
+                    }
+
+                    const responseData = await response.json();
+                    Alert.alert("Result", JSON.stringify(responseData));
+                    resolve({ response: responseData, downloadURL });
                 } catch (error) {
                     console.error('Error fetching result:', error.message);
                     reject(error);

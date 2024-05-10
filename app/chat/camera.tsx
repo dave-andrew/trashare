@@ -2,10 +2,6 @@ import { Animated, AppState, Easing, Image, Pressable, Text, View } from "react-
 import { Camera, CameraType } from "expo-camera";
 import { useContext, useEffect, useRef, useState } from "react";
 
-import LottieView from "lottie-react-native";
-import { Dimensions } from 'react-native';
-import { fetchResult } from "../../trashareAiConfig";
-import CameraPredictionDetail from "../../component/camera/CameraPredictionDetail";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { router, useLocalSearchParams } from "expo-router";
 import { AdditionalInfoContext } from "../providers/AdditionalInfoProvider";
