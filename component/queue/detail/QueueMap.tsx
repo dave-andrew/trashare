@@ -47,7 +47,7 @@ export default function QueueMap({ queue }: { queue: History }) {
           coordinate={stationGeometry}
           title={queue.station.name}>
           <Image
-            source={require('../../assets/marker/main-pin.png')}
+            source={require('../../../assets/marker/main-pin.png')}
             style={{ width: 50, height: 50, display: "flex" }}
             resizeMode="contain"
           />
@@ -56,7 +56,7 @@ export default function QueueMap({ queue }: { queue: History }) {
           coordinate={userGeometry}
           title="Your destination!">
           <Image
-            source={require('../../assets/marker/main-pin.png')}
+            source={require('../../../assets/marker/main-pin.png')}
             style={{ width: 50, height: 50, display: "flex" }}
             resizeMode="contain"
           />
