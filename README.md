@@ -64,7 +64,7 @@ Download the application from APK
 
 ## Video Installation Guide & Demo
 
--
+- https://youtu.be/68yoWxZJ2NE
 
 ## FAQ
 
