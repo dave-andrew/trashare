@@ -2,7 +2,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from './firebaseConfig';
 import { Alert } from "react-native";
 
-export const url = process.env.EXPO_PUBLIC_API_TRASHARE_AI_URL;
+export const url = "https://trashare.vncnttan.my.id/predict";
 
 export const fetchResult = (blob: Blob) => {
     return new Promise(async (resolve, reject) => {

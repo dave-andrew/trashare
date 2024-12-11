@@ -59,7 +59,8 @@ export default function CameraPage() {
 
             // send the blob to the API
             const result : any = await fetchResult(theBlob);
-            setPrediction(result.response);
+            console.log("Result: ", result);
+            setPrediction(result);
             setImageUrl(result.downloadURL);
 
             setPageState("result");
@@ -138,7 +139,7 @@ export default function CameraPage() {
                 source={require('../../assets/illustration/scan-animation.json')}
             />}
             {pageState == "result" ?
-                <CameraPredictionDetail prediction={prediction.prediction} imageUrl={imageUrl} setPageState={setPageState} />
+                <CameraPredictionDetail prediction={prediction.response} imageUrl={imageUrl} setPageState={setPageState} />
                 :
                 <Pressable
                     onPress={handlePhoto}

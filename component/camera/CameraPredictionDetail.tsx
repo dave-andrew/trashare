@@ -63,6 +63,7 @@ export default function CameraPredictionDetail(props: { prediction: string, imag
             }}>
 
             <View className="flex flex-row mx-auto my-[-2]">
+                
                 <FontAwesome size={20} name={classesList[props.prediction].iconName} color={classesList[props.prediction].color} style={[{
                     marginVertical: 8
                 }]} />
